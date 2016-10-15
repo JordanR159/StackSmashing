@@ -31,15 +31,15 @@ public class HUD extends GuiScreen
 	
 	public void render(double delta)
 	{
-		double size = defaultFont.getTextWidth(" : ", 48);
+		double size = defaultFont.getTextWidth(" : ", 64);
 		OpenGL.glColor(1d, 1d, 1d, 1d);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		Texture.glBindTexture("font:basic");
-		defaultFont.drawAlignedString(" : ", 1920 / 2, 1024, 20, 48, 1);
+		defaultFont.drawAlignedString(" : ", 1920 / 2, 1016, 20, 48, 1);
 		OpenGL.glColor(renderer.getPlayer(0));
-		defaultFont.drawAlignedString(sizeFormat.format(100), (1920 - size) / 2, 1024, 20, 48, 2);
+		defaultFont.drawAlignedString(sizeFormat.format(100), (1920 - size) / 2, 1016, 20, 64, 2);
 		OpenGL.glColor(renderer.getPlayer(1));
-		defaultFont.drawString(sizeFormat.format(100), (1920 + size) / 2, 1024, 20, 48);
+		defaultFont.drawUpString(sizeFormat.format(100), (1920 + size) / 2, 1016, 20, 64);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		OpenGL.glBegin();
