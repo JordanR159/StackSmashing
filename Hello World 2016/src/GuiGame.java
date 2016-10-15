@@ -40,7 +40,7 @@ public class GuiGame extends GuiScreen
 			renderer.drawPlayer(world.getPlayers().get(i), i);
 		}
 		
-		for(Block block : world.getBLocks())
+		for(Block block : world.getBlocks())
 			renderer.drawBlock(block);
 		
 		GL11.glEnd();

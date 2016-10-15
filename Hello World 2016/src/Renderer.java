@@ -116,8 +116,8 @@ public class Renderer
 
 	public void drawPlayer(Player player, int i) 
 	{
-		double x = player.getPosX();
-		double y = player.getPosY();
+		double x = player.getPosX() + 64;
+		double y = player.getPosY() + 64;
 		double size = player.getSize();
 		OpenGL.glColor(0, 0, 0, 1d);
 		Draw.rect(x - 2, y - 2, x + size + 2, y + size + 2, 2);
@@ -127,8 +127,8 @@ public class Renderer
 
 	public void drawBlock(Block block) 
 	{
-		double x = block.getPosX();
-		double y = block.getPosY();
+		double x = block.getPosX() + 64;
+		double y = block.getPosY() + 64;
 		double width = block.getWidth();
 		double height = block.getHeight();
 		OpenGL.glColor(0, 0, 0, 1d);
