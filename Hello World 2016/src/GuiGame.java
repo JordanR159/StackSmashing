@@ -25,7 +25,7 @@ public class GuiGame extends GuiScreen
 		
 		hud = new HUD(app, graphicRandom, renderer);
 		
-		world = new World(2, 10);
+		world = new World(2, 20);
 	}
 	
 	public void render(double delta)
@@ -33,8 +33,9 @@ public class GuiGame extends GuiScreen
 		Window.gl2d();
 		OpenGL.glBlend();
 		
-		OpenGL.glBegin();
 		renderer.drawBackground();
+		
+		OpenGL.glBegin();
 		
 		for(int i = 0; i < world.getPlayers().size(); i++)
 		{
