@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.joml.Vector3d;
 import org.joml.Vector4d;
+import org.lwjgl.opengl.GL11;
 
 import com.polaris.engine.render.Draw;
 import com.polaris.engine.render.OpenGL;
@@ -113,31 +114,30 @@ public class Renderer
 		Draw.rect(0, 1016, 1920, 1080, 1);
 	}
 
-	public void drawPlayer(Player player) 
+	public void drawPlayer(Player player, int i) 
 	{
-		OpenGL.glColor(0, 0, 0, 1);
-		for(int i = 0; i < players.length; i++)
-		{
-			Draw.rect(i * 200 - 2, i * 100 - 2, i * 200 + 102, i * 100 + 102, 2);
-		}
-		for(int i = 0; i < players.length; i++)
-		{
-			OpenGL.glColor(players[i]);
-			drawWithShade(i * 200, i * 100, i * 200 + 100, i * 100 + 100, 2);
-		}
+		double x = player.getPosX();
+		double y = player.getPosY();
+		double size = player.getSize();
+		OpenGL.glColor(0, 0, 0, 1d);
+		Draw.rect(x - 2, y - 2, x + size + 2, y + size + 2, 2);
+		OpenGL.glColor(players[i]);
+		Draw.rect(x, y, x + size, y + size, 2);
 	}
 
 	public void drawBlock(Block block) 
 	{
-		OpenGL.glColor(0, 0, 0, 1);
-		Draw.rect(300 - 4, 300 - 4, 400 + 4, 500 + 4, 1);
-		Draw.rect(600 - 4, 100 - 4, 800 + 4, 200 + 4, 1);
+		double x = block.getPosX();
+		double y = block.getPosY();
+		double width = block.getWidth();
+		double height = block.getHeight();
+		OpenGL.glColor(0, 0, 0, 1d);
+		Draw.rect(x - 4, y - 4, x + width + 4, y + height + 4, 1);
 		OpenGL.glColor(blocks);
-		drawWithShade(300, 300, 400, 500, 1);
-		drawWithShade(600, 100, 800, 200, 1);
+		Draw.rect(x, y, x + width, y + height, 1);
 	}
 	
-	public void drawSquare(Square square)
+	public void render()
 	{
 		
 	}
