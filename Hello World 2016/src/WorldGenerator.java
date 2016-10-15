@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class WorldGenerator 
 {
-	public ArrayList<Block> generateBlocks(int numBlocks)
+	public static ArrayList<Block> generateBlocks(int numBlocks)
 	{
 		ArrayList<Block> blocks = new ArrayList<Block>();
 		double x, y, wid, hei;
