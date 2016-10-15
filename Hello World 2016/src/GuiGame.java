@@ -14,30 +14,50 @@ public class GuiGame extends GuiScreen
 	private HUD hud;
 	
 	private Renderer renderer;
+	private World world;
 
 	public GuiGame(Application app) 
 	{
 		super(app);
+		
 		renderer = new Renderer(graphicRandom, 2);
+		
 		hud = new HUD(app, graphicRandom, renderer);
+		
+		world = new World(2, 10);
 	}
 	
 	public void render(double delta)
 	{
 		Window.gl2d();
 		OpenGL.glBlend();
-		hud.render(delta);
+		
 		OpenGL.glBegin();
 		renderer.drawBackground();
-		//renderer.drawPlayer(null);
-		//renderer.drawBlock(null);
+		
+		for(int i = 0; i < world.getPlayers().size(); i++)
+		{
+			renderer.drawPlayer(world.getPlayers().get(i), i);
+		}
+		
+		for(Block block : world.getBLocks())
+			renderer.drawBlock(block);
+		
 		GL11.glEnd();
-		renderer.clearShades();
+		
+		renderer.render();
+		hud.render(delta);
 	}
 	
 	public void update(double delta)
 	{
 		hud.update(delta);
+		world.update(delta);
+	}
+	
+	public int keyPressed(int keyId, int mods)
+	{
+		return world.keyPressed(keyId, mods);
 	}
 
 }
