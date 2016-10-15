@@ -54,8 +54,26 @@ public class World
 				curr.useJump();
 				curr.setVelocityY(0);
 				double newPos = 50.00 + curr.getPosY();
-				if(newPos > 0 && newPos+curr.getSize() < height)
+				if(newPos > 0 && newPos+curr.getSize() < height){
 					curr.setPosY(newPos);
+					
+					for(int j = 0; j < blocks.size(); j++)
+					{
+						Block check = blocks.get(j);
+						//collision with block
+						if(newPos < check.getPosY() + check.getHeight() && 
+							newPos + curr.getSize() > check.getPosY() && 
+							curr.getPosX() < check.getPosX()+check.getWidth() && 
+							curr.getPosX() + curr.getSize() > check.getPosX()){
+					
+			
+							curr.setPosY(check.getPosY() + check.getHeight());
+							//can't jump anymore if collide with bottom of block
+							curr.nullifyJumps();
+						}
+					}
+
+				}
 				else if(newPos <= 0)
 					curr.setPosY(0);
 				else
@@ -65,20 +83,7 @@ public class World
 				}
 				
 				//checks if player collides with block on jump
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(newPos < (check.getPosY() + check.getHeight()) && 
-							newPos > check.getPosY() && 
-							(curr.getPosX() < (check.getPosX()+check.getWidth()) && 
-									curr.getPosX() > check.getPosX())){
-						
-						curr.setPosY(check.getPosY() + check.getHeight());
-						//can't jump anymore if collide with bottom of block
-						curr.nullifyJumps();
-					}
-				}
-
+				
 			}
 			players.set(0,curr);
 		}
