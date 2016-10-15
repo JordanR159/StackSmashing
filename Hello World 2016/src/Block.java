@@ -1,7 +1,6 @@
 
 public class Block 
 {
-
 	private double posX;
 	private double posY;
 	private double width;
@@ -34,5 +33,4 @@ public class Block
 	{
 		return height;
 	}
-	
 }
