@@ -9,10 +9,10 @@ public class World
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
 
-	public World(double h, double w, int numPlayers, int numBlocks)
+	public World(int numPlayers, int numBlocks)
 	{
-		height = h;
-		width = w;
+		width = 1904;
+		height = 952;
 		setPlayers(numPlayers);
 		generateBlocks(numBlocks);
 	}
