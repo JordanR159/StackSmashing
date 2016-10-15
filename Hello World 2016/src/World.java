@@ -96,7 +96,7 @@ public class World
 				
 				for(int j = 0; j < blocks.size(); j++)
 				{
-					//Block check = blocks.get(j);
+					Block check = blocks.get(j);
 					/*if(x > check.getPosX() && x < check.getPosX()+check.getWidth() 
 					&& y > check.getPosY() && y < check.getPosY()+check.getHeight())
 						overlap = true;*/
