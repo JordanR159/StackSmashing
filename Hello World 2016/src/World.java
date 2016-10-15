@@ -57,7 +57,7 @@ public class World
 				if(newPos > 0 && newPos+curr.getSize() < height){
 					
 					boolean collided = false;
-					//block collision on jump
+					//block collision on jumps
 					for(int j = 0; j < blocks.size(); j++)
 					{
 						Block check = blocks.get(j);
