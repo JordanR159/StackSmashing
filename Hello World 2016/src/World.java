@@ -55,23 +55,24 @@ public class World
 				curr.setVelocityY(0);
 				double newPos = 50.00 + curr.getPosY();
 				if(newPos > 0 && newPos+curr.getSize() < height){
-					curr.setPosY(newPos);
 					
+					boolean collided = false;
+					//block collision on jump
 					for(int j = 0; j < blocks.size(); j++)
 					{
 						Block check = blocks.get(j);
-						//collision with block
 						if(newPos < check.getPosY() + check.getHeight() && 
 							newPos + curr.getSize() > check.getPosY() && 
 							curr.getPosX() < check.getPosX()+check.getWidth() && 
 							curr.getPosX() + curr.getSize() > check.getPosX()){
-					
-			
-							curr.setPosY(check.getPosY() + check.getHeight());
-							//can't jump anymore if collide with bottom of block
-							curr.nullifyJumps();
+								curr.setPosY(check.getPosY() + check.getHeight());
+								//can't jump anymore if collide with bottom of block
+								curr.nullifyJumps();
+								collided = true;
 						}
 					}
+					if(!collided)
+						curr.setPosY(newPos);
 
 				}
 				else if(newPos <= 0)
