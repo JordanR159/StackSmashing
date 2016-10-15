@@ -100,7 +100,7 @@ public class World
 					/*if(x > check.getPosX() && x < check.getPosX()+check.getWidth() 
 					&& y > check.getPosY() && y < check.getPosY()+check.getHeight())
 						overlap = true;*/
-					if(newPos > check.getPos)
+					//if(newPos > check.getPos)
 				}
 
 			}
