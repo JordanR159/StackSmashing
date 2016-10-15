@@ -98,12 +98,13 @@ public class World
 				for(int j = 0; j < blocks.size(); j++)
 				{
 					Block check = blocks.get(j);
-					if(newPos < check.getPosY() + check.getHeight() && 
-						newPos + curr.getSize() > check.getPosY() && 
-						curr.getPosX() < check.getPosX()+check.getWidth() && 
-						curr.getPosX() + curr.getSize() > check.getPosX()){
+					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
+						curr.getPosY() + curr.getSize() > check.getPosY() && 
+						newPos < check.getPosX()+check.getWidth() && 
+						newPos + curr.getSize() > check.getPosX()){
 							//curr.setPosX(check.getPosX);
 							//can't jump anymore if collide with bottom of block
+							curr.setPosX(check.getPosX()+check.getWidth());
 							collided = true;
 					}
 				}
