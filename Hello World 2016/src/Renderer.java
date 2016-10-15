@@ -1,15 +1,19 @@
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.joml.Vector3d;
 import org.joml.Vector4d;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL30;
 
 import com.polaris.engine.render.Draw;
 import com.polaris.engine.render.OpenGL;
 import com.polaris.engine.util.Color4d;
-import com.polaris.engine.util.MathHelper;
 
 public class Renderer
 {
@@ -17,10 +21,12 @@ public class Renderer
 	private Random graphicRandom;
 	
 	private Color4d background;
-	private int backgroundId;
 	private Color4d blocks;
 	private Color4d[] players;
-	
+	FloatBuffer backgroundBuffer = BufferUtils.createFloatBuffer(3 * 4);
+	int vao;
+	IntBuffer vbo = BufferUtils.createIntBuffer(2);
+
 	protected Vector3d mainLightSource;
 	private List<Vector4d> shadeList;
 	
@@ -36,7 +42,7 @@ public class Renderer
 		background = genColor(players.length);
 		//backgroundPixels = new int[1904 * 952];
 		blocks = genColor(players.length);
-		mainLightSource = new Vector3d(random.nextDouble() * 1904, random.nextDouble() * 952, random.nextInt(4531520 / 4) + 4531520 / 4);
+		mainLightSource = new Vector3d(random.nextDouble() * 1904, random.nextDouble() * 952, .9);
 		shadeList = new ArrayList<Vector4d>();
 		genBackground();
 	}
@@ -104,11 +110,18 @@ public class Renderer
 	
 	private void genBackground()
 	{
-		backgroundId = GL11.glGenLists(1);
-
-		// compile the display list, store a triangle in it
-		GL11.glNewList(backgroundId, GL11.GL_COMPILE);
-		double light, redShift, greenShift, blueShift;
+		vao = GL30.glGenVertexArrays();
+		GL30.glBindVertexArray(vao);
+		
+		GL15.glGenBuffers(vbo);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo.get(0));
+		
+		backgroundBuffer.put(new float[] {8, 64, -99});
+		backgroundBuffer.put(new float[] {8, 1016, -99});
+		backgroundBuffer.put(new float[] {1972, 1016, -99});
+		backgroundBuffer.put(new float[] {1972, 64, -99});
+		
+		/*double light, redShift, greenShift, blueShift;
 		
 		light = (background.getRed() + background.getGreen() + background.getBlue() - .75d) / 1.5d;
 		light = MathHelper.clamp(0, 1, light);
@@ -119,45 +132,37 @@ public class Renderer
 		blueShift = light - background.getBlue();
 		
 		double multiplier;
-		int red, green, blue;
+		byte[] rgba = new byte[]{(byte) 255, (byte) 255, (byte) 255, (byte) 255};
 		double value;
+		int mulValue;
 		for(int i = 0; i < 1904; i++)
 		{
 			for(int j = 0; j < 952; j++)
 			{
 				value = i - mainLightSource.x;
-				multiplier = value * value;
+				mulValue = (int) (value * value);
 				value = j - mainLightSource.y;
-				multiplier += value * value;
-				multiplier = (4531520d - multiplier) / 4531520d;
+				mulValue += (int) (value * value);
+				multiplier = (4531520 - mulValue) / 4531520d;
 				
-				red = (int) Math.round((multiplier * redShift + background.getRed()) * 255d);
-				green = (int) Math.round((multiplier * greenShift + background.getGreen()) * 255d);
-				blue = (int) Math.round((multiplier * blueShift + background.getBlue()) * 255d);
+				rgba[0] = (byte) Math.round((multiplier * redShift + background.getRed()) * 255d);
+				rgba[1] = (byte) Math.round((multiplier * greenShift + background.getGreen()) * 255d);
+				rgba[2] = (byte) Math.round((multiplier * blueShift + background.getBlue()) * 255d);
 				
-				OpenGL.glColor(new Color4d(red, green, blue, 255));
-				Draw.rect(8 + i, 64 + j, 9 + i, 65 + j, -100);
+				backgroundBuffer.put(rgba);
 			}
-		}
+		}*/
 		
-		GL11.glEndList();
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, backgroundBuffer, GL15.GL_STATIC_DRAW);
 	}
 
 	public void drawBackground() 
 	{
-		GL11.glCallList(backgroundId);
-		/*OpenGL.glColor(background);
+		OpenGL.glColor(background);
+		OpenGL.glBegin();
 		Draw.rect(0, 0, 1920, 1080, -100);
-		double shifter = (background.getRed() + background.getGreen() + background.getBlue() + .5d) / 2.25d;
-		shifter = Math.min(shifter, 1d);
-		
-		OpenGL.glColor(shifter, shifter, shifter, 1);
-		Draw.colorVRect(0, 64, 1920, 1080, -100, background);*/
-		
-		OpenGL.glColor(0d, 0d, 0d, 1);
-		Draw.rect(0, 60, 1920, 1020, -100, 8);
-		Draw.rect(0, 0, 1920, 64, 1);
-		Draw.rect(0, 1016, 1920, 1080, 1);
+		GL11.glEnd();
+		Draw.circle(mainLightSource.x, mainLightSource.y, -100, Math.sqrt(4531520), 200, new Color4d(.9, .9, .9, 1));
 	}
 
 	public void drawPlayer(Player player, int i) 
