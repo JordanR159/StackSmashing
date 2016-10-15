@@ -82,9 +82,6 @@ public class World
 					curr.setPosY(height-curr.getSize());
 					curr.resetJumps();
 				}
-				
-				//checks if player collides with block on jump
-				
 			}
 			players.set(0,curr);
 		}
@@ -94,8 +91,26 @@ public class World
 			Player curr = players.get(0);
 			curr.setVelocityX(curr.getVelocityX()-1);
 			double newPos = curr.getVelocityX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width)
-				curr.setPosX(newPos);
+			if(newPos > 0 && newPos+curr.getSize() < width) {
+				
+				//block collision
+				boolean collided = false;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(newPos < check.getPosY() + check.getHeight() && 
+						newPos + curr.getSize() > check.getPosY() && 
+						curr.getPosX() < check.getPosX()+check.getWidth() && 
+						curr.getPosX() + curr.getSize() > check.getPosX()){
+							//curr.setPosX(check.getPosX);
+							//can't jump anymore if collide with bottom of block
+							collided = true;
+					}
+				}
+				if(!collided)
+					curr.setPosX(newPos);
+				
+			}
 			else if(newPos <= 0)
 			{
 				curr.setPosX(0);
