@@ -31,7 +31,7 @@ public class Beam
 	
 	public boolean isOnTarget(Player def, ArrayList<Block> obstacles)
 	{
-		return false;
+		return true;
 	}
 	
 
