@@ -14,7 +14,7 @@ public class World
 		width = 1904;
 		height = 952;
 		setPlayers(numPlayers);
-		generateBlocks(numBlocks);
+		blocks = WorldGenerator.generateBlocks(numBlocks);
 	}
 
 	public void setPlayers(int numPlayers)
@@ -26,36 +26,6 @@ public class World
 			Player curr = new Player(posX,posY,100.00);
 			players.add(curr);
 		}
-	}
-
-	public void generateBlocks(int numBlocks)
-	{
-		double x, y, wid, hei;
-		boolean overlap = true;
-		x = 0;
-		y = 0;
-		for(int i = 0; i < numBlocks; i++)
-		{
-			while(overlap)
-			{
-				x = Math.random()*width;
-				y = Math.random()*height;
-				overlap = false;
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(x > check.getPosX() && x < check.getPosX()+check.getWidth() 
-					&& y > check.getPosY() && y < check.getPosY()+check.getHeight())
-						overlap = true;
-				}
-
-			}
-			wid = Math.random()*50;
-			hei = Math.random()*50;
-			Block curr = new Block(x,y,wid,hei);
-			blocks.add(curr);
-			overlap = true;
-		}		
 	}
 
 	public double getWidth()
