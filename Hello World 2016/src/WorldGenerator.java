@@ -13,30 +13,28 @@ public class WorldGenerator
 		{
 			wid = Math.random();
 			hei = Math.random();
-			if(wid < 0.333)
-				wid = 50;
-			else if(wid > 0.666)
-				wid = 150;
-			else
+			if(wid < 0.111)
 				wid = 100;
-			if(hei < 0.555)
-				hei = 50;
-			else if(wid > 0.888)
-				hei = 150;
+			else if(wid > 0.555)
+				wid = 200;
 			else
+				wid = 150;
+			if(hei < 0.555)
 				hei = 100;
+			else if(hei > 0.999)
+				hei = 200;
+			else
+				hei = 150;
 			while(overlap)
 			{
-				x = Math.random()*1654+50;
-				y = Math.random()*521+150;
+				x = Math.random()*1600+50;
+				y = Math.random()*500+150;
 				overlap = false;
 				for(int j = 0; j < blocks.size(); j++)
 				{
 					Block check = blocks.get(j);
-					if((x >= check.getPosX() && x <= check.getPosX()+check.getWidth()) 
-					|| (x+wid >= check.getPosX() && x+wid <= check.getPosX()+check.getWidth())
-					&& (y >= check.getPosY() && y <= check.getPosY()+check.getHeight())
-					|| (y+hei >= check.getPosY() && y+hei <= check.getPosY()+check.getHeight()))
+					if((x <= check.getPosX()+check.getWidth()) && (x+wid >= check.getPosX())
+					&& (y <= check.getPosY()+check.getHeight()) && (y+hei >= check.getPosY()))
 						overlap = true;
 				}
 
