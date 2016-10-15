@@ -9,7 +9,7 @@ public class World
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
 
-	public void createWorld(double h, double w, int numPlayers, int numBlocks)
+	public World(double h, double w, int numPlayers, int numBlocks)
 	{
 		height = h;
 		width = w;
