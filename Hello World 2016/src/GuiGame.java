@@ -1,5 +1,6 @@
 import java.util.Random;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import com.polaris.engine.Application;
@@ -57,6 +58,10 @@ public class GuiGame extends GuiScreen
 	
 	public int keyPressed(int keyId, int mods)
 	{
+		if(keyId == GLFW.GLFW_KEY_ESCAPE)
+		{
+			return super.keyPressed(keyId, mods);
+		}
 		return world.keyPressed(keyId, mods);
 	}
 
