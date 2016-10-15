@@ -46,7 +46,7 @@ public class World
 	public int keyPressed(int keyId, int mods)
 	{
 		//GLFW.GLFW_KEY_<TYPE THE KEY OUT>
-		if(keyId == GLFW.GLFW_KEY_W)
+		if(keyId == GLFW.GLFW_KEY_W) //player 1
 		{
 			Player curr = players.get(0);
 			if(curr.getNumJumps() > 0)
@@ -86,7 +86,7 @@ public class World
 			players.set(0,curr);
 		}
 
-		if(keyId == GLFW.GLFW_KEY_A)
+		if(keyId == GLFW.GLFW_KEY_A) //player 1
 		{
 			Player curr = players.get(0);
 			curr.setVelocityX(curr.getVelocityX()-1);
@@ -123,7 +123,7 @@ public class World
 			players.set(0,curr);
 		}
 
-		if(keyId == GLFW.GLFW_KEY_S)
+		if(keyId == GLFW.GLFW_KEY_S) //player 1
 		{
 			Player curr = players.get(0);
 			curr.setVelocityY(curr.getVelocityY()+10);
@@ -163,7 +163,7 @@ public class World
 			players.set(0,curr);
 		}
 
-		if(keyId == GLFW.GLFW_KEY_D)
+		if(keyId == GLFW.GLFW_KEY_D) //player 1
 		{
 			Player curr = players.get(0);
 			curr.setVelocityX(curr.getVelocityX()+1);
@@ -193,7 +193,13 @@ public class World
 			players.set(0,curr);
 		}
 
-		if(keyId == GLFW.GLFW_KEY_UP)
+		if(keyId == GLFW.GLFW_KEY_Q) //player 1 beam
+		{
+			
+			
+		}
+		
+		if(keyId == GLFW.GLFW_KEY_UP) //player 2
 		{
 			Player curr = players.get(1);
 			if(curr.getNumJumps() > 0)
@@ -203,7 +209,7 @@ public class World
 				double newPos = 50.00 + curr.getPosY();
 				if(newPos > 0 && newPos+curr.getSize() < height) {
 					boolean collided = false;
-					//block collision on jumps
+					//block collision
 					for(int j = 0; j < blocks.size(); j++)
 					{
 						Block check = blocks.get(j);
@@ -231,14 +237,14 @@ public class World
 			players.set(1,curr);
 		}
 
-		if(keyId == GLFW.GLFW_KEY_DOWN)
+		if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
 		{
 			Player curr = players.get(1);
 			curr.setVelocityY(curr.getVelocityY()+10);
 			double newPos = curr.getVelocityY() + curr.getPosY();
 			if(newPos > 0 && newPos+curr.getSize() < height) {
 				boolean collided = false;
-				//block collision on jumps
+				//block collision
 				for(int j = 0; j < blocks.size(); j++)
 				{
 					Block check = blocks.get(j);
@@ -268,7 +274,7 @@ public class World
 			players.set(1,curr);
 		}
 
-		if(keyId == GLFW.GLFW_KEY_LEFT)
+		if(keyId == GLFW.GLFW_KEY_LEFT) //player 2
 		{
 			Player curr = players.get(1);
 			curr.setVelocityX(curr.getVelocityX()-1);
@@ -298,7 +304,7 @@ public class World
 			players.set(1,curr);
 		}
 
-		if(keyId == GLFW.GLFW_KEY_RIGHT)
+		if(keyId == GLFW.GLFW_KEY_RIGHT) //player 2
 		{
 			Player curr = players.get(1);
 			curr.setVelocityX(curr.getVelocityX()+1);
@@ -326,13 +332,37 @@ public class World
 				curr.setPosX(width-curr.getSize());
 			players.set(1,curr);
 		}
+		if(keyId == GLFW.GLFW_KEY_SLASH) // player 2 beam
+		{
+			
+			
+		}
+			
+		//gravity for both players
 		for(int i = 0; i < players.size(); i++)
 		{
 			Player fall = players.get(i);
 			fall.setVelocityY(fall.getVelocityY()+10);
 			double newPos = fall.getVelocityY() + fall.getPosY();
-			if(newPos > 0 && newPos+fall.getSize() < height)
-				fall.setPosY(newPos);
+			if(newPos > 0 && newPos+fall.getSize() < height) {
+				//fall.setPosY(newPos);	
+				boolean collided = false;
+				//block collision
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(newPos < check.getPosY() + check.getHeight() && 
+						newPos + fall.getSize() > check.getPosY() && 
+						fall.getPosX() < check.getPosX()+check.getWidth() && 
+						fall.getPosX() + fall.getSize() > check.getPosX()){
+							fall.setPosY(check.getPosY());
+							fall.resetJumps();
+							collided = true;
+					}
+				}
+				if(!collided)
+					fall.setPosY(newPos);
+			}
 			else if(newPos <= 0)
 			{
 				fall.setPosY(0);
