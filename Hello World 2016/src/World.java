@@ -93,6 +93,15 @@ public class World
 					curr.setPosY(height-curr.getSize());
 					curr.resetJumps();
 				}
+				
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					/*if(x > check.getPosX() && x < check.getPosX()+check.getWidth() 
+					&& y > check.getPosY() && y < check.getPosY()+check.getHeight())
+						overlap = true;*/
+					if(newPos > check.getPos)
+				}
 
 			}
 			players.set(0,curr);
