@@ -102,8 +102,6 @@ public class World
 						curr.getPosY() + curr.getSize() > check.getPosY() && 
 						newPos < check.getPosX()+check.getWidth() && 
 						newPos + curr.getSize() > check.getPosX()){
-							//curr.setPosX(check.getPosX);
-							//can't jump anymore if collide with bottom of block
 							curr.setPosX(check.getPosX()+check.getWidth());
 							collided = true;
 					}
@@ -130,8 +128,27 @@ public class World
 			Player curr = players.get(0);
 			curr.setVelocityY(curr.getVelocityY()+10);
 			double newPos = curr.getVelocityY() + curr.getPosY();
-			if(newPos > 0 && newPos+curr.getSize() < height)
-				curr.setPosY(newPos);
+			if(newPos > 0 && newPos+curr.getSize() < height) {
+				
+				boolean collided = false;
+				//block collision on jumps
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(newPos < check.getPosY() + check.getHeight() && 
+						newPos + curr.getSize() > check.getPosY() && 
+						curr.getPosX() < check.getPosX()+check.getWidth() && 
+						curr.getPosX() + curr.getSize() > check.getPosX()){
+							curr.setPosY(check.getPosY());
+							curr.resetJumps();
+							collided = true;
+					}
+				}
+				if(!collided)
+					curr.setPosY(newPos);
+				
+				
+			}
 			else if(newPos <= 0)
 			{
 				curr.setPosY(0);
@@ -151,8 +168,24 @@ public class World
 			Player curr = players.get(0);
 			curr.setVelocityX(curr.getVelocityX()+1);
 			double newPos = curr.getVelocityX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width)
-				curr.setPosX(newPos);
+			if(newPos > 0 && newPos+curr.getSize() < width) {
+				//block collision
+				boolean collided = false;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
+						curr.getPosY() + curr.getSize() > check.getPosY() && 
+						newPos < check.getPosX()+check.getWidth() && 
+						newPos + curr.getSize() > check.getPosX()){
+							curr.setPosX(check.getPosX()-curr.getSize());
+							collided = true;
+					}
+				}
+				if(!collided)
+					curr.setPosX(newPos);
+				
+			}
 			else if(newPos <= 0)
 				curr.setPosX(0);
 			else
@@ -168,8 +201,25 @@ public class World
 				curr.useJump();
 				curr.setVelocityY(0);
 				double newPos = 50.00 + curr.getPosY();
-				if(newPos > 0 && newPos+curr.getSize() < height)
-					curr.setPosY(newPos);
+				if(newPos > 0 && newPos+curr.getSize() < height) {
+					boolean collided = false;
+					//block collision on jumps
+					for(int j = 0; j < blocks.size(); j++)
+					{
+						Block check = blocks.get(j);
+						if(newPos < check.getPosY() + check.getHeight() && 
+							newPos + curr.getSize() > check.getPosY() && 
+							curr.getPosX() < check.getPosX()+check.getWidth() && 
+							curr.getPosX() + curr.getSize() > check.getPosX()){
+								curr.setPosY(check.getPosY() + check.getHeight());
+								//can't jump anymore if collide with bottom of block
+								curr.nullifyJumps();
+								collided = true;
+						}
+					}
+					if(!collided)
+						curr.setPosY(newPos);
+				}
 				else if(newPos <= 0)
 					curr.setPosY(0);
 				else
@@ -186,8 +236,24 @@ public class World
 			Player curr = players.get(1);
 			curr.setVelocityY(curr.getVelocityY()+10);
 			double newPos = curr.getVelocityY() + curr.getPosY();
-			if(newPos > 0 && newPos+curr.getSize() < height)
-				curr.setPosY(newPos);
+			if(newPos > 0 && newPos+curr.getSize() < height) {
+				boolean collided = false;
+				//block collision on jumps
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(newPos < check.getPosY() + check.getHeight() && 
+						newPos + curr.getSize() > check.getPosY() && 
+						curr.getPosX() < check.getPosX()+check.getWidth() && 
+						curr.getPosX() + curr.getSize() > check.getPosX()){
+							curr.setPosY(check.getPosY());
+							curr.resetJumps();
+							collided = true;
+					}
+				}
+				if(!collided)
+					curr.setPosY(newPos);
+			}
 			else if(newPos <= 0)
 			{
 				curr.setPosY(0);
@@ -207,8 +273,24 @@ public class World
 			Player curr = players.get(1);
 			curr.setVelocityX(curr.getVelocityX()-1);
 			double newPos = curr.getVelocityX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width)
-				curr.setPosX(newPos);
+			if(newPos > 0 && newPos+curr.getSize() < width) {
+				//block collision
+				boolean collided = false;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
+						curr.getPosY() + curr.getSize() > check.getPosY() && 
+						newPos < check.getPosX()+check.getWidth() && 
+						newPos + curr.getSize() > check.getPosX()){
+							curr.setPosX(check.getPosX()+check.getWidth());
+							collided = true;
+					}
+				}
+				if(!collided)
+					curr.setPosX(newPos);
+				
+			}
 			else if(newPos <= 0)
 				curr.setPosX(0);
 			else
@@ -221,8 +303,23 @@ public class World
 			Player curr = players.get(1);
 			curr.setVelocityX(curr.getVelocityX()+1);
 			double newPos = curr.getVelocityX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width)
-				curr.setPosX(newPos);
+			if(newPos > 0 && newPos+curr.getSize() < width) {
+				//block collision
+				boolean collided = false;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
+						curr.getPosY() + curr.getSize() > check.getPosY() && 
+						newPos < check.getPosX()+check.getWidth() && 
+						newPos + curr.getSize() > check.getPosX()){
+							curr.setPosX(check.getPosX()-curr.getSize());
+							collided = true;
+					}
+				}
+				if(!collided)
+					curr.setPosX(newPos);
+			}
 			else if(newPos <= 0)
 				curr.setPosX(0);
 			else
