@@ -64,16 +64,19 @@ public class World
 					curr.resetJumps();
 				}
 				
+				//checks if player collides with block on jump
 				for(int j = 0; j < blocks.size(); j++)
 				{
 					Block check = blocks.get(j);
-					/*if(x > check.getPosX() && x < check.getPosX()+check.getWidth() 
-					&& y > check.getPosY() && y < check.getPosY()+check.getHeight())
-						overlap = true;*/
-					/*if(newPos > (check.getPosY() + check.getHeight()) && 
-							(curr.getPosX() < (check.getPosX()) ) {
+					if(newPos < (check.getPosY() + check.getHeight()) && 
+							newPos > check.getPosY() && 
+							(curr.getPosX() < (check.getPosX()+check.getWidth()) && 
+									curr.getPosX() > check.getPosX())){
+						
 						curr.setPosY(check.getPosY() + check.getHeight());
-					}*/
+						//can't jump anymore if collide with bottom of block
+						curr.nullifyJumps();
+					}
 				}
 
 			}

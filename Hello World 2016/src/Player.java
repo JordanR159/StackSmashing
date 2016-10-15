@@ -77,6 +77,11 @@ public class Player
 	{
 		numJumps = 2;
 	}
+	
+	public void nullifyJumps()
+	{
+		numJumps = 0;
+	}
 
 
 }
