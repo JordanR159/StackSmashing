@@ -293,8 +293,8 @@ public class World
 						break;
 					}
 				}
-				if(collided && j == blocks.indexOf(pBlockTwo))
-					players.get(1).setSize(25);
+				if(collided && j == blocks.indexOf(pBlock))
+					players.get(0).setSize(25);
 				if(!collided)
 					curr.setPosY(newPos);	
 			}
@@ -310,7 +310,7 @@ public class World
 				curr.resetJumps();
 			}
 			players.set(0,curr);
-			blocks.remove(blocks.indexOf(pBlockTwo));
+			blocks.remove(blocks.indexOf(pBlock));
 			return 1;
 		}
 
@@ -322,7 +322,8 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-				for(int j = 0; j < blocks.size(); j++)
+				int j;
+				for(j = 0; j < blocks.size(); j++)
 				{
 					if(checkCollision(curr, newPos, true, blocks.get(j))){
 						curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
