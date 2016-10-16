@@ -50,7 +50,10 @@ public class World
 		for(int i = 0; i < players.size(); i++)
 		{
 			Player fall = players.get(i);
+			Player other = players.get(players.size()-i-1);
 			fall.update(delta);
+			Block pBlock = new Block(this,other.getPosX(),other.getPosY(),other.getSize(),other.getSize());
+			blocks.add(pBlock);
 			double vx = fall.getVelX();
 			if(vx > 0)
 				fall.setVelX(fall.getVelX()-0.25);
@@ -88,8 +91,10 @@ public class World
 				fall.setPosY(height-fall.getSize());
 				fall.setVelY(0);
 				fall.resetJumps();
-			}
+			}		
+			blocks.remove(blocks.indexOf(pBlock));
 		}
+
 	}
 	public int keyPressed(int keyId, int mods)
 	{
