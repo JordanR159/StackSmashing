@@ -46,7 +46,7 @@ public class Beam extends Block
 				}
 				else
 				{
-					pos.x = block.pos.z;
+					pos.x = block.pos.x + block.pos.z;
 				}
 			}
 		}
@@ -57,11 +57,13 @@ public class Beam extends Block
 		{
 			if(toRight)
 			{
-				pos.z = target.pos.x + target.pos.z / 2;
+				pos.z = target.pos.x + target.pos.z / 2 - pos.x;
 			}
 			else
 			{
+				pos.z += pos.x;
 				pos.x = target.pos.x + target.pos.z / 2;
+				pos.z -= pos.x;
 			}
 			return true;
 		}

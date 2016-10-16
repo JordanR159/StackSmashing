@@ -107,7 +107,7 @@ public class Renderer
 		Draw.rect(0, 0, 1920, 1080, -100);
 		GL11.glEnd();
 		Draw.circle(mainLightSource.x, mainLightSource.y, -100, Math.sqrt(4531520), 200, new Color4d(.9, .9, .9, 1));
-		
+
 		GL11.glBegin(GL11.GL_POINTS);
 		for(int i = (int) Math.min(Math.pow(ticksExisted, 2.5), 40000); i >= 0; i--)
 		{
@@ -123,46 +123,36 @@ public class Renderer
 		double x = player.getPosX() + 8;
 		double y = player.getPosY() + 64;
 		double size = player.getSize();
-		
+
 		OpenGL.glBegin();
-		
+
 		OpenGL.glColor(players[playerId]);
 		drawWithShade(x, y, x + size, y + size);
-		
+
 		GL11.glEnd();
-		
+
 		Beam beam = player.getBeam();
 		if(beam != null)
 		{
 			double startX = beam.getPosVector().x + 8;
 			double baseY = beam.getPosVector().y + 64;
 			double endX = beam.getPosVector().z + startX; 
-			
-			double nextX = 0;
+
+			double nextX = startX;
 			double nextY = 0;
-			
-			System.out.println(startX + " " + endX);
-			
+
 			OpenGL.glColor(0, 0, 0, 1);
-			
-			OpenGL.glBegin();
-			Draw.rect(startX, baseY - 1, endX, baseY + 1, 6);
-			GL11.glEnd();
-			
-			/*GL11.glLineWidth(1);
-			for(int i = 0; i < 5; i++)
+
+			GL11.glLineWidth(1);
+			GL11.glBegin(GL11.GL_LINES);
+			GL11.glVertex3d(startX, baseY + graphicRandom.nextDouble() * 20 - 10, 6);
+			while(!MathHelper.isEqual(Math.abs(endX - nextX), 0))
 			{
-				GL11.glBegin(GL11.GL_LINES);
-				GL11.glVertex3d(startX, baseY + graphicRandom.nextDouble() * 20 - 10, 6);
-				while(!MathHelper.isEqual(Math.abs(endX - startX), 0))
-				{
-					nextX = MathHelper.clamp(-20, 20, endX - startX);
-					nextY = baseY + graphicRandom.nextDouble() * 20 - 10;
-					GL11.glVertex3d(nextX, nextY, 6);
-					startX += nextX;
-				}
-				GL11.glEnd();
-			}*/
+				nextX = nextX + MathHelper.clamp(-20, 20, endX - nextX);
+				nextY = baseY + graphicRandom.nextDouble() * 20 - 10;
+				GL11.glVertex3d(nextX, nextY, 6);
+			}
+			GL11.glEnd();
 		}
 	}
 
@@ -172,11 +162,11 @@ public class Renderer
 		double y = block.getPosY() + 64;
 		double width = block.getWidth();
 		double height = block.getHeight();
-		
+
 		OpenGL.glColor(blocks);
 		drawWithShade(x, y, x + width, y + height);
 	}
-	
+
 	public void drawWithShade(double x, double y, double x1, double y1)
 	{
 		Draw.rect(x, y, x1, y1, 3);

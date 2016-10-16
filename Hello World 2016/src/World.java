@@ -166,7 +166,6 @@ public class World
 				curr.setPosX(width-curr.getSize());
 				curr.setVelX(0);
 			}
-			players.set(0,curr);
 			return 1;
 		}
 

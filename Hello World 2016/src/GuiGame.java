@@ -62,7 +62,6 @@ public class GuiGame extends GuiScreen
 	{
 		if(keyId >= 'a' && keyId <= 'z')
 			keyId -= ('a' - 'A');
-		
 		if(keyId == GLFW.GLFW_KEY_ESCAPE)
 		{
 			return super.keyPressed(keyId, mods);
