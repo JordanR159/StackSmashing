@@ -65,13 +65,23 @@ public class World
 			for(int i = 0; i < players.size(); i++)
 			{
 				player = players.get(i);
-				if(player.getSize() <= 25)
+				otherPlayer = players.get(players.size()-i-1);
+				
+				if(player.getSize() <= 25 && otherPlayer.getSize() <= 25) { //tiebreaker
+					if(player.getSize() < otherPlayer.getSize()){
+						loser = players.indexOf(player);
+					} else if(player.getSize() > otherPlayer.getSize()) {
+						loser = players.indexOf(otherPlayer);
+					}
+					else
+						loser = i;
+				} else if(player.getSize() <= 25)
 				{
 					loser = i;
 					break;
 				}
 				
-				otherPlayer = players.get(players.size()-i-1);
+				
 				player.update(delta);
 				
 				playerBlock = new Block(this, otherPlayer.getPosX(), otherPlayer.getPosY(), otherPlayer.getSize(), otherPlayer.getSize());
@@ -279,9 +289,14 @@ public class World
 	
 	public void keyRelease(int keyId, int mods)
 	{
+		Player player = players.get(0);
+		Player playerTwo = players.get(1);
+		Block pBlock = new Block(this,player.getPosX(),player.getPosY(),player.getSize(),player.getSize());
+		Block pBlockTwo = new Block(this,playerTwo.getPosX(),playerTwo.getPosY(),playerTwo.getSize(),playerTwo.getSize());
+		blocks.add(pBlockTwo);
+		
 		if(keyId == GLFW.GLFW_KEY_A){
 			if(System.currentTimeMillis() - timeA <= 200){ //dash
-				System.out.println();
 				dashLeft(players.get(0));
 			}
 			timeA = System.currentTimeMillis();
@@ -292,6 +307,10 @@ public class World
 			}
 			timeD = System.currentTimeMillis();
 		}
+		
+		blocks.remove(blocks.indexOf(pBlockTwo));
+		blocks.add(pBlock);
+		
 		if(keyId == GLFW.GLFW_KEY_LEFT){
 			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
 				dashLeft(players.get(1));
@@ -304,6 +323,7 @@ public class World
 			}
 			timeLeft = System.currentTimeMillis();
 		}
+		blocks.remove(blocks.indexOf(pBlock));
 	}
 
 
@@ -354,7 +374,7 @@ public class World
 	
 	public void dashLeft(Player curr)
 	{
-		curr.setVelX(curr.getVelX() - 40);
+		curr.setVelX(curr.getVelX() - 50);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -371,9 +391,8 @@ public class World
 				}
 			}
 			if(collided && j == blocks.size()-1){
-				//damage other player 15 and knockback
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 15);
-				players.get(players.size()-players.indexOf(curr)-1).setVelX(players.get(players.size()-players.indexOf(curr)-1).getVelX() - 10);
+				//damage other player 15 and knockbacks
+				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 5);
 			}
 			if(!collided)
 				curr.setPosX(newPos);	
@@ -393,7 +412,7 @@ public class World
 	
 	public void dashRight(Player curr)
 	{
-		curr.setVelX(curr.getVelX() + 40);
+		curr.setVelX(curr.getVelX() + 50);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -411,8 +430,7 @@ public class World
 			}
 			if(collided && j == blocks.size()-1){
 				//damage other player 15 and knockback
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 15);
-				players.get(players.size()-players.indexOf(curr)-1).setVelX(players.get(players.size()-players.indexOf(curr)-1).getVelX() - 10);
+				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 5);
 			}
 			if(!collided)
 				curr.setPosX(newPos);	
