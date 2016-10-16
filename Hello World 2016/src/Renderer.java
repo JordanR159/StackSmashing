@@ -109,7 +109,7 @@ public class Renderer
 		Draw.circle(mainLightSource.x, mainLightSource.y, -100, Math.sqrt(4531520), 200, new Color4d(.9, .9, .9, 1));
 		
 		GL11.glBegin(GL11.GL_POINTS);
-		for(int i = (int) Math.min(Math.pow(ticksExisted * 2, 2.5), 40000); i >= 0; i--)
+		for(int i = (int) Math.min(Math.pow(ticksExisted, 2.5), 40000); i >= 0; i--)
 		{
 			int x = graphicRandom.nextInt(1900) + 10;
 			int y = graphicRandom.nextInt(944) + 68;
@@ -134,7 +134,6 @@ public class Renderer
 		Beam beam = player.getBeam();
 		if(beam != null)
 		{
-			System.out.println("this");
 			double startX = beam.getStartX();
 			double baseY = beam.getStartY();
 			double endX = beam.getEndX(); 
@@ -144,16 +143,16 @@ public class Renderer
 			double nextY = 0;
 			
 			OpenGL.glColor(0, 0, 0, 1);
-			GL11.glLineWidth(3);
+			GL11.glLineWidth(1);
 			for(int i = 0; i < 5; i++)
 			{
 				GL11.glBegin(GL11.GL_LINES);
-				startY = baseY + graphicRandom.nextDouble() * 10 - 5;
+				startY = baseY + graphicRandom.nextDouble() * 20 - 10;
 				GL11.glVertex3d(startX, startY, 6);
 				while(!MathHelper.isEqual(Math.abs(endX - startX), 0))
 				{
 					nextX = MathHelper.clamp(-20, 20, endX - startX);
-					nextY = baseY + graphicRandom.nextDouble() * 10 - 5;
+					nextY = baseY + graphicRandom.nextDouble() * 20 - 10;
 					GL11.glVertex3d(nextX, nextY, 6);
 					startX += nextX;
 					startY = nextY;

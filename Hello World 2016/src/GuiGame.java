@@ -60,8 +60,8 @@ public class GuiGame extends GuiScreen
 	
 	public int keyPressed(int keyId, int mods)
 	{
-		if(keyId >= 'A' && keyId <= 'Z')
-			keyId -= 32;
+		if(keyId >= 'a' && keyId <= 'z')
+			keyId -= ('a' - 'A');
 		if(keyId == GLFW.GLFW_KEY_ESCAPE)
 		{
 			return super.keyPressed(keyId, mods);
@@ -71,9 +71,7 @@ public class GuiGame extends GuiScreen
 	
 	public int keyHeld(int keyId, int called, int mods)
 	{
-		if(keyId >= 'A' && keyId <= 'Z')
-			keyId -= 32;
-		return world.keyHeld(keyId, called, mods);
+		return keyPressed(keyId, mods);
 	}
 
 }

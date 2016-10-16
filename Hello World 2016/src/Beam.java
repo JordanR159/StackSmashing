@@ -7,16 +7,11 @@ public class Beam
 	private boolean toRight;
 	private double endX;
 	
-	public Beam(Player shooter)
+	public Beam(Player shooter, Player target)
 	{
-		startX = shooter.getPosX();
-		startY = shooter.getPosY()+shooter.getSize()/2;
-		double vx = shooter.getVelX();
-		if(vx > 0)
-			toRight = true;
-		else if(vx < 0)
-			toRight = false;
-		else if(startX > 1904/2)
+		startX = shooter.getPosX() + shooter.getSize() / 2;
+		startY = shooter.getPosY() + shooter.getSize() / 2;
+		if(shooter.getPosX() > target.getPosX())
 			toRight = false;
 		else
 			toRight = true;
