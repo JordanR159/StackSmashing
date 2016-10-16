@@ -168,7 +168,7 @@ public class Explosion
 				}
 			}
 			
-			//top left
+			//top lefts
 			for(double x = midX; x < targ.getPosX(); x++) {
 				double y = tLeftSlope*x + cTL;
 				for(Block check : obstacles) {
