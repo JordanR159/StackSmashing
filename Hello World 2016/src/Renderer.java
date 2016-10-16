@@ -134,7 +134,7 @@ public class Renderer
 		Beam beam = player.getBeam();
 		if(beam != null)
 		{
-			double startX = beam.getPosVector().x + 9;
+			double startX = beam.getPosVector().x + 8;
 			double baseY = beam.getPosVector().y + 64;
 			double endX = beam.getPosVector().z + startX; 
 			
@@ -146,8 +146,7 @@ public class Renderer
 			OpenGL.glColor(0, 0, 0, 1);
 			
 			OpenGL.glBegin();
-			//Draw.rect(startX, baseY - 1, endX, baseY + 1, 6);
-			Draw.rect(159, baseY, 160, baseY + 1, 6);
+			Draw.rect(startX, baseY - 1, endX, baseY + 1, 6);
 			GL11.glEnd();
 			
 			/*GL11.glLineWidth(1);
@@ -169,7 +168,7 @@ public class Renderer
 
 	public void drawBlock(Block block) 
 	{
-		double x = block.getPosX() + 64;
+		double x = block.getPosX() + 8;
 		double y = block.getPosY() + 64;
 		double width = block.getWidth();
 		double height = block.getHeight();

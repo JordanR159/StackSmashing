@@ -15,8 +15,6 @@ public class Beam extends Block
 
 		pos.x += s.getSize() / 2;
 		pos.y += s.getSize() / 2;
-		//pos.z += t.getSize() / 2;
-		//pos.w += t.getSize() / 2;
 		pos.w = 0;
 
 		if(s.getPosX() > t.getPosX())
