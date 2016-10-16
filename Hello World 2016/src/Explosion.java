@@ -7,6 +7,7 @@ public class Explosion
 	private double size;
 	private double midX;
 	private double midY;
+	private double userDamage;
 	
 	public Explosion(Player user) {
 		xPos = user.getPosX() - (2 * user.getSize());
@@ -14,10 +15,16 @@ public class Explosion
 		size = 5 * user.getSize();
 		midX = user.getPosX() + user.getSize()/2;
 		midY = user.getPosY() + user.getSize()/2;
+		userDamage = 20;
+		
 	}
 	
 	public double calcDamage(Player targ, ArrayList<Block> obstacles) {
 		int amountExposed = 0;
+		double targMidX = targ.getPosX() + targ.getSize()/2;
+		double targMidY = targ.getPosY() + targ.getSize()/2;
+		double dist = Math.sqrt((targMidY-midY)*(targMidY-midY) + (targMidX-midX)*(targMidX-midX));
+		double baseDamage = 10; //make it based off distance later
 		
 		//get slopes
 		double bRightSlope = ((targ.getPosY() + targ.getSize()) - midY) /
@@ -168,7 +175,7 @@ public class Explosion
 				}
 			}
 			
-			//top lefts
+			//top left
 			for(double x = midX; x < targ.getPosX(); x++) {
 				double y = tLeftSlope*x + cTL;
 				for(Block check : obstacles) {
@@ -198,8 +205,10 @@ public class Explosion
 			amountExposed++;
 		}
 		
-		
-		return 0;
+		return amountExposed*baseDamage;
 	}
-
+	
+	public double getUserDamage() {
+		return userDamage;
+	}
 }
