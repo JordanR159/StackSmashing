@@ -11,8 +11,8 @@ public class World
 
 	public World(int numPlayers, int numBlocks)
 	{
-		width = 1904;
-		height = 952;
+		width = 1902;
+		height = 950;
 		setPlayers(numPlayers);
 		blocks = WorldGenerator.generateBlocks(numBlocks);
 	}
@@ -57,7 +57,7 @@ public class World
 			{
 				curr.useJump();
 				curr.setVelocityY(0);
-				double newPos = 50.00 + curr.getPosY();
+				double newPos = -50.00 + curr.getPosY();
 				if(newPos > 0 && newPos+curr.getSize() < height){
 					
 					boolean collided = false;
@@ -192,9 +192,15 @@ public class World
 				
 			}
 			else if(newPos <= 0)
+			{
 				curr.setPosX(0);
+				curr.setVelocityX(0);
+			}
 			else
+			{
 				curr.setPosX(width-curr.getSize());
+				curr.setVelocityX(0);
+			}
 			players.set(0,curr);
 			return 1;
 		}
@@ -224,7 +230,7 @@ public class World
 			{
 				curr.useJump();
 				curr.setVelocityY(0);
-				double newPos = 50.00 + curr.getPosY();
+				double newPos = -50.00 + curr.getPosY();
 				if(newPos > 0 && newPos+curr.getSize() < height) {
 					boolean collided = false;
 					//block collision
@@ -261,7 +267,7 @@ public class World
 			Player curr = players.get(1);
 			curr.setVelocityY(curr.getVelocityY()+10);
 			double newPos = curr.getVelocityY() + curr.getPosY();
-			if(newPos > 0 && newPos+curr.getSize() < height) {
+			if(newPos > 0 && newPos+curr.getSize() < height-100.00) {
 				boolean collided = false;
 				//block collision
 				for(int j = 0; j < blocks.size(); j++)
@@ -318,9 +324,15 @@ public class World
 				
 			}
 			else if(newPos <= 0)
+			{
 				curr.setPosX(0);
+				curr.setVelocityX(0);
+			}
 			else
+			{
 				curr.setPosX(width-curr.getSize());
+				curr.setVelocityX(0);
+			}
 			players.set(1,curr);
 			return 1;
 		}
@@ -348,9 +360,15 @@ public class World
 					curr.setPosX(newPos);
 			}
 			else if(newPos <= 0)
+			{
 				curr.setPosX(0);
+				curr.setVelocityX(0);
+			}
 			else
+			{
 				curr.setPosX(width-curr.getSize());
+				curr.setVelocityX(0);
+			}
 			players.set(1,curr);
 			return 1;
 		}
