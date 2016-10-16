@@ -170,15 +170,19 @@ public class World
 
 				boolean collided = false;
 				//block collision
-				for(int j = 0; j < blocks.size(); j++)
+				int j;
+				for(j = 0; j < blocks.size(); j++)
 				{
 					if(checkCollision(curr, newPos, false, blocks.get(j))){
-						curr.setPosY(blocks.get(j).getPosY());
+						curr.setPosY(blocks.get(j).getPosY()-curr.getSize());
 						curr.setVelY(0);
 						curr.resetJumps();
 						collided = true;
+						break;
 					}
 				}
+				if(collided && j == blocks.indexOf(pBlockTwo))
+					players.get(1).setSize(25);
 				if(!collided)
 					curr.setPosY(newPos);	
 			}
@@ -254,8 +258,8 @@ public class World
 		}
 		blocks.remove(blocks.indexOf(pBlockTwo));
 		blocks.add(pBlock);
-
 		player = players.get(1);
+		
 		if(keyId == GLFW.GLFW_KEY_UP && player.getNumJumps() > 0) //player 2
 		{	
 			playerJump(player);	
@@ -272,14 +276,18 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < height-100.00) {
 				boolean collided = false;
 				//block collision
-				for(int j = 0; j < blocks.size(); j++)
+				int j;
+				for(j = 0; j < blocks.size(); j++)
 				{
 					if(checkCollision(curr, newPos, false, blocks.get(j))){
-						curr.setPosY(blocks.get(j).getPosY());
+						curr.setPosY(blocks.get(j).getPosY()-curr.getSize());
 						curr.resetJumps();
 						collided = true;
+						break;
 					}
 				}
+				if(collided && j == blocks.indexOf(pBlock))
+					players.get(1).setSize(25);
 				if(!collided)
 					curr.setPosY(newPos);
 			}
@@ -317,7 +325,6 @@ public class World
 				}
 				if(!collided)
 					curr.setPosX(newPos);
-
 			}
 			else if(newPos <= 0)
 			{
