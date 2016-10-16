@@ -67,7 +67,7 @@ public class World
 				player = players.get(i);
 				otherPlayer = players.get(players.size()-i-1);
 				
-				if(player.getSize() <= 25 && otherPlayer.getSize() <= 25) {
+				if(player.getSize() <= 25 && otherPlayer.getSize() <= 25) { //tiebreaker
 					if(player.getSize() < otherPlayer.getSize()){
 						loser = players.indexOf(player);
 					} else if(player.getSize() > otherPlayer.getSize()) {
