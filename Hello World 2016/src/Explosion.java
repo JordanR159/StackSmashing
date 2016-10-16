@@ -199,13 +199,6 @@ public class Explosion
 		}
 		
 		
-		
-		/*if(newPos < check.getPosY() + check.getHeight() && 
-				newPos + curr.getSize() > check.getPosY() && 
-				curr.getPosX() < check.getPosX()+check.getWidth() && 
-				curr.getPosX() + curr.getSize() > check.getPosX()){
-					curr.setPosY(check.getPosY() + check.getHeight());*/
-		
 		return 0;
 	}
 
