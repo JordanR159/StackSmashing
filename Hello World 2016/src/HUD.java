@@ -24,7 +24,7 @@ public class HUD extends GuiScreen
 	{
 		super(app);
 		graphicRandom = random;
-		sizeFormat = new DecimalFormat("#.#######");
+		sizeFormat = new DecimalFormat("#.##");
 		renderer = render;
 		defaultFont = Texture.getFontMap("basic");
 	}

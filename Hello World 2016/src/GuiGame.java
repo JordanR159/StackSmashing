@@ -25,7 +25,7 @@ public class GuiGame extends GuiScreen
 		
 		hud = new HUD(app, graphicRandom, renderer);
 		
-		world = new World(2, 20);
+		world = new World(2, 10);
 	}
 	
 	public void render(double delta)
@@ -47,7 +47,7 @@ public class GuiGame extends GuiScreen
 		
 		GL11.glEnd();
 		
-		renderer.render();
+		renderer.render(delta);
 		hud.render(delta);
 	}
 	

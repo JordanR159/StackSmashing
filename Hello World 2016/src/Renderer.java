@@ -157,9 +157,9 @@ public class Renderer
 		Draw.rect(x + 2, y + 2, x + width - 2, y + height - 2, 1);
 	}
 
-	public void render()
+	public void render(double delta)
 	{
-
+		
 	}
 
 	public void drawWithShade(double x, double y, double x1, double y1, double z)
@@ -176,29 +176,5 @@ public class Renderer
 	public Color4d getPlayer(int color)
 	{
 		return players[color];
-	}
-
-	public int loadShader(File file, int type) {
-		StringBuilder shaderSource = new StringBuilder();
-		int shaderID = 0;
-
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				shaderSource.append(line).append("\n");
-			}
-			reader.close();
-		} catch (IOException e) {
-			System.err.println("Could not read file.");
-			e.printStackTrace();
-			System.exit(-1);
-		}
-
-		shaderID = GL20.glCreateShader(type);
-		GL20.glShaderSource(shaderID, shaderSource);
-		GL20.glCompileShader(shaderID);
-
-		return shaderID;
 	}
 }
