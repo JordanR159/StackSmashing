@@ -25,7 +25,7 @@ public class Explosion
 				newPos + curr.getSize() > check.getPosY() && 
 				curr.getPosX() < check.getPosX()+check.getWidth() && 
 				curr.getPosX() + curr.getSize() > check.getPosX()){
-					curr.setPosY(check.getPosY() + check.getHeight());*/
+					curr.setPosY(check.getPosY() + check.getHeight());s*/
 		
 		return 0;
 	}
