@@ -46,70 +46,63 @@ public class World
 
 	public void update(double delta)
 	{
+		//gravity for both players
 		if(loser == -1)
 		{
-			Player player;
-			Player otherPlayer;
-			Block playerBlock;
 			for(int i = 0; i < players.size(); i++)
 			{
-				player = players.get(i);
-				
-				if(player.getSize() <= 25)
+				Player fall = players.get(i);
+				if(fall.getSize() <= 25)
 				{
 					loser = i;
 					break;
 				}
-				
-				otherPlayer = players.get(players.size()-i-1);
-				player.update(delta);
-				
-				playerBlock = new Block(this, otherPlayer.getPosX(), otherPlayer.getPosY(), otherPlayer.getSize(), otherPlayer.getSize());
-				blocks.add(playerBlock);
-				
-				double vx = player.getVelX();
-				
+				Player other = players.get(players.size()-i-1);
+				fall.update(delta);
+				Block pBlock = new Block(this,other.getPosX(),other.getPosY(),other.getSize(),other.getSize());
+				blocks.add(pBlock);
+				double vx = fall.getVelX();
 				if(vx > 0)
-					player.setVelX(player.getVelX() - 0.25);
+					fall.setVelX(fall.getVelX()-0.25);
 				else if(vx < 0)
-					player.setVelX(player.getVelX() + 0.25);
+					fall.setVelX(fall.getVelX()+0.25);
 
-				player.setVelY(player.getVelY()+3);
-				double newPos = player.getVelY() + player.getPosY();
-				if(newPos > 0 && newPos+player.getSize() < height) {
+				fall.setVelY(fall.getVelY()+3);
+				double newPos = fall.getVelY() + fall.getPosY();
+				if(newPos > 0 && newPos+fall.getSize() < height) {
 					boolean collided = false;
 					//block collisions	
 					for(int j = 0; j < blocks.size(); j++)
 					{
-						if(checkCollision(player, newPos, false, blocks.get(j))){
-							if(player.getVelY() < 0) {
-								player.setVelY(0);
-								player.nullifyJumps();
-								player.setPosY(blocks.get(j).getPosY() + blocks.get(j).getHeight());
+						if(checkCollision(fall, newPos, false, blocks.get(j))){
+							if(fall.getVelY() < 0) {
+								fall.setVelY(0);
+								fall.nullifyJumps();
+								fall.setPosY(blocks.get(j).getPosY() + blocks.get(j).getHeight());
 							}
 							else {
-								player.resetJumps();
-								player.setPosY(blocks.get(j).getPosY() - player.getSize());
-								player.setVelY(0);
+								fall.resetJumps();
+								fall.setPosY(blocks.get(j).getPosY() - fall.getSize());
+								fall.setVelY(0);
 							}
 							collided = true;
 						}
 					}
 					if(!collided)
-						player.setPosY(newPos);
+						fall.setPosY(newPos);
 				}
 				else if(newPos <= 0)
 				{
-					player.setPosY(0);
-					player.setVelY(0);
+					fall.setPosY(0);
+					fall.setVelY(0);
 				}
 				else
 				{
-					player.setPosY(height-player.getSize());
-					player.setVelY(0);
-					player.resetJumps();
+					fall.setPosY(height-fall.getSize());
+					fall.setVelY(0);
+					fall.resetJumps();
 				}		
-				blocks.remove(blocks.indexOf(playerBlock));
+				blocks.remove(blocks.indexOf(pBlock));
 			}
 		}
 
@@ -268,6 +261,7 @@ public class World
 
 	public int keyHeld(int keyId, int called, int mods)
 	{
+		
 		return keyPressed(keyId,mods);
 	}
 
@@ -290,7 +284,7 @@ public class World
 	public void moveLeft(Player curr)
 	{
 		boolean collided = false;
-		curr.setVelX(curr.getVelX() - 10);
+		curr.setVelX(curr.getVelX() < 0 ? Math.min(curr.getVelX() * 2.5, -5) : curr.getVelX() / 2);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -301,7 +295,6 @@ public class World
 					curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
 					curr.setVelX(0);
 					collided = true;
-					break;
 				}
 			}
 			if(!collided)
@@ -333,7 +326,6 @@ public class World
 					curr.setPosX(blocks.get(j).getPosX()-curr.getSize());
 					curr.setVelX(0);
 					collided = true;
-					break;
 				}
 			}
 			if(!collided)
@@ -368,12 +360,12 @@ public class World
 					curr.setVelY(0);
 					curr.resetJumps();
 					collided = true;
-					break;//
+					break;
 				}
 			}
-			if(collided && j == blocks.size()-1)
-			{
-				players.get(players.size()-players.indexOf(curr)-1).setPosY(5000);
+			if(collided && j == blocks.size()-1){
+				players.get(players.size()-players.indexOf(curr)-1).setPosX(5000);
+				
 				players.get(players.size()-players.indexOf(curr)-1).setSize(25);
 			}
 			if(!collided)
