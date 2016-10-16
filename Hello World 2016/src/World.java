@@ -7,6 +7,7 @@ public class World
 	private double height;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
+	private Beam projectile = null;
 
 	public World(int numPlayers, int numBlocks)
 	{
@@ -211,6 +212,7 @@ public class World
 			if(shot.isOnTarget(players.get(1), blocks)) {
 				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
+			projectile = shot;
 			return 1;
 		}
 		
@@ -378,6 +380,7 @@ public class World
 			if(shot.isOnTarget(players.get(0), blocks)) {
 				players.get(0).setSize(players.get(0).getSize() - 3);
 			}
+			projectile = shot;
 			return 1;
 		}
 		
@@ -388,9 +391,8 @@ public class World
 		}
 			
 		//gravity for both players
-		for(int i = 0; i < players.size(); i++)
+		for(Player fall : players)
 		{
-			Player fall = players.get(i);
 			fall.setVelocityY(fall.getVelocityY()+10);
 			double newPos = fall.getVelocityY() + fall.getPosY();
 			if(newPos > 0 && newPos+fall.getSize() < height) {
@@ -447,6 +449,14 @@ public class World
 	public ArrayList<Block> getBlocks()
 	{
 		return blocks;
+	}
+	
+	public Beam getBeam()
+	{
+		Beam temp = projectile;
+		projectile = null;
+		return temp;
+		
 	}
 
 }
