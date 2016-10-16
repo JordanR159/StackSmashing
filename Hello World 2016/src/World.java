@@ -65,8 +65,6 @@ public class World
 			for(int i = 0; i < players.size(); i++)
 			{
 				player = players.get(i);
-				player.endDash();
-				player.endSlam();
 				otherPlayer = players.get(players.size()-i-1);
 				
 				if(player.getSize() <= 25 && otherPlayer.getSize() <= 25) { //tiebreaker
@@ -410,6 +408,7 @@ public class World
 			curr.setPosX(width-curr.getSize());
 			curr.setVelX(0);
 		}
+		curr.endDash();
 		
 	}
 	
@@ -449,6 +448,7 @@ public class World
 			curr.setPosX(width-curr.getSize());
 			curr.setVelX(0);
 		}
+		curr.endDash();
 	}
 
 	public void slam(Player curr)
@@ -488,6 +488,7 @@ public class World
 			curr.setVelY(0);
 			curr.resetJumps();
 		}
+		curr.endSlam();
 	}
 	
 	public void createBeam(Player player, Player playerTwo)
