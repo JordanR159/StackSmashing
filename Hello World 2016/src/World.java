@@ -21,8 +21,8 @@ public class World
 
 	public void setPlayers(int numPlayers)
 	{
-		Player one = new Player(this, 0.00, height-100.00, 100.00);
-		Player two = new Player(this, width-100.00, height-100.00, 100.00);
+		Player one = new Player(this, 100.00, height-100.00, 100.00);
+		Player two = new Player(this, width-200.00, height-100.00, 100.00);
 		players.add(one);
 		players.add(two);
 		/*for(int i = 0; i < numPlayers; i++)
