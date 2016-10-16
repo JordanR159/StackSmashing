@@ -413,7 +413,7 @@ public class World
 
 	public int keyHeld(int keyId, int called, int mods)
 	{
-		return -1;
+		return keyPressed(keyId,mods);
 	}
 
 	public void keyRelease(int keyId, int mods)
