@@ -13,18 +13,23 @@ import com.polaris.engine.util.MathHelper;
 public class GuiEndGame extends GuiScreen
 {
 	
-	private String[] words = new String[] {"And ", "the ", "winner ", "is..."};
-	FontMap font;
-	double ticks = 0;
-	double toTicks = 400;
-	int current = 1;
+	private String[] words = new String[] {"AND ", "THE ", "WINNER ", "IS ..." };
+	private double ticks = 0;
+	private double toTicks = 400;
+	private int current = 1;
+	private int loser = 1;
+	private Color4d color;
+	
+	private FontMap font;
 
-	public GuiEndGame(Application app, int loser, Color4d color)
+	public GuiEndGame(Application app, int l, Color4d player)
 	{
 		super(app);
+		loser = l;
+		color = player;
 		font = Texture.getFontMap("basic");
 	}
-	
+
 	public void render(double delta)
 	{
 		Window.gl2d();

@@ -57,7 +57,7 @@ public class GuiGame extends GuiScreen
 		world.update(delta);
 		if(world.getLoser() > -1)
 		{
-			application.setGui(new GuiEndGame(application, world.getLoser(), renderer.getPlayer((world.getLoser() + 1) % 2)));
+			application.setGui(new GuiEndGame(application));
 		}
 	}
 	

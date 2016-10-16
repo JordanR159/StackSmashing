@@ -50,7 +50,7 @@ public class World
 
 	public void update(double delta)
 	{
-		//gravity for both players
+		//gravity for both playersss
 		if(loser == -1)
 		{
 			Player player;
@@ -190,13 +190,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_A) //player 1
 			{
-				if(System.currentTimeMillis() - timeA <= 100){ //dash
-					dashLeft(player);
-				}
-				else {
-					moveLeft(player);
-				}
-				timeA = System.currentTimeMillis();
+				moveLeft(player);
 				blocks.remove(blocks.indexOf(pBlockTwo));
 				return 1;
 			}
@@ -210,13 +204,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_D) //player 1
 			{
-				if(System.currentTimeMillis() - timeD <= 100){ //dash
-					dashRight(player);
-				}
-				else {
-					moveRight(player);
-				}
-				timeD = System.currentTimeMillis();
+				moveRight(player);
 				blocks.remove(blocks.indexOf(pBlockTwo));
 				return 1;
 			}
@@ -255,27 +243,15 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_LEFT) //player 2
 			{
-				if(System.currentTimeMillis() - timeLeft <= 100){ //dash
-					dashLeft(player);
-				}
-				else {
-					moveLeft(player);
-				}
+				moveLeft(player);
 				blocks.remove(blocks.indexOf(pBlock));
-				timeLeft = System.currentTimeMillis();
 				return 1;
 			}
 
 			if(keyId == GLFW.GLFW_KEY_RIGHT) //player 2
 			{
-				if(System.currentTimeMillis() - timeRight <= 100){ //dash
-					dashRight(player);
-				}
-				else {
-					moveRight(player);
-				}
+				moveRight(player);
 				blocks.remove(blocks.indexOf(pBlock));
-				timeRight = System.currentTimeMillis();
 				return 1;
 			}
 			if(keyId == GLFW.GLFW_KEY_SLASH) //player 2 beam
@@ -300,6 +276,36 @@ public class World
 		}
 		return -1;
 	}
+	
+	public void keyRelease(int keyId, int mods)
+	{
+		if(keyId == GLFW.GLFW_KEY_A){
+			if(System.currentTimeMillis() - timeA <= 100){ //dash
+				dashLeft(players.get(0));
+			}
+			timeA = System.currentTimeMillis();
+		}
+		if(keyId == GLFW.GLFW_KEY_D){
+			if(System.currentTimeMillis() - timeD <= 100){ //dash
+				dashLeft(players.get(0));
+			}
+			timeD = System.currentTimeMillis();
+		}
+		if(keyId == GLFW.GLFW_KEY_LEFT){
+			if(System.currentTimeMillis() - timeLeft <= 100){ //dash
+				dashLeft(players.get(1));
+			}
+			timeLeft = System.currentTimeMillis();
+		}
+		if(keyId == GLFW.GLFW_KEY_RIGHT){
+			if(System.currentTimeMillis() - timeLeft <= 100){ //dash
+				dashLeft(players.get(1));
+			}
+			timeLeft = System.currentTimeMillis();
+		}
+	}
+
+
 
 	private boolean checkCollision(Player player, double newPos, boolean x, Block check)
 	{
@@ -331,12 +337,6 @@ public class World
 		return keyPressed(keyId,mods);
 	}
 
-	public void keyRelease(int keyId, int mods)
-	{
-
-	}
-
-
 	public ArrayList<Player> getPlayers()
 	{
 		return players;
@@ -349,7 +349,35 @@ public class World
 
 	public void moveLeft(Player curr)
 	{
-		curr.setVelX(curr.getVelX() - 10);
+		boolean collided = false;
+		curr.setVelX(curr.getVelX() - 5);
+		double newPos = curr.getVelX() + curr.getPosX();
+		if(newPos > 0 && newPos+curr.getSize() < width) {
+
+			//block collisions
+			for(int j = 0; j < blocks.size(); j++)
+			{
+				if(checkCollision(curr, newPos, true, blocks.get(j))){
+					curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
+					curr.setVelX(0);
+					collided = true;
+					break;
+				}
+			}
+			if(!collided)
+				curr.setPosX(newPos);
+
+		}
+		else if(newPos <= 0)
+		{
+			curr.setPosX(0);
+			curr.setVelX(0);
+		}
+		else
+		{
+			curr.setPosX(width-curr.getSize());
+			curr.setVelX(0);
+		}
 	}
 
 	public void moveRight(Player curr)
@@ -381,7 +409,7 @@ public class World
 				players.get(players.size()-players.indexOf(curr)-1).setVelX(players.get(players.size()-players.indexOf(curr)-1).getVelX() - 10);
 			}
 			if(!collided)
-				curr.setPosY(newPos);	
+				curr.setPosX(newPos);	
 		}
 		else if(newPos <= 0)
 		{
@@ -392,7 +420,6 @@ public class World
 		{
 			curr.setPosX(width-curr.getSize());
 			curr.setVelX(0);
-			curr.resetJumps();
 		}
 		
 	}
@@ -400,40 +427,38 @@ public class World
 	public void dashRight(Player curr)
 	{
 		curr.setVelX(curr.getVelX() + 20);
-		double newPos = curr.getVelY() + curr.getPosY();
-		if(newPos > 0 && newPos+curr.getSize() < height) {
+		double newPos = curr.getVelX() + curr.getPosX();
+		if(newPos > 0 && newPos+curr.getSize() < width) {
 
 			boolean collided = false;
 			//block collision
 			int j;
 			for(j = 0; j < blocks.size(); j++)
 			{
-				if(checkCollision(curr, newPos, false, blocks.get(j))){
-					curr.setPosY(blocks.get(j).getPosY() - curr.getSize());
-					curr.setVelY(0);
-					curr.resetJumps();
+				if(checkCollision(curr, newPos, true, blocks.get(j))){
+					curr.setPosX(blocks.get(j).getPosX() - curr.getSize());
+					curr.setVelX(0);
 					collided = true;
 					break;
 				}
 			}
 			if(collided && j == blocks.size()-1){
-				players.get(players.size()-players.indexOf(curr)-1).setPosX(5000);
-				
-				players.get(players.size()-players.indexOf(curr)-1).setSize(25);
+				//damage other player 15 and knockback
+				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 15);
+				players.get(players.size()-players.indexOf(curr)-1).setVelX(players.get(players.size()-players.indexOf(curr)-1).getVelX() - 10);
 			}
 			if(!collided)
-				curr.setPosY(newPos);	
+				curr.setPosX(newPos);	
 		}
 		else if(newPos <= 0)
 		{
-			curr.setPosY(0);
-			curr.setVelY(0);
+			curr.setPosX(0);
+			curr.setVelX(0);
 		}
 		else
 		{
-			curr.setPosY(width-curr.getSize());
-			curr.setVelY(0);
-			curr.resetJumps();
+			curr.setPosX(width-curr.getSize());
+			curr.setVelX(0);
 		}
 	}
 
@@ -457,9 +482,7 @@ public class World
 				}
 			}
 			if(collided && j == blocks.size()-1){
-				players.get(players.size()-players.indexOf(curr)-1).setPosX(5000);
-				
-				players.get(players.size()-players.indexOf(curr)-1).setSize(25);
+				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - .5);
 			}
 			if(!collided)
 				curr.setPosY(newPos);	
@@ -490,8 +513,8 @@ public class World
 	
 	public void createExplosion(Player player, Player playerTwo)
 	{
-		Explosion explosion = new Explosion(this, player, playerTwo, 500d);
-		player.setSize(player.getSize() - 5);
+		Explosion explosion = new Explosion(this, player, playerTwo, 300d);
+		player.setSize(player.getSize() - 10);
 		if(explosion.trace())
 		{
 			playerTwo.setSize(playerTwo.getSize() - explosion.getTargetDamage() / 2);
