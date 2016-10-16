@@ -27,8 +27,33 @@ public class Beam
 		if(toRight)
 		{
 			if(!(startY > def.getPosY() && startY < def.getPosY()+def.getSize()))
+			{
+				endX = 1904;
 				return false;
+			}
 			for(double i = startX; i < 1954; i++)
+			{
+				for(Block curr : obstacles)
+				{
+					if((i > curr.getPosX() && i<curr.getPosX()+curr.getWidth())
+					&& (startY > curr.getPosY() && startY < curr.getPosY()+curr.getHeight()))
+					{
+						endX = i;
+						return false;
+					}
+				}
+				if((i > def.getPosX() && i < def.getPosX()+def.getSize()))
+						return true;
+			}
+		}
+		else
+		{
+			if(!(startY > def.getPosY() && startY < def.getPosY()+def.getSize()))
+			{
+				endX = 0;
+				return false;
+			}
+			for(double i = startX; i > 0; i++)
 			{
 				for(Block curr : obstacles)
 				{
