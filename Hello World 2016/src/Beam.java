@@ -53,7 +53,7 @@ public class Beam
 				endX = 0;
 				return false;
 			}
-			for(double i = startX; i > 0; i--)
+			for(double i = startX; i > 0; i--)//
 			{
 				for(Block curr : obstacles)
 				{
