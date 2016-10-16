@@ -8,6 +8,8 @@ public class Player extends Block
 	private double beamTicks = .25;
 	private Explosion explosion;
 	private double explosionTicks = .1d;
+	private boolean isDashing;
+	private boolean isSlamming;
 	
 	public Player(World world, double x, double y, double size)
 	{
@@ -134,5 +136,34 @@ public class Player extends Block
 	{
 		return explosion;
 	}
-
+	
+	public void startDash()
+	{
+		isDashing = true;
+	}
+	
+	public void startSlam()
+	{
+		isSlamming = true;
+	}
+	
+	public void endDash()
+	{
+		isDashing = false;
+	}
+	
+	public void endSlam()
+	{
+		isSlamming = false;
+	}
+	
+	public boolean checkSlam()
+	{
+		return isSlamming;
+	}
+	
+	public boolean checkDash()
+	{
+		return isDashing;
+	}
 }
