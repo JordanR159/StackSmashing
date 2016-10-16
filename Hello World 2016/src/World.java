@@ -235,7 +235,7 @@ public class World
 				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
 			players.get(0).setBeam(shot);
-			return 1;
+			return 10;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_TAB) //player 1 explosion
@@ -356,7 +356,7 @@ public class World
 				players.get(0).setSize(players.get(0).getSize() - 3);
 			}
 			players.get(1).setBeam(shot);
-			return 1;
+			return 10;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_PERIOD) //player 2 explosion

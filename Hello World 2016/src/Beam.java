@@ -17,14 +17,19 @@ public class Beam extends Block
 		pos.y += s.getSize() / 2;
 		//pos.z += t.getSize() / 2;
 		//pos.w += t.getSize() / 2;
-		pos.w = pos.y;
+		pos.w = 0;
 
 		if(s.getPosX() > t.getPosX())
+		{
 			toRight = false;
+			pos.z = pos.x;
+			pos.x = 0;
+		}
 		else
+		{
 			toRight = true;
-
-		pos.z = toRight ? world.getWidth() : 0;
+			pos.z = world.getWidth();
+		}
 	}
 
 	public boolean trace()
@@ -37,12 +42,28 @@ public class Beam extends Block
 
 			if(CollisionHelper.colliding(pos, block.pos))
 			{
-				pos.z = toRight ? block.pos.x : block.pos.z;
+				if(toRight)
+				{
+					pos.z = block.pos.x;
+				}
+				else
+				{
+					pos.x = block.pos.z;
+				}
 			}
 		}
 		
+		pos.z -= pos.x;
+		
+
+		System.out.println(pos.x + " " + pos.y + " " + pos.z + " " + pos.w);
+		System.out.println(target.pos.x + " " + target.pos.y + " " + target.pos.z + " " + target.pos.w);
+		
 		if(CollisionHelper.colliding(pos, target.pos))
+		{
+			System.out.println("collision");
 			return true;
+		}
 		
 		return false;
 	}
