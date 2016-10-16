@@ -149,7 +149,7 @@ public class Player extends Block
 	
 	public boolean checkSlam()
 	{
-		if(System.currentTimeMillis() - slamStartT <= 50 && movement.y > 0)
+		if(System.currentTimeMillis() - slamStartT <= 50 && movement.y > 0)//
 			return true;
 		else
 			return false;
