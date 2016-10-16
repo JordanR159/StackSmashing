@@ -196,10 +196,9 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_Q) //player 1 beam
 		{
 			Beam shot = new Beam(players.get(0));
+			players.get(0).setSize(players.get(0).getSize() - 1);
 			if(shot.isOnTarget(players.get(1), blocks)) {
-				
-				
-				
+				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
 		}
 		if(keyId == GLFW.GLFW_KEY_UP) //player 2
@@ -337,8 +336,11 @@ public class World
 		}
 		if(keyId == GLFW.GLFW_KEY_SLASH) // player 2 beam
 		{
-			
-			
+			Beam shot = new Beam(players.get(1));
+			players.get(1).setSize(players.get(1).getSize() - 1);
+			if(shot.isOnTarget(players.get(0), blocks)) {
+				players.get(0).setSize(players.get(0).getSize() - 3);
+			}
 		}
 			
 		//gravity for both players

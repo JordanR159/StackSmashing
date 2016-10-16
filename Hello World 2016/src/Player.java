@@ -58,6 +58,11 @@ public class Player
 		posY = y;
 	}
 	
+	public void setSize(double s)
+	{
+		size = s;
+	}
+	
 	public void setVelocityX(double vx)
 	{
 		velocityX = vx;		
