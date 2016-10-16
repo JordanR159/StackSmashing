@@ -9,7 +9,7 @@ public class World
 	private int height;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
-	private Beam projectile = null;
+	private Beam projectile;
 
 	public World(int numPlayers, int numBlocks)
 	{
@@ -50,8 +50,44 @@ public class World
 		for(int i = 0; i < players.size(); i++)
 		{
 			Player fall = players.get(i);
+			fall.update(delta);
+			double vx = fall.getVelX();
+			if(vx > 0)
+				fall.setVelX(fall.getVelX()-0.25);
+			else if(vx < 0)
+				fall.setVelX(fall.getVelX()+0.25);
+			double newPos = fall.getVelX() + fall.getPosX();
+			if(newPos > 0 && newPos+fall.getSize() < width) {
+
+				//block collision
+				boolean collided = false;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(fall.getPosY() < check.getPosY() + check.getHeight() && 
+							fall.getPosY() + fall.getSize() > check.getPosY() && 
+							newPos < check.getPosX()+check.getWidth() && 
+							newPos + fall.getSize() > check.getPosX()){
+						fall.setPosX(check.getPosX()+check.getWidth());
+						collided = true;
+					}
+				}
+				if(!collided)
+					fall.setPosX(newPos);
+
+			}
+			else if(newPos <= 0)
+			{
+				fall.setPosX(0);
+				fall.setVelX(0);
+			}
+			else
+			{
+				fall.setPosX(width-fall.getSize());
+				fall.setVelX(0);
+			}			
 			fall.setVelY(fall.getVelY()+3);
-			double newPos = fall.getVelY() + fall.getPosY();
+			newPos = fall.getVelY() + fall.getPosY();
 			if(newPos > 0 && newPos+fall.getSize() < height) {
 				boolean collided = false;
 				//block collision
@@ -99,7 +135,7 @@ public class World
 		{
 			Player curr = players.get(0);
 
-			curr.setVelX(curr.getVelX()-1);
+			curr.setVelX(curr.getVelX()-5);
 			double newPos = curr.getVelX() + curr.getPosX();
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -176,7 +212,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_D) //player 1
 		{
 			Player curr = players.get(0);
-			curr.setVelX(curr.getVelX()+1);
+			curr.setVelX(curr.getVelX()+5);
 			double newPos = curr.getVelX() + curr.getPosX();
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
@@ -217,7 +253,7 @@ public class World
 			if(shot.isOnTarget(players.get(1), blocks)) {
 				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
-			projectile = shot;
+			players.get(0).setBeam(shot);
 			return 1;
 		}
 
@@ -311,7 +347,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_LEFT) //player 2
 		{
 			Player curr = players.get(1);
-			curr.setVelX(curr.getVelX()-1);
+			curr.setVelX(curr.getVelX()-5);
 			double newPos = curr.getVelX() + curr.getPosX();
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
@@ -348,7 +384,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_RIGHT) //player 2
 		{
 			Player curr = players.get(1);
-			curr.setVelX(curr.getVelX()+1);
+			curr.setVelX(curr.getVelX()+5);
 			double newPos = curr.getVelX() + curr.getPosX();
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
@@ -387,7 +423,7 @@ public class World
 			if(shot.isOnTarget(players.get(0), blocks)) {
 				players.get(0).setSize(players.get(0).getSize() - 3);
 			}
-			projectile = shot;
+			players.get(1).setBeam(shot);
 			return 1;
 		}
 
