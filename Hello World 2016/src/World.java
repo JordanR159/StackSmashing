@@ -290,7 +290,7 @@ public class World
 	public void moveLeft(Player curr)
 	{
 		boolean collided = false;
-		curr.setVelX(curr.getVelX() - 10);
+		curr.setVelX(curr.getVelX() - 5);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
