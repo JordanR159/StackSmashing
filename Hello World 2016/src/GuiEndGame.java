@@ -118,7 +118,9 @@ public class GuiEndGame extends GuiScreen
 			keyId -= ('a' - 'A');
 		if(keyId == GLFW.GLFW_KEY_ESCAPE)
 		{
-			return super.keyPressed(keyId, mods);
+			application.setGui(new GuiMainMenu(application));
+			return -1;
+			//return super.keyPressed(keyId, mods);
 		}
 		if(keyId != GLFW.GLFW_KEY_W && keyId != GLFW.GLFW_KEY_A && keyId != GLFW.GLFW_KEY_S &&
 				keyId != GLFW.GLFW_KEY_D && keyId != GLFW.GLFW_KEY_I && keyId != GLFW.GLFW_KEY_J &&
