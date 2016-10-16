@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -9,32 +13,36 @@ import org.joml.Vector4d;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import com.polaris.engine.render.Draw;
 import com.polaris.engine.render.OpenGL;
 import com.polaris.engine.util.Color4d;
+import com.polaris.engine.util.MathHelper;
 
 public class Renderer
 {
-	
+
 	private Random graphicRandom;
-	
+
 	private Color4d background;
 	private Color4d blocks;
 	private Color4d[] players;
-	FloatBuffer backgroundBuffer = BufferUtils.createFloatBuffer(3 * 4);
+	/*FloatBuffer backgroundBuffer = BufferUtils.createFloatBuffer(3 * 1952 * 952);
+	FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(4 * 1952 * 952);
 	int vao;
 	IntBuffer vbo = BufferUtils.createIntBuffer(2);
+	int programId;*/
 
 	protected Vector3d mainLightSource;
 	private List<Vector4d> shadeList;
-	
+
 	public Renderer(Random random, int playerCount)
 	{
 		graphicRandom = random;
 		players = new Color4d[playerCount];
-		
+
 		for(int i = 0; i < players.length; i++)
 		{
 			players[i] = genColor(i);
@@ -44,14 +52,14 @@ public class Renderer
 		blocks = genColor(players.length);
 		mainLightSource = new Vector3d(random.nextDouble() * 1904, random.nextDouble() * 952, .9);
 		shadeList = new ArrayList<Vector4d>();
-		genBackground();
+		//genBackground();
 	}
-	
+
 	private Color4d genColor(int iteration)
 	{
 		boolean foundColor = false;
 		int red = 0, green = 0, blue = 0, maxDiff = 0;
-		
+
 		while(!foundColor)
 		{
 			foundColor = true;
@@ -107,54 +115,6 @@ public class Renderer
 		}
 		return new Color4d(red, green, blue, 255);
 	}
-	
-	private void genBackground()
-	{
-		vao = GL30.glGenVertexArrays();
-		GL30.glBindVertexArray(vao);
-		
-		GL15.glGenBuffers(vbo);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo.get(0));
-		
-		backgroundBuffer.put(new float[] {8, 64, -99});
-		backgroundBuffer.put(new float[] {8, 1016, -99});
-		backgroundBuffer.put(new float[] {1972, 1016, -99});
-		backgroundBuffer.put(new float[] {1972, 64, -99});
-		
-		/*double light, redShift, greenShift, blueShift;
-		
-		light = (background.getRed() + background.getGreen() + background.getBlue() - .75d) / 1.5d;
-		light = MathHelper.clamp(0, 1, light);
-		light = .9;
-		
-		redShift = light - background.getRed();
-		greenShift = light - background.getGreen();
-		blueShift = light - background.getBlue();
-		
-		double multiplier;
-		byte[] rgba = new byte[]{(byte) 255, (byte) 255, (byte) 255, (byte) 255};
-		double value;
-		int mulValue;
-		for(int i = 0; i < 1904; i++)
-		{
-			for(int j = 0; j < 952; j++)
-			{
-				value = i - mainLightSource.x;
-				mulValue = (int) (value * value);
-				value = j - mainLightSource.y;
-				mulValue += (int) (value * value);
-				multiplier = (4531520 - mulValue) / 4531520d;
-				
-				rgba[0] = (byte) Math.round((multiplier * redShift + background.getRed()) * 255d);
-				rgba[1] = (byte) Math.round((multiplier * greenShift + background.getGreen()) * 255d);
-				rgba[2] = (byte) Math.round((multiplier * blueShift + background.getBlue()) * 255d);
-				
-				backgroundBuffer.put(rgba);
-			}
-		}*/
-		
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, backgroundBuffer, GL15.GL_STATIC_DRAW);
-	}
 
 	public void drawBackground() 
 	{
@@ -163,6 +123,15 @@ public class Renderer
 		Draw.rect(0, 0, 1920, 1080, -100);
 		GL11.glEnd();
 		Draw.circle(mainLightSource.x, mainLightSource.y, -100, Math.sqrt(4531520), 200, new Color4d(.9, .9, .9, 1));
+		
+		GL11.glBegin(GL11.GL_POINTS);
+		for(int i = 40000; i >= 0; i--)
+		{
+			int x = graphicRandom.nextInt(1900) + 10;
+			int y = graphicRandom.nextInt(944) + 68;
+			OpenGL.glVertex(x, y, 30, 0, 0, 0, graphicRandom.nextDouble() * .4d + .1d);
+		}
+		GL11.glEnd();
 	}
 
 	public void drawPlayer(Player player, int i) 
@@ -187,25 +156,49 @@ public class Renderer
 		OpenGL.glColor(blocks);
 		Draw.rect(x + 2, y + 2, x + width - 2, y + height - 2, 1);
 	}
-	
+
 	public void render()
 	{
-		
+
 	}
-	
+
 	public void drawWithShade(double x, double y, double x1, double y1, double z)
 	{
 		Draw.rect(x, y, x1, y1, z);
 		shadeList.add(new Vector4d(x, y, (x1 - x), y1 - y));
 	}
-	
+
 	public void clearShades()
 	{
 		shadeList.clear();
 	}
-	
+
 	public Color4d getPlayer(int color)
 	{
 		return players[color];
+	}
+
+	public int loadShader(File file, int type) {
+		StringBuilder shaderSource = new StringBuilder();
+		int shaderID = 0;
+
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				shaderSource.append(line).append("\n");
+			}
+			reader.close();
+		} catch (IOException e) {
+			System.err.println("Could not read file.");
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+		shaderID = GL20.glCreateShader(type);
+		GL20.glShaderSource(shaderID, shaderSource);
+		GL20.glCompileShader(shaderID);
+
+		return shaderID;
 	}
 }

@@ -43,7 +43,7 @@ public class HUD extends GuiScreen
 		OpenGL.glColor(1d, 1d, 1d, 1d);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		Texture.glBindTexture("font:basic");
-		defaultFont.drawString("" + (1 / delta), 10, 10, 10, 64);
+		defaultFont.drawString("" + (int)Math.round(1 / delta / 10) * 10, 10, 10, 10, 64);
 		defaultFont.drawUpString(" :  ", 1920 / 2 - breakerX, 1067, 20, 48);
 		OpenGL.glColor(renderer.getPlayer(0));
 		defaultFont.drawUpString(sizeFormat.format(100), 1920 / 2 - breakerX - rightX, 1071, 20, 64);
