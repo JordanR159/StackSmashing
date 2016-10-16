@@ -60,7 +60,7 @@ public class World
 								newPos + fall.getSize() > check.getPosY() && 
 								fall.getPosX() < check.getPosX()+check.getWidth() && 
 								fall.getPosX() + fall.getSize() > check.getPosX()){
-									fall.setPosY(check.getPosY());
+									fall.setPosY(check.getPosY()+fall.getSize());
 									fall.resetJumps();
 									collided = true;//
 							}
