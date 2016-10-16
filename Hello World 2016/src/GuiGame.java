@@ -57,7 +57,7 @@ public class GuiGame extends GuiScreen
 		world.update(delta);
 		if(world.getLoser() > -1)
 		{
-			application.setGui(new GuiEndGame(application));
+			application.setGui(new GuiEndGame(application, world.getLoser(), renderer.getPlayer((world.getLoser() + 1) % 2)));
 		}
 	}
 	
@@ -75,6 +75,13 @@ public class GuiGame extends GuiScreen
 	public int keyHeld(int keyId, int called, int mods)
 	{
 		return keyPressed(keyId, mods);
+	}
+	
+	public void keyRelease(int keyId, int mods)
+	{
+		if(keyId >= 'a' && keyId <= 'z')
+			keyId -= ('a' - 'A');
+		world.keyRelease(keyId, mods);
 	}
 
 }
