@@ -25,7 +25,7 @@ public class GuiGame extends GuiScreen
 		
 		hud = new HUD(app, graphicRandom, renderer);
 		
-		world = new World(2, 20);
+		world = new World(2, 15);
 	}
 	
 	public void render(double delta)
@@ -59,6 +59,8 @@ public class GuiGame extends GuiScreen
 	
 	public int keyPressed(int keyId, int mods)
 	{
+		if(keyId >= 'A' && keyId <= 'Z')
+			keyId -= 32;
 		if(keyId == GLFW.GLFW_KEY_ESCAPE)
 		{
 			return super.keyPressed(keyId, mods);

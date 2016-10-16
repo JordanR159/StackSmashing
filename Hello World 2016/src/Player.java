@@ -1,46 +1,46 @@
+import org.joml.Vector3d;
 
 public class Player 
 {
-	private double posX;
-	private double posY;
-	private double size;
-	private double velocityX;
-	private double velocityY;
+	private Vector3d pos;
+	private Vector3d movement;
 	private int numJumps;
 	
-	public Player(double x, double y, double s)
+	public Player(double x, double y, double size)
 	{
-		posX = x;
-		posY = y;
-		size = s;
-		velocityX = 0;
-		velocityY = 0;
+		pos = new Vector3d(x, y, size);
+		movement = new Vector3d(0, 0, 0);
 		numJumps = 2;
 	}
 	
 	public double getPosX()
 	{
-		return posX;
+		return pos.x;
 	}
 
 	public double getPosY()
 	{
-		return posY;
+		return pos.y;
 	}
 	
 	public double getSize()
 	{
-		return size;
+		return pos.z;
 	}
 	
 	public double getVelocityX()
 	{
-		return velocityX;
+		return movement.x;
 	}
 	
 	public double getVelocityY()
 	{
-		return velocityY;
+		return movement.y;
+	}
+	
+	public double getAccelX()
+	{
+		return movement.z;
 	}
 	
 	public int getNumJumps()
@@ -50,27 +50,32 @@ public class Player
 	
 	public void setPosX(double x)
 	{
-		posX = x;
+		pos.x = x;
 	}
 	
 	public void setPosY(double y)
 	{
-		posY = y;
+		pos.y = y;
 	}
 	
 	public void setSize(double s)
 	{
-		size = s;
+		pos.z = s;
 	}
 	
 	public void setVelocityX(double vx)
 	{
-		velocityX = vx;		
+		movement.x = vx;		
 	}
 	
 	public void setVelocityY(double vy)
 	{
-		velocityY = vy;
+		movement.y = vy;
+	}
+	
+	public void setAccelX(double ax)
+	{
+		movement.z = ax;
 	}
 	
 	public void useJump()
