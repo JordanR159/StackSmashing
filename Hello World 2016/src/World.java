@@ -180,7 +180,6 @@ public class World
 				playerJump(player);	
 				blocks.remove(blocks.indexOf(pBlock));		
 				return 20;
-
 			}
 
 			if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
@@ -277,7 +276,7 @@ public class World
 	public void moveLeft(Player curr)
 	{
 		boolean collided = false;
-		curr.setVelX(curr.getVelX()-5);
+		curr.setVelX(curr.getVelX() < 0 ? Math.min(curr.getVelX() * 2.5, -5) : curr.getVelX() / 2);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
