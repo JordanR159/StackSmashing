@@ -231,7 +231,7 @@ public class World
 				return 20;
 			}
 
-			if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
+			if(keyId == GLFW.GLFW_KEY_DOWN) //player 2s
 			{
 				slam(player);
 				blocks.remove(blocks.indexOf(pBlock));
