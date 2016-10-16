@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
-public class Beam 
+public class Beam extends Block
 {
-	private double startX;
-	private double startY;
 	private boolean toRight;
-	private double endX;
 	
-	public Beam(Player shooter, Player target)
+	public Beam(World world, Player shooter, Player target)
 	{
-		startX = shooter.getPosX() + shooter.getSize() / 2;
-		startY = shooter.getPosY() + shooter.getSize() / 2;
+		super(world, shooter.getPosX(), shooter.getPosY(), target.getPosX(), target.getPosY());
+		pos.x += shooter.getSize() / 2;
+		pos.y += shooter.getSize() / 2;
+		pos.z += target.getSize() / 2;
+		pos.w += target.getSize() / 2;
 		if(shooter.getPosX() > target.getPosX())
 			toRight = false;
 		else
@@ -65,21 +65,5 @@ public class Beam
 		}
 		return false;
 	}
-	
-	public double getStartX()
-	{
-		return startX;
-	}
-	
-	public double getStartY()
-	{
-		return startY;
-	}
-	
-	public double getEndX()
-	{
-		return endX;
-	}
-	
 
 }

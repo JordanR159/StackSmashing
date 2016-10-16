@@ -1,17 +1,16 @@
 import org.joml.Vector3d;
 import org.joml.Vector4d;
 
-public class Player 
+public class Player extends Block
 {
-	private Vector4d pos;
 	private Vector3d movement;
 	private int numJumps;
 	private Beam currentBeam;
 	private double beamTicks = .25;
 	
-	public Player(double x, double y, double size)
+	public Player(World world, double x, double y, double size)
 	{
-		pos = new Vector4d(x, y, size, size);
+		super(world, x, y, size, size);
 		movement = new Vector3d(0, 0, 0);
 		numJumps = 2;
 	}
@@ -44,16 +43,6 @@ public class Player
 		numJumps = 0;
 	}
 	
-	public double getPosX()
-	{
-		return pos.x;
-	}
-
-	public double getPosY()
-	{
-		return pos.y;
-	}
-	
 	public double getSize()
 	{
 		return pos.z;
@@ -79,16 +68,6 @@ public class Player
 		return numJumps;
 	}
 	
-	public void setPosX(double x)
-	{
-		pos.x = x;
-	}
-	
-	public void setPosY(double y)
-	{
-		pos.y = y;
-	}
-	
 	public void setSize(double s)
 	{
 		pos.z = s;
@@ -108,11 +87,6 @@ public class Player
 	public void setAccelX(double ax)
 	{
 		movement.z = ax;
-	}
-	
-	public Vector4d getPosVector()
-	{
-		return pos;
 	}
 	
 	public Vector3d getMoveVector()

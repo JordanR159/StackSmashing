@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class WorldGenerator 
 {
-	public static ArrayList<Block> generateBlocks(int width, int height, int numBlocks)
+	public static ArrayList<Block> generateBlocks(World world, int width, int height, int numBlocks)
 	{
 		ArrayList<Block> blocks = new ArrayList<Block>();
 		
@@ -26,12 +26,12 @@ public class WorldGenerator
 			
 			notOverlapping = true;
 			
-			Block block = new Block(blockX, blockY, blockWidth, blockHeight);
+			Block block = new Block(world, blockX, blockY, blockWidth, blockHeight);
 			
 			for(int j = 0; j < blocks.size(); j++)
 			{
 				Block collider = blocks.get(j);
-				if(!CollisionHelper.notColliding(block.getVector(), collider.getVector()))
+				if(!CollisionHelper.notColliding(block.getPosVector(), collider.getPosVector()))
 				{
 					notOverlapping = false;
 					j = blocks.size();

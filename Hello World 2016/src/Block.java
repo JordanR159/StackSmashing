@@ -3,18 +3,20 @@ import org.joml.Vector4d;
 public class Block 
 {
 	
-	private Vector4d pos;
+	protected World worldObj;
+	protected Vector4d pos;
 	
-	public Block(double x, double y, double w, double h)
+	public Block(World world, double x, double y, double width, double height)
 	{
-		pos = new Vector4d(x, y, w, h);
+		worldObj = world;
+		pos = new Vector4d(x, y, width, height);
 	}
 	
 	public double getPosX()
 	{
 		return pos.x;
 	}
-	
+
 	public double getPosY()
 	{
 		return pos.y;
@@ -30,13 +32,29 @@ public class Block
 		return pos.w;
 	}
 
-	public Vector4d getVector()
+	public Vector4d getPosVector()
 	{
 		return pos;
 	}
 	
-	public String toString()
+	public void setPosX(double x)
 	{
-		return "x:" + getPosX() + " y:" + getPosY() + " width:" + getWidth() + " height:" + getHeight();
+		pos.x = x;
 	}
+	
+	public void setPosY(double y)
+	{
+		pos.y = y;
+	}
+	
+	public void setWidth(double width)
+	{
+		pos.z = width;
+	}
+	
+	public void setHeight(double height)
+	{
+		pos.w = height;
+	}
+	
 }
