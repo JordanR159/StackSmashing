@@ -213,14 +213,13 @@ public class World
 
 		if(keyId == GLFW.GLFW_KEY_Q) //player 1 beam
 		{
-			blocks.remove(blocks.indexOf(pBlock));
+			blocks.remove(blocks.indexOf(pBlockTwo));
 			Beam shot = new Beam(this, players.get(0), players.get(1));
 			players.get(0).setSize(players.get(0).getSize() - 1);
 			if(shot.trace()) {
 				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
 			players.get(0).setBeam(shot);
-			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 10;
 		}
 
