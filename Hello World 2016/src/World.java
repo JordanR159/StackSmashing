@@ -273,7 +273,7 @@ public class World
 			
 		}
 
-		if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
+		if(keyId == GLFW.GLFW_KEY_DOWN) //player 2/
 		{
 			Player curr = players.get(1);
 			curr.setVelY(curr.getVelY()+10);
