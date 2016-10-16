@@ -18,8 +18,15 @@ public class Explosion
 	
 	public double calcDamage(Player targ, ArrayList<Block> obstacles) {
 		int amountExposed = 0;
-		//bottom right corner
-		int bRightSlope = 0;
+		double bRightSlope = ((targ.getPosY() + targ.getSize()) - midY) /
+							 ((targ.getPosX() + targ.getSize()) - midX);
+		double bLeftSlope = ((targ.getPosY() + targ.getSize()) - midY) /
+							(targ.getPosX() - midX);
+		double tRightSlope = ((targ.getPosY() - midY) /
+				 			 ((targ.getPosX() + targ.getSize()) - midX));
+		double tLeftSlope = (targ.getPosY() - midY) /
+							(targ.getPosX() - midX);
+		
 		
 		/*if(newPos < check.getPosY() + check.getHeight() && 
 				newPos + curr.getSize() > check.getPosY() && 

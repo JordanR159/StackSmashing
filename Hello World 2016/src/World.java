@@ -45,23 +45,24 @@ public class World
 	public void update(double delta)
 	{
 		//gravity for both players
-		for(int i = 0; i < players.size(); i++)
-		{
-			Player fall = players.get(i);
-			fall.setVelocityY(fall.getVelocityY()+10);
-			double newPos = fall.getVelocityY() + fall.getPosY();
-			if(newPos > 0 && newPos+fall.getSize() < height) {
-				boolean collided = false;
-				//block collision
-				for(int j = 0; j < blocks.size(); j++)
+				for(int i = 0; i < players.size(); i++)
 				{
-					Block check = blocks.get(j);
-					if(newPos < check.getPosY() + check.getHeight() && 
-						newPos + fall.getSize() > check.getPosY() && 
-						fall.getPosX() < check.getPosX()+check.getWidth() && 							fall.getPosX() + fall.getSize() > check.getPosX()){
-						fall.setPosY(check.getPosY());
-						fall.resetJumps();
-									collided = true;
+					Player fall = players.get(i);
+					fall.setVelocityY(fall.getVelocityY()+1);
+					double newPos = fall.getVelocityY() + fall.getPosY();
+					if(newPos > 0 && newPos+fall.getSize() < height) {
+						boolean collided = false;
+						//block collision
+						for(int j = 0; j < blocks.size(); j++)
+						{
+							Block check = blocks.get(j);
+							if(newPos < check.getPosY() + check.getHeight() && 
+								newPos + fall.getSize() > check.getPosY() && 
+								fall.getPosX() < check.getPosX()+check.getWidth() && 
+								fall.getPosX() + fall.getSize() > check.getPosX()){
+									fall.setPosY(check.getPosY()+fall.getSize());
+									fall.resetJumps();
+									collided = true;//
 							}
 						}
 						if(!collided)
@@ -74,15 +75,13 @@ public class World
 					}
 					else
 					{
-						fall.setPosY(width-fall.getSize());
+						fall.setPosY(height-fall.getSize());
 						fall.setVelocityY(0);
 						fall.resetJumps();
 					}
 					players.set(i,fall);
 				}
-		
 	}
-
 	public int keyPressed(int keyId, int mods)
 	{
 		//GLFW.GLFW_KEY_<TYPE THE KEY OUT>
@@ -93,7 +92,7 @@ public class World
 			{
 				curr.useJump();
 				curr.setVelocityY(0);
-				double newPos = -50.00 + curr.getPosY();
+				double newPos = -200.00 + curr.getPosY();
 				if(newPos > 0 && newPos+curr.getSize() < height){
 					
 					boolean collided = false;
@@ -267,7 +266,7 @@ public class World
 			{
 				curr.useJump();
 				curr.setVelocityY(0);
-				double newPos = -50.00 + curr.getPosY();
+				double newPos = -200.00 + curr.getPosY();
 				if(newPos > 0 && newPos+curr.getSize() < height) {
 					boolean collided = false;
 					//block collision
