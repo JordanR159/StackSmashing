@@ -1,20 +1,10 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.joml.Vector3d;
 import org.joml.Vector4d;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 import com.polaris.engine.render.Draw;
 import com.polaris.engine.render.OpenGL;
@@ -44,11 +34,9 @@ public class Renderer
 			players[i] = genColor(i);
 		}
 		background = genColor(players.length);
-		//backgroundPixels = new int[1904 * 952];
 		blocks = genColor(players.length);
 		mainLightSource = new Vector3d(random.nextDouble() * 1904, random.nextDouble() * 952, .9);
 		shadeList = new ArrayList<Vector4d>();
-		//genBackground();
 	}
 
 	private Color4d genColor(int iteration)
@@ -135,10 +123,9 @@ public class Renderer
 		double x = player.getPosX() + 64;
 		double y = player.getPosY() + 64;
 		double size = player.getSize();
-		OpenGL.glColor(0, 0, 0, 1d);
-		Draw.rect(x, y, x + size, y + size, 2);
+		
 		OpenGL.glColor(players[i]);
-		Draw.rect(x + 2, y + 2, x + size - 2, y + size - 2, 2);
+		drawWithShade(x, y, x + size, y + size);
 	}
 
 	public void drawBlock(Block block) 
@@ -147,25 +134,23 @@ public class Renderer
 		double y = block.getPosY() + 64;
 		double width = block.getWidth();
 		double height = block.getHeight();
-		OpenGL.glColor(0, 0, 0, 1d);
-		Draw.rect(x, y, x + width, y + height, 1);
+		
 		OpenGL.glColor(blocks);
-		Draw.rect(x + 2, y + 2, x + width - 2, y + height - 2, 1);
+		drawWithShade(x, y, x + width, y + height);
+	}
+	
+	public void drawWithShade(double x, double y, double x1, double y1)
+	{
+		Draw.rect(x, y, x1, y1, 3);
+		Color4d inner = new Color4d(OpenGL.getColor());
+		OpenGL.glColor(0d, 0d, 0d, 1d);
+		Draw.rect(x, y, x1, y1, 4, 5, inner);
+		shadeList.add(new Vector4d(x, y, x1, y1));
 	}
 
 	public void render(double delta)
 	{
 		ticksExisted += delta;
-	}
-
-	public void drawWithShade(double x, double y, double x1, double y1, double z)
-	{
-		Draw.rect(x, y, x1, y1, z);
-		shadeList.add(new Vector4d(x, y, (x1 - x), y1 - y));
-	}
-
-	public void clearShades()
-	{
 		shadeList.clear();
 	}
 
