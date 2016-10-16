@@ -65,5 +65,10 @@ public class GuiGame extends GuiScreen
 		}
 		return world.keyPressed(keyId, mods);
 	}
+	
+	public int keyHeld(int keyId, int called, int mods)
+	{
+		return world.keyHeld(keyId, called, mods);
+	}
 
 }

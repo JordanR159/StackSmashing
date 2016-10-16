@@ -29,11 +29,7 @@ public class Renderer
 	private Color4d background;
 	private Color4d blocks;
 	private Color4d[] players;
-	/*FloatBuffer backgroundBuffer = BufferUtils.createFloatBuffer(3 * 1952 * 952);
-	FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(4 * 1952 * 952);
-	int vao;
-	IntBuffer vbo = BufferUtils.createIntBuffer(2);
-	int programId;*/
+	private double ticksExisted = 0;
 
 	protected Vector3d mainLightSource;
 	private List<Vector4d> shadeList;
@@ -125,7 +121,7 @@ public class Renderer
 		Draw.circle(mainLightSource.x, mainLightSource.y, -100, Math.sqrt(4531520), 200, new Color4d(.9, .9, .9, 1));
 		
 		GL11.glBegin(GL11.GL_POINTS);
-		for(int i = 40000; i >= 0; i--)
+		for(int i = (int) Math.min(Math.pow(ticksExisted * 2, 2), 40000); i >= 0; i--)
 		{
 			int x = graphicRandom.nextInt(1900) + 10;
 			int y = graphicRandom.nextInt(944) + 68;
@@ -159,7 +155,7 @@ public class Renderer
 
 	public void render(double delta)
 	{
-		
+		ticksExisted += delta;
 	}
 
 	public void drawWithShade(double x, double y, double x1, double y1, double z)
