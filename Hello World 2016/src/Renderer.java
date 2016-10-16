@@ -109,7 +109,7 @@ public class Renderer
 		Draw.circle(mainLightSource.x, mainLightSource.y, -100, Math.sqrt(4531520), 200, new Color4d(.9, .9, .9, 1));
 		
 		GL11.glBegin(GL11.GL_POINTS);
-		for(int i = (int) Math.min(Math.pow(ticksExisted, 2.5), 40000); i >= 0; i--)
+		for(int i = (int) Math.min(Math.pow(ticksExisted * 2, 2.5), 40000); i >= 0; i--)
 		{
 			int x = graphicRandom.nextInt(1900) + 10;
 			int y = graphicRandom.nextInt(944) + 68;

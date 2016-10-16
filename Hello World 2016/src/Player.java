@@ -1,16 +1,38 @@
 import org.joml.Vector3d;
+import org.joml.Vector4d;
 
 public class Player 
 {
-	private Vector3d pos;
+	private Vector4d pos;
 	private Vector3d movement;
 	private int numJumps;
+	private Beam currentBeam;
 	
 	public Player(double x, double y, double size)
 	{
-		pos = new Vector3d(x, y, size);
+		pos = new Vector4d(x, y, size, size);
 		movement = new Vector3d(0, 0, 0);
 		numJumps = 2;
+	}
+	
+	public void update(double delta)
+	{
+		movement.x /= 2d;
+	}
+	
+	public void useJump()
+	{
+		numJumps--;
+	}
+	
+	public void resetJumps()
+	{
+		numJumps = 2;
+	}
+	
+	public void nullifyJumps()
+	{
+		numJumps = 0;
 	}
 	
 	public double getPosX()
@@ -61,6 +83,7 @@ public class Player
 	public void setSize(double s)
 	{
 		pos.z = s;
+		pos.w = s;
 	}
 	
 	public void setVelX(double vx)
@@ -78,19 +101,19 @@ public class Player
 		movement.z = ax;
 	}
 	
-	public void useJump()
+	public Vector4d getPosVector()
 	{
-		numJumps--;
+		return pos;
 	}
 	
-	public void resetJumps()
+	public Vector3d getMoveVector()
 	{
-		numJumps = 2;
+		return movement;
 	}
 	
-	public void nullifyJumps()
+	public Beam getBeam()
 	{
-		numJumps = 0;
+		return currentBeam;
 	}
 
 }

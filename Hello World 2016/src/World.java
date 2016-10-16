@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+
+import org.joml.Vector4d;
 import org.lwjgl.glfw.GLFW;
 
 public class World 
@@ -41,114 +43,82 @@ public class World
 	{
 		return height;
 	}
-	
+
 	public void update(double delta)
 	{
 		//gravity for both players
-				for(int i = 0; i < players.size(); i++)
+		for(int i = 0; i < players.size(); i++)
+		{
+			Player fall = players.get(i);
+			fall.setVelY(fall.getVelY()+3);
+			double newPos = fall.getVelY() + fall.getPosY();
+			if(newPos > 0 && newPos+fall.getSize() < height) {
+				boolean collided = false;
+				//block collision
+				for(int j = 0; j < blocks.size(); j++)
 				{
-					Player fall = players.get(i);
-					fall.setVelY(fall.getVelY()+1);
-					double newPos = fall.getVelY() + fall.getPosY();
-					if(newPos > 0 && newPos+fall.getSize() < height) {
-						boolean collided = false;
-						//block collision
-						for(int j = 0; j < blocks.size(); j++)
-						{
-							Block check = blocks.get(j);
-							if(newPos < check.getPosY() + check.getHeight() && 
-								newPos + fall.getSize() > check.getPosY() && 
-								fall.getPosX() < check.getPosX()+check.getWidth() && 
-								fall.getPosX() + fall.getSize() > check.getPosX()){
-									fall.setPosY(check.getPosY()+fall.getSize());
-									fall.resetJumps();
-									collided = true;//
-							}
-						}
-						if(!collided)
-							fall.setPosY(newPos);
-					}
-					else if(newPos <= 0)
-					{
-						fall.setPosY(0);
-						fall.setVelY(0);
-					}
-					else
-					{
-						fall.setPosY(height-fall.getSize());
-						fall.setVelY(0);
+					Block check = blocks.get(j);
+					if(newPos < check.getPosY() + check.getHeight() && 
+							newPos + fall.getSize() > check.getPosY() && 
+							fall.getPosX() < check.getPosX()+check.getWidth() && 
+							fall.getPosX() + fall.getSize() > check.getPosX()){
+						fall.setPosY(check.getPosY()+fall.getSize());
 						fall.resetJumps();
+						collided = true;//
 					}
-					players.set(i,fall);
 				}
+				if(!collided)
+					fall.setPosY(newPos);
+			}
+			else if(newPos <= 0)
+			{
+				fall.setPosY(0);
+				fall.setVelY(0);
+			}
+			else
+			{
+				fall.setPosY(height-fall.getSize());
+				fall.setVelY(0);
+				fall.resetJumps();
+			}
+			players.set(i,fall);
+		}
 	}
 	public int keyPressed(int keyId, int mods)
 	{
-		//GLFW.GLFW_KEY_<TYPE THE KEY OUT>
-		if(keyId == GLFW.GLFW_KEY_W) //player 1
-		{
-			Player curr = players.get(0);
-			if(curr.getNumJumps() > 0)
-			{
-				curr.useJump();
-				curr.setVelY(0);
-				double newPos = -200.00 + curr.getPosY();
-				if(newPos > 0 && newPos+curr.getSize() < height){
-					
-					boolean collided = false;
-					//block collision on jumps
-					for(int j = 0; j < blocks.size(); j++)
-					{
-						Block check = blocks.get(j);
-						if(newPos < check.getPosY() + check.getHeight() && 
-							newPos + curr.getSize() > check.getPosY() && 
-							curr.getPosX() < check.getPosX()+check.getWidth() && 
-							curr.getPosX() + curr.getSize() > check.getPosX()){
-								curr.setPosY(check.getPosY() + check.getHeight());
-								//can't jump anymore if collide with bottom of block
-								curr.nullifyJumps();
-								collided = true;
-						}
-					}
-					if(!collided)
-						curr.setPosY(newPos);
+		Player player = players.get(0);
 
-				}
-				else if(newPos <= 0)
-					curr.setPosY(0);
-				else
-				{
-					curr.setPosY(height-curr.getSize());
-					curr.resetJumps();
-				}
-			}
-			players.set(0,curr);
+		//GLFW.GLFW_KEY_<TYPE THE KEY OUT>
+		if(keyId == GLFW.GLFW_KEY_W && player.getNumJumps() > 0) //player 1
+		{
+			playerJump(player);
 			return 1;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_A) //player 1
 		{
 			Player curr = players.get(0);
+
 			curr.setVelX(curr.getVelX()-1);
 			double newPos = curr.getVelX() + curr.getPosX();
 			if(newPos > 0 && newPos+curr.getSize() < width) {
-				
+
 				//block collision
 				boolean collided = false;
 				for(int j = 0; j < blocks.size(); j++)
 				{
 					Block check = blocks.get(j);
 					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-						curr.getPosY() + curr.getSize() > check.getPosY() && 
-						newPos < check.getPosX()+check.getWidth() && 
-						newPos + curr.getSize() > check.getPosX()){
-							curr.setPosX(check.getPosX()+check.getWidth());
-							collided = true;
+							curr.getPosY() + curr.getSize() > check.getPosY() && 
+							newPos < check.getPosX()+check.getWidth() && 
+							newPos + curr.getSize() > check.getPosX()){
+						curr.setPosX(check.getPosX()+check.getWidth());
+						collided = true;
 					}
 				}
 				if(!collided)
 					curr.setPosX(newPos);
-				
+
 			}
 			else if(newPos <= 0)
 			{
@@ -170,19 +140,19 @@ public class World
 			curr.setVelY(curr.getVelY()+10);
 			double newPos = curr.getVelY() + curr.getPosY();
 			if(newPos > 0 && newPos+curr.getSize() < height) {
-				
+
 				boolean collided = false;
 				//block collision on jumps
 				for(int j = 0; j < blocks.size(); j++)
 				{
 					Block check = blocks.get(j);
 					if(newPos < check.getPosY() + check.getHeight() && 
-						newPos + curr.getSize() > check.getPosY() && 
-						curr.getPosX() < check.getPosX()+check.getWidth() && 
-						curr.getPosX() + curr.getSize() > check.getPosX()){
-							curr.setPosY(check.getPosY());
-							curr.resetJumps();
-							collided = true;
+							newPos + curr.getSize() > check.getPosY() && 
+							curr.getPosX() < check.getPosX()+check.getWidth() && 
+							curr.getPosX() + curr.getSize() > check.getPosX()){
+						curr.setPosY(check.getPosY());
+						curr.resetJumps();
+						collided = true;
 					}
 				}
 				if(!collided)
@@ -215,16 +185,16 @@ public class World
 				{
 					Block check = blocks.get(j);
 					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-						curr.getPosY() + curr.getSize() > check.getPosY() && 
-						newPos < check.getPosX()+check.getWidth() && 
-						newPos + curr.getSize() > check.getPosX()){
-							curr.setPosX(check.getPosX()-curr.getSize());
-							collided = true;
+							curr.getPosY() + curr.getSize() > check.getPosY() && 
+							newPos < check.getPosX()+check.getWidth() && 
+							newPos + curr.getSize() > check.getPosX()){
+						curr.setPosX(check.getPosX()-curr.getSize());
+						collided = true;
 					}
 				}
 				if(!collided)
 					curr.setPosX(newPos);
-				
+
 			}
 			else if(newPos <= 0)
 			{
@@ -250,19 +220,21 @@ public class World
 			projectile = shot;
 			return 1;
 		}
-		
+
 		if(keyId == GLFW.GLFW_KEY_TAB) //player 1 explosion
 		{
-			
-			
-			
-			
+
+
+
+
 		}
-		
-		if(keyId == GLFW.GLFW_KEY_UP) //player 2
+
+		player = players.get(1);
+		if(keyId == GLFW.GLFW_KEY_UP && player.getNumJumps() > 0) //player 2
 		{
-			Player curr = players.get(1);
-			if(curr.getNumJumps() > 0)
+			playerJump(player);
+			return 1;
+			/*if(curr.getNumJumps() > 0)
 			{
 				curr.useJump();
 				curr.setVelY(0);
@@ -274,13 +246,13 @@ public class World
 					{
 						Block check = blocks.get(j);
 						if(newPos < check.getPosY() + check.getHeight() && 
-							newPos + curr.getSize() > check.getPosY() && 
-							curr.getPosX() < check.getPosX()+check.getWidth() && 
-							curr.getPosX() + curr.getSize() > check.getPosX()){
-								curr.setPosY(check.getPosY() + check.getHeight());
-								//can't jump anymore if collide with bottom of block
-								curr.nullifyJumps();
-								collided = true;
+								newPos + curr.getSize() > check.getPosY() && 
+								curr.getPosX() < check.getPosX()+check.getWidth() && 
+								curr.getPosX() + curr.getSize() > check.getPosX()){
+							curr.setPosY(check.getPosY() + check.getHeight());
+							//can't jump anymore if collide with bottom of block
+							curr.nullifyJumps();
+							collided = true;
 						}
 					}
 					if(!collided)
@@ -295,7 +267,7 @@ public class World
 				}					
 			}
 			players.set(1,curr);
-			return 1;
+			return 1;*/
 		}
 
 		if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
@@ -310,12 +282,12 @@ public class World
 				{
 					Block check = blocks.get(j);
 					if(newPos < check.getPosY() + check.getHeight() && 
-						newPos + curr.getSize() > check.getPosY() && 
-						curr.getPosX() < check.getPosX()+check.getWidth() && 
-						curr.getPosX() + curr.getSize() > check.getPosX()){
-							curr.setPosY(check.getPosY());
-							curr.resetJumps();
-							collided = true;
+							newPos + curr.getSize() > check.getPosY() && 
+							curr.getPosX() < check.getPosX()+check.getWidth() && 
+							curr.getPosX() + curr.getSize() > check.getPosX()){
+						curr.setPosY(check.getPosY());
+						curr.resetJumps();
+						collided = true;
 					}
 				}
 				if(!collided)
@@ -348,16 +320,16 @@ public class World
 				{
 					Block check = blocks.get(j);
 					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-						curr.getPosY() + curr.getSize() > check.getPosY() && 
-						newPos < check.getPosX()+check.getWidth() && 
-						newPos + curr.getSize() > check.getPosX()){
-							curr.setPosX(check.getPosX()+check.getWidth());
-							collided = true;
+							curr.getPosY() + curr.getSize() > check.getPosY() && 
+							newPos < check.getPosX()+check.getWidth() && 
+							newPos + curr.getSize() > check.getPosX()){
+						curr.setPosX(check.getPosX()+check.getWidth());
+						collided = true;
 					}
 				}
 				if(!collided)
 					curr.setPosX(newPos);
-				
+
 			}
 			else if(newPos <= 0)
 			{
@@ -385,11 +357,11 @@ public class World
 				{
 					Block check = blocks.get(j);
 					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-						curr.getPosY() + curr.getSize() > check.getPosY() && 
-						newPos < check.getPosX()+check.getWidth() && 
-						newPos + curr.getSize() > check.getPosX()){
-							curr.setPosX(check.getPosX()-curr.getSize());
-							collided = true;
+							curr.getPosY() + curr.getSize() > check.getPosY() && 
+							newPos < check.getPosX()+check.getWidth() && 
+							newPos + curr.getSize() > check.getPosX()){
+						curr.setPosX(check.getPosX()-curr.getSize());
+						collided = true;
 					}
 				}
 				if(!collided)
@@ -418,14 +390,39 @@ public class World
 			projectile = shot;
 			return 1;
 		}
-		
+
 		if(keyId == GLFW.GLFW_KEY_PERIOD) //player 2 explosion
 		{
-			
-			
+
+
 		}
-			
+
 		return -1;
+	}
+	
+	private void checkCollision(Player player, double newPos)
+	{
+		boolean collided = false;
+		if(newPos > 0 && newPos + player.getSize() < height)
+		{
+			Block block;
+			Vector4d newVecPos = new Vector4d(player.getPosVector());
+			newVecPos.y = newPos;
+			for(int j = 0; j < blocks.size(); j++)
+			{
+				block = blocks.get(j);
+				if(CollisionHelper.notColliding(newVecPos, block.getVector()))
+				{
+					collided = true;
+				}
+			}
+		}
+	}
+
+	private void playerJump(Player player) 
+	{
+		player.useJump();
+		player.setVelY(-40);
 	}
 
 	public int keyHeld(int keyId, int called, int mods)
@@ -448,13 +445,13 @@ public class World
 	{
 		return blocks;
 	}
-	
+
 	public Beam getBeam()
 	{
 		Beam temp = projectile;
 		projectile = null;
 		return temp;
-		
+
 	}
 
 }
