@@ -130,11 +130,16 @@ public class World
 	public int keyPressed(int keyId, int mods)
 	{
 		Player player = players.get(0);
+		Player playerTwo = players.get(0);
+		Block pBlock = new Block(this,player.getPosX(),player.getPosY(),player.getSize(),player.getSize());
+		Block pBlockTwo = new Block(this,playerTwo.getPosX(),playerTwo.getPosY(),playerTwo.getSize(),playerTwo.getSize());
+		blocks.add(pBlockTwo);
 
 		//GLFW.GLFW_KEY_<TYPE THE KEY OUT>
 		if(keyId == GLFW.GLFW_KEY_W && player.getNumJumps() > 0) //player 1
 		{
 			playerJump(player);
+			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
 
@@ -167,6 +172,7 @@ public class World
 				curr.setVelX(0);
 			}
 			players.set(0,curr);
+			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
 
@@ -200,6 +206,7 @@ public class World
 				curr.resetJumps();
 			}
 			players.set(0,curr);
+			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
 
@@ -231,17 +238,20 @@ public class World
 				curr.setVelX(0);
 			}
 			players.set(0,curr);
+			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_Q) //player 1 beam
 		{
+			blocks.remove(blocks.indexOf(pBlock));
 			Beam shot = new Beam(this, players.get(0), players.get(1));
 			players.get(0).setSize(players.get(0).getSize() - 1);
 			if(shot.trace()) {
 				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
 			players.get(0).setBeam(shot);
+			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 10;
 		}
 
@@ -252,11 +262,14 @@ public class World
 
 
 		}
+		blocks.remove(blocks.indexOf(pBlockTwo));
+		blocks.add(pBlock);
 
 		player = players.get(1);
 		if(keyId == GLFW.GLFW_KEY_UP && player.getNumJumps() > 0) //player 2
-		{
-			playerJump(player);
+		{			
+			playerJump(player);	
+			blocks.remove(blocks.indexOf(pBlock));		
 			return 1;
 			
 		}
@@ -292,6 +305,7 @@ public class World
 				curr.resetJumps();
 			}
 			players.set(1,curr);
+			blocks.remove(blocks.indexOf(pBlock));
 			return 1;
 		}
 
@@ -323,6 +337,7 @@ public class World
 				curr.setVelX(0);
 			}
 			players.set(1,curr);
+			blocks.remove(blocks.indexOf(pBlock));
 			return 1;
 		}
 
@@ -353,10 +368,12 @@ public class World
 				curr.setVelX(0);
 			}
 			players.set(1,curr);
+			blocks.remove(blocks.indexOf(pBlock));
 			return 1;
 		}
 		if(keyId == GLFW.GLFW_KEY_SLASH) //player 2 beam
 		{
+			blocks.remove(blocks.indexOf(pBlock));
 			Beam shot = new Beam(this, players.get(1), players.get(0));
 			players.get(1).setSize(players.get(1).getSize() - 1);
 			if(shot.trace()) {
@@ -370,8 +387,11 @@ public class World
 		{
 
 
-		}
-
+		}		
+		if(blocks.indexOf(pBlock) != -1)
+			blocks.remove(blocks.indexOf(pBlock));
+		if(blocks.indexOf(pBlockTwo) != -1)	
+			blocks.remove(blocks.indexOf(pBlockTwo));
 		return -1;
 	}
 	
