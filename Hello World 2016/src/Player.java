@@ -111,6 +111,11 @@ public class Player
 		return movement;
 	}
 	
+	public void setBeam(Beam b)
+	{
+		currentBeam = b;
+	}
+	
 	public Beam getBeam()
 	{
 		return currentBeam;
