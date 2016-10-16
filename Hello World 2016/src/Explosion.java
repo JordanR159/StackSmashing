@@ -49,8 +49,8 @@ public class Explosion extends Block
 			point1.x = 0;
 			point1.y = 0;
 			
-			point2.x = MathHelper.clamp(0, worldObj.getWidth(), pos.x + radius * axis.x);
-			point2.y = MathHelper.clamp(0, worldObj.getHeight(), pos.y + radius * axis.y);
+			point2.x = pos.x + radius * axis.x;
+			point2.y = pos.y + radius * axis.y;
 
 			for(int j = 0; j < worldObj.getBlocks().size() - 1; j++)
 			{

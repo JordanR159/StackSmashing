@@ -154,7 +154,7 @@ public class Renderer
 			
 			OpenGL.glColor(0, 0, 0, 1);
 
-			GL11.glLineWidth(1);
+			GL11.glLineWidth(2);
 			GL11.glBegin(GL11.GL_LINES);
 			while(!MathHelper.isEqual(Math.abs(endX - startX), 0))
 			{
@@ -171,7 +171,7 @@ public class Renderer
 			GL11.glBegin(GL11.GL_LINES);
 			double expX = player.getPosX() + player.getSize() / 2 + 8;
 			double expY = player.getPosY() + player.getSize() / 2 + 64;
-			double mul1 = Math.max(.96 - 10 * ticks, 0);
+			double mul1 = Math.max(.8 - 10 * ticks, 0);
 			double mul2 = 1 - 10 * ticks;
 			for(int i = 0; i < 360; i += 10)
 			{

@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import org.joml.Vector4d;
+
 public class WorldGenerator 
 {
 	public static ArrayList<Block> generateBlocks(World world, int width, int height, int numBlocks)
@@ -31,7 +33,12 @@ public class WorldGenerator
 			for(int j = 0; j < blocks.size(); j++)
 			{
 				Block collider = blocks.get(j);
-				if(CollisionHelper.colliding(block.getPosVector(), collider.getPosVector()))
+				Vector4d colVec = new Vector4d(collider.getPosVector());
+				colVec.x -= 20;
+				colVec.y -= 20;
+				colVec.z += 20;
+				colVec.w += 20;
+				if(CollisionHelper.colliding(block.getPosVector(), colVec))
 				{
 					notOverlapping = false;
 					j = blocks.size();
