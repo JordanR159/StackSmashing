@@ -19,7 +19,7 @@ public class Explosion
 	public double calcDamage(Player targ, ArrayList<Block> obstacles) {
 		int amountExposed = 0;
 		//bottom right corner
-		int bRightSlope = 
+		int bRightSlope = 0;
 		
 		/*if(newPos < check.getPosY() + check.getHeight() && 
 				newPos + curr.getSize() > check.getPosY() && 
@@ -27,7 +27,7 @@ public class Explosion
 				curr.getPosX() + curr.getSize() > check.getPosX()){
 					curr.setPosY(check.getPosY() + check.getHeight());*/
 		
-		return true;
+		return 0;
 	}
 
 }
