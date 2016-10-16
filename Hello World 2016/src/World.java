@@ -273,7 +273,8 @@ public class World
 			Player curr = players.get(1);
 			curr.setVelY(curr.getVelY()+10);
 			double newPos = curr.getVelY() + curr.getPosY();
-			if(newPos > 0 && newPos+curr.getSize() < height-100.00) {
+			if(newPos > 0 && newPos+curr.getSize() < height) {
+
 				boolean collided = false;
 				//block collision
 				int j;
@@ -281,15 +282,16 @@ public class World
 				{
 					if(checkCollision(curr, newPos, false, blocks.get(j))){
 						curr.setPosY(blocks.get(j).getPosY()-curr.getSize());
+						curr.setVelY(0);
 						curr.resetJumps();
 						collided = true;
 						break;
 					}
 				}
-				if(collided && j == blocks.indexOf(pBlock))
+				if(collided && j == blocks.indexOf(pBlockTwo))
 					players.get(1).setSize(25);
 				if(!collided)
-					curr.setPosY(newPos);
+					curr.setPosY(newPos);	
 			}
 			else if(newPos <= 0)
 			{
@@ -302,8 +304,8 @@ public class World
 				curr.setVelY(0);
 				curr.resetJumps();
 			}
-			players.set(1,curr);
-			blocks.remove(blocks.indexOf(pBlock));
+			players.set(0,curr);
+			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
 
