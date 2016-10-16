@@ -163,23 +163,24 @@ public class Renderer
 			}
 			GL11.glEnd();
 		}
-		if(Explosion.rayRadii != null)
+		if(player.getExplosion() != null)
 		{
+			Explosion explosion = player.getExplosion();
+			double ticks = player.getExplosionTicks();
 			OpenGL.glColor(0, 0, 0, 1);
 			GL11.glBegin(GL11.GL_LINES);
-			for(int i = 0; i < 360; i++)
+			double expX = player.getPosX() + player.getSize() / 2 + 8;
+			double expY = player.getPosY() + player.getSize() / 2 + 64;
+			double mul1 = Math.max(.96 - 10 * ticks, 0);
+			double mul2 = 1 - 10 * ticks;
+			for(int i = 0; i < 360; i += 10)
 			{
 				double rad = Math.toRadians(i);
-				double cos = Math.cos(rad) * Explosion.rayRadii[i];
-				double sin = Math.sin(rad) * Explosion.rayRadii[i];
+				double cos = Math.cos(rad) * explosion.getRadii(i);
+				double sin = Math.sin(rad) * explosion.getRadii(i);
 				
-				if(Explosion.rayRadii[i] > 0)
-				{
-					//System.out.println(Explosion.rayRadii[i] + " " + cos + " " + sin);
-				}
-				
-				GL11.glVertex3d(player.getPosX() + player.getSize() / 2 + 8, player.getPosY() + player.getSize() / 2 + 64, 30);
-				GL11.glVertex3d(player.getPosX() + player.getSize() / 2 + cos + 8, player.getPosY() + player.getSize() / 2 + 64 + sin, 30);
+				GL11.glVertex3d(expX + cos * mul1, expY + sin * mul1, 30);
+				GL11.glVertex3d(expX + cos * mul2, expY + sin * mul2, 30);
 			}
 			GL11.glEnd();
 		}
