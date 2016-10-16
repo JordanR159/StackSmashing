@@ -488,10 +488,10 @@ public class World
 	public void createBeam(Player player, Player playerTwo)
 	{
 		Beam shot = new Beam(this, player, playerTwo);
-		player.setSize(player.getSize() - .75);
+		player.setSize(player.getSize() - .25);
 		if(shot.trace()) 
 		{
-			playerTwo.setSize(playerTwo.getSize() - 2);
+			playerTwo.setSize(playerTwo.getSize() - 3);
 		}
 		player.setBeam(shot);
 	}
@@ -499,10 +499,10 @@ public class World
 	public void createExplosion(Player player, Player playerTwo)
 	{
 		Explosion explosion = new Explosion(this, player, playerTwo, 330d);
-		player.setSize(player.getSize() - 10);
+		player.setSize(player.getSize() - 8);
 		if(explosion.trace())
 		{
-			playerTwo.setSize(playerTwo.getSize() - explosion.getTargetDamage() / 2);
+			playerTwo.setSize(playerTwo.getSize() - (explosion.getTargetDamage()*2)/3);
 		}
 		player.setExplosion(explosion);
 	}
