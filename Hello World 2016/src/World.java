@@ -169,7 +169,7 @@ public class World
 				curr.setVelY(0);
 				curr.resetJumps();
 			}
-//			players.set(0,curr);
+			players.set(0,curr);
 			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
