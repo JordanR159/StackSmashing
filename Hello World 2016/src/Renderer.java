@@ -120,7 +120,7 @@ public class Renderer
 
 	public void drawPlayer(Player player, int playerId) 
 	{
-		double x = player.getPosX() + 64;
+		double x = player.getPosX() + 8;
 		double y = player.getPosY() + 64;
 		double size = player.getSize();
 		
