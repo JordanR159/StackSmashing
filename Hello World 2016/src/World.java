@@ -132,13 +132,14 @@ public class World
 							{
 								player.nullifyJumps();
 								player.setPosY(block.getPosY() + block.getHeight());
+								player.setVelY(player.getVelY() + 1);
 							}
 							else
 							{
 								player.resetJumps();
 								player.setPosY(block.getPosY() - player.getSize());
+								player.setVelY(0);
 							}
-							player.setVelY(0);
 							collided = true;
 							j = blocks.size();
 						}
@@ -251,8 +252,8 @@ public class World
 			}
 			if(keyId == GLFW.GLFW_KEY_SLASH) //player 2 beam
 			{
-				createBeam(player, playerTwo);
 				blocks.remove(blocks.indexOf(pBlock));
+				createBeam(player, playerTwo);
 				return 10;
 			}
 
@@ -371,10 +372,10 @@ public class World
 	public void createBeam(Player player, Player playerTwo)
 	{
 		Beam shot = new Beam(this, player, playerTwo);
-		player.setSize(player.getSize() - 1);
+		player.setSize(player.getSize() - .25);
 		if(shot.trace()) 
 		{
-			playerTwo.setSize(playerTwo.getSize() - 3);
+			playerTwo.setSize(playerTwo.getSize() - 1);
 		}
 		player.setBeam(shot);
 	}
@@ -382,10 +383,10 @@ public class World
 	public void createExplosion(Player player, Player playerTwo)
 	{
 		Explosion explosion = new Explosion(this, player, playerTwo, 500d);
-		player.setSize(player.getSize() - 10);
+		player.setSize(player.getSize() - 5);
 		if(explosion.trace())
 		{
-			playerTwo.setSize(playerTwo.getSize() - explosion.getTargetDamage());
+			playerTwo.setSize(playerTwo.getSize() - explosion.getTargetDamage() / 2);
 		}
 		player.setExplosion(explosion);
 	}

@@ -52,7 +52,7 @@ public class Explosion extends Block
 			point2.x = pos.x + radius * axis.x;
 			point2.y = pos.y + radius * axis.y;
 
-			for(int j = 0; j < worldObj.getBlocks().size() - 1; j++)
+			for(int j = 0; j < worldObj.getBlocks().size(); j++)
 			{
 				block = worldObj.getBlocks().get(j);
 

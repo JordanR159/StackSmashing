@@ -13,13 +13,13 @@ public class HelloApp extends Application
 	@Override
 	protected void init() 
 	{
-		setGui(new GuiGame(this));
+		setGui(new GuiMainMenu(this));
 	}
 
 	@Override
 	public long createWindow() 
 	{
-		return Window.createAndCenter(640, 480, "Hello World 2016", 0);
+		return Window.createAndCenter(1080, 640, "STACK SMASHING", 0);
 	}
 
 }
