@@ -490,7 +490,7 @@ public class World
 	public void createBeam(Player player, Player playerTwo)
 	{
 		Beam shot = new Beam(this, player, playerTwo);
-		player.setSize(player.getSize() - .25);
+		player.setSize(player.getSize() - .25);//
 		if(shot.trace()) 
 		{
 			playerTwo.setSize(playerTwo.getSize() - 3);
