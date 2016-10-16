@@ -208,7 +208,7 @@ public class Explosion
 			amountExposed++;
 		}
 		
-		return amountExposed*baseDamage;
+		return amountExposed*baseDamage;//
 	}
 	
 	public double getUserDamage() {
