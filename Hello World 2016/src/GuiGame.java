@@ -70,6 +70,8 @@ public class GuiGame extends GuiScreen
 	
 	public int keyHeld(int keyId, int called, int mods)
 	{
+		if(keyId >= 'A' && keyId <= 'Z')
+			keyId -= 32;
 		return world.keyHeld(keyId, called, mods);
 	}
 
