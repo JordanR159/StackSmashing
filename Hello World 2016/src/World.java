@@ -145,9 +145,7 @@ public class World
 					}
 				}
 				if(!collided)
-					curr.setPosY(newPos);
-				
-				
+					curr.setPosY(newPos);	
 			}
 			else if(newPos <= 0)
 			{
@@ -201,6 +199,15 @@ public class World
 				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
 		}
+		
+		if(keyId == GLFW.GLFW_KEY_TAB) //player 1 explosion
+		{
+			
+			
+			
+			
+		}
+		
 		if(keyId == GLFW.GLFW_KEY_UP) //player 2
 		{
 			Player curr = players.get(1);
@@ -334,13 +341,19 @@ public class World
 				curr.setPosX(width-curr.getSize());
 			players.set(1,curr);
 		}
-		if(keyId == GLFW.GLFW_KEY_SLASH) // player 2 beam
+		if(keyId == GLFW.GLFW_KEY_SLASH) //player 2 beam
 		{
 			Beam shot = new Beam(players.get(1));
 			players.get(1).setSize(players.get(1).getSize() - 1);
 			if(shot.isOnTarget(players.get(0), blocks)) {
 				players.get(0).setSize(players.get(0).getSize() - 3);
 			}
+		}
+		
+		if(keyId == GLFW.GLFW_KEY_PERIOD) //player 2 explosion
+		{
+			
+			
 		}
 			
 		//gravity for both players
