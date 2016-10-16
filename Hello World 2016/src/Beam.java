@@ -11,7 +11,7 @@ public class Beam
 	{
 		startX = shooter.getPosX();
 		startY = shooter.getPosY()+shooter.getSize()/2;
-		double vx = shooter.getVelocityX();
+		double vx = shooter.getVelX();
 		if(vx > 0)
 			toRight = true;
 		else if(vx < 0)

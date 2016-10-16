@@ -28,12 +28,12 @@ public class Player
 		return pos.z;
 	}
 	
-	public double getVelocityX()
+	public double getVelX()
 	{
 		return movement.x;
 	}
 	
-	public double getVelocityY()
+	public double getVelY()
 	{
 		return movement.y;
 	}
@@ -63,12 +63,12 @@ public class Player
 		pos.z = s;
 	}
 	
-	public void setVelocityX(double vx)
+	public void setVelX(double vx)
 	{
 		movement.x = vx;		
 	}
 	
-	public void setVelocityY(double vy)
+	public void setVelY(double vy)
 	{
 		movement.y = vy;
 	}
@@ -92,6 +92,5 @@ public class Player
 	{
 		numJumps = 0;
 	}
-
 
 }
