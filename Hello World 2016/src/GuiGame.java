@@ -55,6 +55,10 @@ public class GuiGame extends GuiScreen
 	public void update(double delta)
 	{
 		world.update(delta);
+		if(world.getLoser() > -1)
+		{
+			application.setGui(new GuiEndGame(application, world.getLoser(), renderer.getPlayer((world.getLoser() + 1) % 2)));
+		}
 	}
 	
 	public int keyPressed(int keyId, int mods)

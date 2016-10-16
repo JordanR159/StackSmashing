@@ -48,7 +48,7 @@ public class Beam extends Block
 		}
 		
 		pos.z -= pos.x;
-		
+				
 		if(CollisionHelper.colliding(pos, target.pos))
 		{
 			if(toRight)
