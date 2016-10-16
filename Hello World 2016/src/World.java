@@ -19,13 +19,17 @@ public class World
 
 	public void setPlayers(int numPlayers)
 	{
-		for(int i = 0; i < numPlayers; i++)
+		Player one = new Player(100.00, height-100.00, 100.00);
+		Player two = new Player(width-100.00, height-100.00, 100.00);
+		players.add(one);
+		players.add(two);
+		/*for(int i = 0; i < numPlayers; i++)
 		{
 			double posX = (width*(i+1))/(numPlayers+1)-50.00;
 			double posY = height-100.00;
 			Player curr = new Player(posX,posY,100.00);
 			players.add(curr);
-		}
+		}*/
 	}
 
 	public double getWidth()
