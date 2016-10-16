@@ -40,7 +40,7 @@ public class HUD extends GuiScreen
 		double player1 = world.getPlayers().get(0).getSize() - 25;
 		double player2 = world.getPlayers().get(1).getSize() - 25;
 		
-		double breakerX = (defaultFont.getTextWidth(" :  ", 64)) / 2 - 12.5;
+		double breakerX = (defaultFont.getTextWidth(" :   ", 64)) / 2 - 12.5;
 		double rightX = defaultFont.getTextWidth(sizeFormat.format(Math.max(player1 / .75, 0)), 64);
 		
 		OpenGL.glColor(1d, 1d, 1d, 1d);
