@@ -143,6 +143,7 @@ public class World
 				if(checkCollision(curr, newPos, true)){
 					curr.setPosX(collidedBlock.getPosX()+collidedBlock.getWidth());
 					curr.setVelX(0);
+					collided = true;
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -175,6 +176,7 @@ public class World
 					curr.setPosY(collidedBlock.getPosY());
 					curr.setVelY(0);
 					curr.resetJumps();
+					collided = true;
 				}
 				if(!collided)
 					curr.setPosY(newPos);	
@@ -202,16 +204,10 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-							curr.getPosY() + curr.getSize() > check.getPosY() && 
-							newPos < check.getPosX()+check.getWidth() && 
-							newPos + curr.getSize() > check.getPosX()){
-						curr.setPosX(check.getPosX()-curr.getSize());
-						collided = true;
-					}
+				if(checkCollision(curr, newPos, true)){
+					curr.setPosX(collidedBlock.getPosX()-curr.getSize());
+					curr.setVelX(0);
+					collided = true;
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -235,7 +231,7 @@ public class World
 		{
 			Beam shot = new Beam(this, players.get(0), players.get(1));
 			players.get(0).setSize(players.get(0).getSize() - 1);
-			if(shot.isOnTarget(players.get(1), blocks)) {
+			if(shot.trace()) {
 				players.get(1).setSize(players.get(1).getSize() - 3);
 			}
 			players.get(0).setBeam(shot);
@@ -337,16 +333,10 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-							curr.getPosY() + curr.getSize() > check.getPosY() && 
-							newPos < check.getPosX()+check.getWidth() && 
-							newPos + curr.getSize() > check.getPosX()){
-						curr.setPosX(check.getPosX()+check.getWidth());
-						collided = true;
-					}
+				if(checkCollision(curr, newPos, true)){
+					curr.setPosX(collidedBlock.getPosX()+collidedBlock.getWidth());
+					curr.setVelX(0);
+					collided = true;
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -374,17 +364,7 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-							curr.getPosY() + curr.getSize() > check.getPosY() && 
-							newPos < check.getPosX()+check.getWidth() && 
-							newPos + curr.getSize() > check.getPosX()){
-						curr.setPosX(check.getPosX()-curr.getSize());
-						collided = true;
-					}
-				}
+			
 				if(!collided)
 					curr.setPosX(newPos);
 			}
@@ -405,7 +385,7 @@ public class World
 		{
 			Beam shot = new Beam(this, players.get(1), players.get(0));
 			players.get(1).setSize(players.get(1).getSize() - 1);
-			if(shot.isOnTarget(players.get(0), blocks)) {
+			if(shot.trace()) {
 				players.get(0).setSize(players.get(0).getSize() - 3);
 			}
 			players.get(1).setBeam(shot);
