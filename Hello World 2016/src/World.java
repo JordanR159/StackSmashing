@@ -3,8 +3,8 @@ import org.lwjgl.glfw.GLFW;
 
 public class World 
 {
-	private double width;
-	private double height;
+	private int width;
+	private int height;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
 	private Beam projectile = null;
@@ -14,7 +14,7 @@ public class World
 		width = 1902;
 		height = 950;
 		setPlayers(numPlayers);
-		blocks = WorldGenerator.generateBlocks(numBlocks);
+		blocks = WorldGenerator.generateBlocks(width, height, numBlocks);
 	}
 
 	public void setPlayers(int numPlayers)

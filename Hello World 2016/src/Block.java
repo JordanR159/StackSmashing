@@ -1,36 +1,42 @@
+import org.joml.Vector4d;
 
 public class Block 
 {
-	private double posX;
-	private double posY;
-	private double width;
-	private double height;
+	
+	private Vector4d pos;
 	
 	public Block(double x, double y, double w, double h)
 	{
-		posX = x;
-		posY = y;
-		width = w;
-		height = h;
+		pos = new Vector4d(x, y, w, h);
 	}
 	
 	public double getPosX()
 	{
-		return posX;
+		return pos.x;
 	}
 	
 	public double getPosY()
 	{
-		return posY;
+		return pos.y;
 	}
 	
 	public double getWidth()
 	{
-		return width;
+		return pos.z;
 	}
 	
 	public double getHeight()
 	{
-		return height;
+		return pos.w;
+	}
+
+	public Vector4d getVector()
+	{
+		return pos;
+	}
+	
+	public String toString()
+	{
+		return "x:" + getPosX() + " y:" + getPosY() + " width:" + getWidth() + " height:" + getHeight();
 	}
 }
