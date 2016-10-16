@@ -50,7 +50,7 @@ public class World
 
 	public void update(double delta)
 	{
-		//gravity for both playersss
+		//gravity for both players
 		if(loser == -1)
 		{
 			Player player;
@@ -332,12 +332,6 @@ public class World
 		player.setVelY(-50);
 	}
 
-	public int keyHeld(int keyId, int called, int mods)
-	{
-		
-		return keyPressed(keyId,mods);
-	}
-
 	public ArrayList<Player> getPlayers()
 	{
 		return players;
@@ -350,45 +344,17 @@ public class World
 
 	public void moveLeft(Player curr)
 	{
-		boolean collided = false;
-		curr.setVelX(curr.getVelX() - 5);
-		double newPos = curr.getVelX() + curr.getPosX();
-		if(newPos > 0 && newPos+curr.getSize() < width) {
-
-			//block collisions
-			for(int j = 0; j < blocks.size(); j++)
-			{
-				if(checkCollision(curr, newPos, true, blocks.get(j))){
-					curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
-					curr.setVelX(0);
-					collided = true;
-					break;
-				}
-			}
-			if(!collided)
-				curr.setPosX(newPos);
-
-		}
-		else if(newPos <= 0)
-		{
-			curr.setPosX(0);
-			curr.setVelX(0);
-		}
-		else
-		{
-			curr.setPosX(width-curr.getSize());
-			curr.setVelX(0);
-		}
+		curr.setVelX(curr.getVelX() - 25);
 	}
 
 	public void moveRight(Player curr)
 	{
-		curr.setVelX(curr.getVelX() + 10);
+		curr.setVelX(curr.getVelX() + 25);
 	}
 	
 	public void dashLeft(Player curr)
 	{
-		curr.setVelX(curr.getVelX() - 20);
+		curr.setVelX(curr.getVelX() - 40);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -427,7 +393,7 @@ public class World
 	
 	public void dashRight(Player curr)
 	{
-		curr.setVelX(curr.getVelX() + 20);
+		curr.setVelX(curr.getVelX() + 40);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -504,17 +470,17 @@ public class World
 	public void createBeam(Player player, Player playerTwo)
 	{
 		Beam shot = new Beam(this, player, playerTwo);
-		player.setSize(player.getSize() - .25);
+		player.setSize(player.getSize() - .75);
 		if(shot.trace()) 
 		{
-			playerTwo.setSize(playerTwo.getSize() - 1);
+			playerTwo.setSize(playerTwo.getSize() - 2);
 		}
 		player.setBeam(shot);
 	}
 	
 	public void createExplosion(Player player, Player playerTwo)
 	{
-		Explosion explosion = new Explosion(this, player, playerTwo, 300d);
+		Explosion explosion = new Explosion(this, player, playerTwo, 330d);
 		player.setSize(player.getSize() - 10);
 		if(explosion.trace())
 		{
