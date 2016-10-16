@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import org.lwjgl.glfw.GLFW;
 
 public class World 
