@@ -237,40 +237,40 @@ public class World
 
 			player = playerTwo;
 			playerTwo = players.get(0);
-			if(keyId == GLFW.GLFW_KEY_UP && player.getNumJumps() > 0) //player 2
+			if(keyId == GLFW.GLFW_KEY_I && player.getNumJumps() > 0) //player 2
 			{	
 				playerJump(player);	
 				blocks.remove(blocks.indexOf(pBlock));		
 				return 20;
 			}
 
-			if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
+			if(keyId == GLFW.GLFW_KEY_K) //player 2
 			{
 				slam(player);
 				blocks.remove(blocks.indexOf(pBlock));
 				return 1;
 			}
 
-			if(keyId == GLFW.GLFW_KEY_LEFT) //player 2
+			if(keyId == GLFW.GLFW_KEY_J) //player 2
 			{
 				moveLeft(player);
 				blocks.remove(blocks.indexOf(pBlock));
 				return 1;
 			}
 
-			if(keyId == GLFW.GLFW_KEY_RIGHT) //player 2
+			if(keyId == GLFW.GLFW_KEY_L) //player 2
 			{
 				moveRight(player);
 				blocks.remove(blocks.indexOf(pBlock));
 				return 1;
 			}
-			if(keyId == GLFW.GLFW_KEY_N) //player 2 beam
+			if(keyId == GLFW.GLFW_KEY_U) //player 2 beam
 			{
 				blocks.remove(blocks.indexOf(pBlock));
 				createBeam(player, playerTwo);
 				return 10;
 			}
-			if(keyId == GLFW.GLFW_KEY_M) //player 2 explosion
+			if(keyId == GLFW.GLFW_KEY_O) //player 2 explosion
 
 			{
 				blocks.remove(blocks.indexOf(pBlock));
@@ -311,13 +311,13 @@ public class World
 		blocks.remove(blocks.indexOf(pBlockTwo));
 		blocks.add(pBlock);
 		
-		if(keyId == GLFW.GLFW_KEY_LEFT){
+		if(keyId == GLFW.GLFW_KEY_J){
 			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
 				dashLeft(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
-		if(keyId == GLFW.GLFW_KEY_RIGHT){
+		if(keyId == GLFW.GLFW_KEY_L){
 			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
 				dashRight(players.get(1));
 			}
