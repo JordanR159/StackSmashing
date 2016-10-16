@@ -1,3 +1,4 @@
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import com.polaris.engine.App;
@@ -90,6 +91,15 @@ public class GuiMainMenu extends GuiScreen
 			}
 		}
 		return true;
+	}
+	
+	public int keyPressed(int keyId, int mods)
+	{
+		if(keyId == GLFW.GLFW_KEY_ENTER)
+		{
+			application.setGui(new GuiGame(application));
+		}
+		return super.keyPressed(keyId, mods);
 	}
 
 }

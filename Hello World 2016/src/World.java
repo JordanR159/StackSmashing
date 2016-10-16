@@ -280,25 +280,26 @@ public class World
 	public void keyRelease(int keyId, int mods)
 	{
 		if(keyId == GLFW.GLFW_KEY_A){
-			if(System.currentTimeMillis() - timeA <= 100){ //dash
+			if(System.currentTimeMillis() - timeA <= 200){ //dash
+				System.out.println();
 				dashLeft(players.get(0));
 			}
 			timeA = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
-			if(System.currentTimeMillis() - timeD <= 100){ //dash
+			if(System.currentTimeMillis() - timeD <= 200){ //dash
 				dashLeft(players.get(0));
 			}
 			timeD = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_LEFT){
-			if(System.currentTimeMillis() - timeLeft <= 100){ //dash
+			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
 				dashLeft(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_RIGHT){
-			if(System.currentTimeMillis() - timeLeft <= 100){ //dash
+			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
 				dashLeft(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
