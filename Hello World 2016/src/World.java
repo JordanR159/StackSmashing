@@ -50,7 +50,7 @@ public class World
 
 	public void update(double delta)
 	{
-		//gravity for both playerss
+		//gravity for both playersss
 		if(loser == -1)
 		{
 			Player player;
