@@ -10,6 +10,7 @@ public class World
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
 	private Block collidedBlock;
+	private int loser = -1;
 
 	public World(int numPlayers, int numBlocks)
 	{
@@ -47,9 +48,16 @@ public class World
 	public void update(double delta)
 	{
 		//gravity for both players
+		if(loser == -1)
+		{
 		for(int i = 0; i < players.size(); i++)
 		{
 			Player fall = players.get(i);
+			if(fall.getSize() <= 25)
+			{
+				loser = i;
+				break;
+			}
 			Player other = players.get(players.size()-i-1);
 			fall.update(delta);
 			Block pBlock = new Block(this,other.getPosX(),other.getPosY(),other.getSize(),other.getSize());
@@ -94,10 +102,13 @@ public class World
 			}		
 			blocks.remove(blocks.indexOf(pBlock));
 		}
+		}
 
 	}
 	public int keyPressed(int keyId, int mods)
 	{
+		if(loser == -1)
+		{
 		Player player = players.get(0);
 		Player playerTwo = players.get(1);
 		Block pBlock = new Block(this,player.getPosX(),player.getPosY(),player.getSize(),player.getSize());
@@ -357,6 +368,8 @@ public class World
 			blocks.remove(blocks.indexOf(pBlock));
 		if(blocks.indexOf(pBlockTwo) != -1)	
 			blocks.remove(blocks.indexOf(pBlockTwo));
+		
+		}
 		return -1;
 	}
 	
