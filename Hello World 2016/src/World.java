@@ -359,7 +359,7 @@ public class World
 					curr.setVelY(0);
 					curr.resetJumps();
 					collided = true;
-					break;
+					break;//
 				}
 			}
 			if(collided && j == blocks.size()-1)
