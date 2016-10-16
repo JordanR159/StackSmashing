@@ -3,21 +3,28 @@ import java.util.ArrayList;
 public class Beam extends Block
 {
 	private boolean toRight;
+	private Player source;
+	private Player target;
 	
-	public Beam(World world, Player shooter, Player target)
+	public Beam(World world, Player s, Player t)
 	{
-		super(world, shooter.getPosX(), shooter.getPosY(), target.getPosX(), target.getPosY());
-		pos.x += shooter.getSize() / 2;
-		pos.y += shooter.getSize() / 2;
-		pos.z += target.getSize() / 2;
-		pos.w += target.getSize() / 2;
-		if(shooter.getPosX() > target.getPosX())
+		super(world, s.getPosX(), s.getPosY(), t.getPosX(), t.getPosY());
+		
+		source = s;
+		target = t;
+		
+		pos.x += s.getSize() / 2;
+		pos.y += s.getSize() / 2;
+		pos.z += t.getSize() / 2;
+		pos.w += t.getSize() / 2;
+		
+		if(s.getPosX() > t.getPosX())
 			toRight = false;
 		else
 			toRight = true;
 	}
 	
-	public boolean isOnTarget(Player def, ArrayList<Block> obstacles)
+	public boolean trace()
 	{
 		if(toRight)
 		{

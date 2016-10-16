@@ -134,9 +134,9 @@ public class Renderer
 		Beam beam = player.getBeam();
 		if(beam != null)
 		{
-			double startX = beam.getStartX();
-			double baseY = beam.getStartY();
-			double endX = beam.getEndX(); 
+			double startX = beam.getPosVector().x;
+			double baseY = beam.getPosVector().y;
+			double endX = beam.getPosVector().z; 
 			
 			double startY = 0;
 			double nextX = 0;

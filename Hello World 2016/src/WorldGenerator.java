@@ -31,7 +31,7 @@ public class WorldGenerator
 			for(int j = 0; j < blocks.size(); j++)
 			{
 				Block collider = blocks.get(j);
-				if(!CollisionHelper.notColliding(block.getPosVector(), collider.getPosVector()))
+				if(CollisionHelper.colliding(block.getPosVector(), collider.getPosVector()))
 				{
 					notOverlapping = false;
 					j = blocks.size();
