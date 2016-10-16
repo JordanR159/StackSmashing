@@ -42,7 +42,7 @@ public class GuiEndGame extends GuiScreen
 		GL11.glEnd();
 	}
 	
-	public void update(double delta)
+	public void update(double delta)//
 	{
 		ticks = MathHelper.getExpValue(ticks, toTicks, 2, delta);
 		if(MathHelper.isEqual(ticks, toTicks) && current != words.length)
