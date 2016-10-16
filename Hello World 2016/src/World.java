@@ -61,7 +61,7 @@ public class World
 			double newPos = fall.getVelY() + fall.getPosY();
 			if(newPos > 0 && newPos+fall.getSize() < height) {
 				boolean collided = false;
-				//block collision	
+				//block collisions	
 				if(checkCollision(fall, newPos, false)){
 					if(fall.getVelY() < 0) {
 						fall.setVelY(0);
