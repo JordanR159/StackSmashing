@@ -224,11 +224,11 @@ public class World
 			return 10;
 		}
 
-		if(keyId == GLFW.GLFW_KEY_TAB) //player 1 explosion
+		if(keyId == GLFW.GLFW_KEY_E) //player 1 explosion
 		{
 
-
-
+			Explosion explosion = new Explosion(this, players.get(0), players.get(1), 10d);
+			System.out.println(explosion.trace() + " " + explosion.getTargetDamage());
 
 		}
 		blocks.remove(blocks.indexOf(pBlockTwo));
