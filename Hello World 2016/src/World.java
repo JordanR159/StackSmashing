@@ -339,15 +339,19 @@ public class World
 
 			boolean collided = false;
 			//block collision
-			for(int j = 0; j < blocks.size(); j++)
+			int j;
+			for(j = 0; j < blocks.size(); j++)
 			{
 				if(checkCollision(curr, newPos, false, blocks.get(j))){
 					curr.setPosY(blocks.get(j).getPosY() - curr.getHeight());
 					curr.setVelY(0);
 					curr.resetJumps();
 					collided = true;
+					break;
 				}
 			}
+			if(collided && j == blocks.size()-1)
+				players.get(players.size()-players.indexOf(curr)-1).setSize(25);
 			if(!collided)
 				curr.setPosY(newPos);	
 		}
