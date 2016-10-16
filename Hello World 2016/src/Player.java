@@ -1,5 +1,4 @@
 import org.joml.Vector3d;
-import org.joml.Vector4d;
 
 public class Player extends Block
 {
@@ -66,6 +65,11 @@ public class Player extends Block
 	public int getNumJumps()
 	{
 		return numJumps;
+	}
+	
+	public double getBeamTicks()
+	{
+		return beamTicks;
 	}
 	
 	public void setSize(double s)

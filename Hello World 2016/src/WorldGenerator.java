@@ -7,10 +7,10 @@ public class WorldGenerator
 		ArrayList<Block> blocks = new ArrayList<Block>();
 		
 		int baseX = width % 10 / 2 + 100;
-		int baseY = height % 10 / 2 + 10;
+		int baseY = height % 10 / 2 + 100;
 		
 		width -= baseX + baseX;
-		height -= baseY + 200;
+		height -= baseY + 100;
 		
 		double blockX, blockY, blockWidth, blockHeight;
 		boolean notOverlapping = true;
