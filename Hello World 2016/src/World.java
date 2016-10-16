@@ -279,30 +279,41 @@ public class World
 	
 	public void keyRelease(int keyId, int mods)
 	{
+		Player player = players.get(0);
+		Player playerTwo = players.get(1);
+		Block pBlock = new Block(this,player.getPosX(),player.getPosY(),player.getSize(),player.getSize());
+		Block pBlockTwo = new Block(this,playerTwo.getPosX(),playerTwo.getPosY(),playerTwo.getSize(),playerTwo.getSize());
+		blocks.add(pBlockTwo);
+		
 		if(keyId == GLFW.GLFW_KEY_A){
-			if(System.currentTimeMillis() - timeA <= 100){ //dash
+			if(System.currentTimeMillis() - timeA <= 1000){ //dash
 				dashLeft(players.get(0));
 			}
 			timeA = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
-			if(System.currentTimeMillis() - timeD <= 100){ //dash
-				dashLeft(players.get(0));
+			if(System.currentTimeMillis() - timeD <= 1000){ //dash
+				dashRight(players.get(0));
 			}
 			timeD = System.currentTimeMillis();
 		}
+		
+		blocks.remove(blocks.indexOf(pBlockTwo));
+		blocks.add(pBlock);
+		
 		if(keyId == GLFW.GLFW_KEY_LEFT){
-			if(System.currentTimeMillis() - timeLeft <= 100){ //dash
+			if(System.currentTimeMillis() - timeLeft <= 1000){ //dash
 				dashLeft(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_RIGHT){
-			if(System.currentTimeMillis() - timeLeft <= 100){ //dash
-				dashLeft(players.get(1));
+			if(System.currentTimeMillis() - timeLeft <= 1000){ //dash
+				dashRight(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
+		blocks.remove(blocks.indexOf(pBlock));
 	}
 
 
@@ -331,11 +342,11 @@ public class World
 		player.setVelY(-50);
 	}
 
-	public int keyHeld(int keyId, int called, int mods)
-	{
-		
-		return keyPressed(keyId,mods);
-	}
+//	public int keyHeld(int keyId, int called, int mods)
+//	{
+//		
+//		return keyPressed(keyId,mods);
+//	}
 
 	public ArrayList<Player> getPlayers()
 	{
@@ -349,45 +360,17 @@ public class World
 
 	public void moveLeft(Player curr)
 	{
-		boolean collided = false;
-		curr.setVelX(curr.getVelX() - 5);
-		double newPos = curr.getVelX() + curr.getPosX();
-		if(newPos > 0 && newPos+curr.getSize() < width) {
-
-			//block collisions
-			for(int j = 0; j < blocks.size(); j++)
-			{
-				if(checkCollision(curr, newPos, true, blocks.get(j))){
-					curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
-					curr.setVelX(0);
-					collided = true;
-					break;
-				}
-			}
-			if(!collided)
-				curr.setPosX(newPos);
-
-		}
-		else if(newPos <= 0)
-		{
-			curr.setPosX(0);
-			curr.setVelX(0);
-		}
-		else
-		{
-			curr.setPosX(width-curr.getSize());
-			curr.setVelX(0);
-		}
+		curr.setVelX(curr.getVelX() - 25);
 	}
 
 	public void moveRight(Player curr)
 	{
-		curr.setVelX(curr.getVelX() + 10);
+		curr.setVelX(curr.getVelX() + 25);
 	}
 	
 	public void dashLeft(Player curr)
 	{
-		curr.setVelX(curr.getVelX() - 20);
+		curr.setVelX(curr.getVelX() - 50);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -405,8 +388,7 @@ public class World
 			}
 			if(collided && j == blocks.size()-1){
 				//damage other player 15 and knockback
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 15);
-				players.get(players.size()-players.indexOf(curr)-1).setVelX(players.get(players.size()-players.indexOf(curr)-1).getVelX() - 10);
+				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 5);
 			}
 			if(!collided)
 				curr.setPosX(newPos);	
@@ -426,7 +408,7 @@ public class World
 	
 	public void dashRight(Player curr)
 	{
-		curr.setVelX(curr.getVelX() + 20);
+		curr.setVelX(curr.getVelX() + 50);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
@@ -444,8 +426,7 @@ public class World
 			}
 			if(collided && j == blocks.size()-1){
 				//damage other player 15 and knockback
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 15);
-				players.get(players.size()-players.indexOf(curr)-1).setVelX(players.get(players.size()-players.indexOf(curr)-1).getVelX() - 10);
+				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 5);
 			}
 			if(!collided)
 				curr.setPosX(newPos);	
