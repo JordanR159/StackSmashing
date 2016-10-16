@@ -1,16 +1,12 @@
-import org.joml.Vector4d;
-
 public class Beam extends Block
 {
 	private boolean toRight;
-	private Player source;
 	private Player target;
 
 	public Beam(World world, Player s, Player t)
 	{
 		super(world, s.getPosX(), s.getPosY(), t.getPosX(), t.getPosY());
 
-		source = s;
 		target = t;
 
 		pos.x += s.getSize() / 2;
@@ -69,6 +65,11 @@ public class Beam extends Block
 		}
 		
 		return false;
+	}
+	
+	public boolean isRight()
+	{
+		return toRight;
 	}
 
 }
