@@ -9,7 +9,6 @@ public class World
 	private int height;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
-	private Block collidedBlock;
 	private int loser = -1;
 
 	public World(int numPlayers, int numBlocks)
@@ -27,7 +26,7 @@ public class World
 		players.add(one);
 		players.add(two);
 		/*for(int i = 0; i < numPlayers; i++)
-		{
+		{s
 			double posX = (width*(i+1))/(numPlayers+1)-50.00;
 			double posY = height-100.00;
 			Player curr = new Player(posX,posY,100.00);
@@ -73,18 +72,21 @@ public class World
 			if(newPos > 0 && newPos+fall.getSize() < height) {
 				boolean collided = false;
 				//block collisions	
-				if(checkCollision(fall, newPos, false)){
-					if(fall.getVelY() < 0) {
-						fall.setVelY(0);
-						fall.nullifyJumps();
-						fall.setPosY(collidedBlock.getPosY() + collidedBlock.getHeight());
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					if(checkCollision(fall, newPos, false, blocks.get(j))){
+						if(fall.getVelY() < 0) {
+							fall.setVelY(0);
+							fall.nullifyJumps();
+							fall.setPosY(blocks.get(j).getPosY() + blocks.get(j).getHeight());
+						}
+						else {
+							fall.resetJumps();
+							fall.setPosY(blocks.get(j).getPosY() - fall.getSize());
+							fall.setVelY(0);
+						}
+						collided = true;
 					}
-					else {
-						fall.resetJumps();
-						fall.setPosY(collidedBlock.getPosY() - fall.getSize());
-						fall.setVelY(0);
-					}
-					collided = true;
 				}
 				if(!collided)
 					fall.setPosY(newPos);
@@ -132,10 +134,13 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 
 				//block collisions
-				if(checkCollision(curr, newPos, true)){
-					curr.setPosX(collidedBlock.getPosX()+collidedBlock.getWidth());
-					curr.setVelX(0);
-					collided = true;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					if(checkCollision(curr, newPos, true, blocks.get(j))){
+						curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
+						curr.setVelX(0);
+						collided = true;
+					}
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -165,11 +170,14 @@ public class World
 
 				boolean collided = false;
 				//block collision
-				if(checkCollision(curr, newPos, false)){
-					curr.setPosY(collidedBlock.getPosY());
-					curr.setVelY(0);
-					curr.resetJumps();
-					collided = true;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					if(checkCollision(curr, newPos, false, blocks.get(j))){
+						curr.setPosY(blocks.get(j).getPosY());
+						curr.setVelY(0);
+						curr.resetJumps();
+						collided = true;
+					}
 				}
 				if(!collided)
 					curr.setPosY(newPos);	
@@ -198,10 +206,13 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-				if(checkCollision(curr, newPos, true)){
-					curr.setPosX(collidedBlock.getPosX()-curr.getSize());
-					curr.setVelX(0);
-					collided = true;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					if(checkCollision(curr, newPos, true, blocks.get(j))){
+						curr.setPosX(blocks.get(j).getPosX()-curr.getSize());
+						curr.setVelX(0);
+						collided = true;
+					}
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -261,10 +272,13 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < height-100.00) {
 				boolean collided = false;
 				//block collision
-				if(checkCollision(curr, newPos, false)){
-					curr.setPosY(collidedBlock.getPosY());
-					curr.resetJumps();
-					collided = true;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					if(checkCollision(curr, newPos, false, blocks.get(j))){
+						curr.setPosY(blocks.get(j).getPosY());
+						curr.resetJumps();
+						collided = true;
+					}
 				}
 				if(!collided)
 					curr.setPosY(newPos);
@@ -293,10 +307,13 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-				if(checkCollision(curr, newPos, true)){
-					curr.setPosX(collidedBlock.getPosX()+collidedBlock.getWidth());
-					curr.setVelX(0);
-					collided = true;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					if(checkCollision(curr, newPos, true, blocks.get(j))){
+						curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
+						curr.setVelX(0);
+						collided = true;
+					}
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -325,10 +342,13 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-				if(checkCollision(curr, newPos, true)){
-					curr.setPosX(collidedBlock.getPosX()-curr.getSize());
-					curr.setVelX(0);
-					collided = true;
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					if(checkCollision(curr, newPos, true, blocks.get(j))){
+						curr.setPosX(blocks.get(j).getPosX()-curr.getSize());
+						curr.setVelX(0);
+						collided = true;
+					}
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -373,12 +393,11 @@ public class World
 		return -1;
 	}
 	
-	private boolean checkCollision(Player player, double newPos, boolean x)
+	private boolean checkCollision(Player player, double newPos, boolean x, Block check)
 	{
 		boolean collided = false;
 		if(newPos > 0 && newPos + player.getSize() < height)
 		{
-			Block block;
 			Vector4d newVecPos = new Vector4d(player.getPosVector());
 			
 			if(x)
@@ -386,15 +405,8 @@ public class World
 			else
 				newVecPos.y = newPos;
 			
-			for(int j = 0; j < blocks.size(); j++)
-			{
-				block = blocks.get(j);
-				if(CollisionHelper.colliding(newVecPos, block.getPosVector()))
-				{
-					collided = true;
-					collidedBlock = block;
-				}
-			}
+			if(CollisionHelper.colliding(newVecPos, check.getPosVector()))
+				collided = true;	
 		}
 		return collided;
 	}
@@ -467,7 +479,7 @@ if(newPos > 0 && newPos+curr.getSize() < height-100.00) {
 	boolean collided = false;
 	//block collision
 	if(checkCollision(curr, newPos, false)){
-		curr.setPosY(collidedBlock.getPosY());
+		curr.setPosY(blocks.get(j).getPosY());
 		curr.resetJumps();
 		collided = true;
 	}
