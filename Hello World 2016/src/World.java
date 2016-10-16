@@ -98,8 +98,15 @@ public class World
 							newPos + fall.getSize() > check.getPosY() && 
 							fall.getPosX() < check.getPosX()+check.getWidth() && 
 							fall.getPosX() + fall.getSize() > check.getPosX()){
-						fall.setPosY(check.getPosY()+fall.getSize());
-						fall.resetJumps();
+						
+						if(fall.getVelY() < 0) {
+							fall.nullifyJumps();
+							fall.setPosY(check.getPosY() + check.getHeight());
+						}
+						else {
+							fall.resetJumps();
+							fall.setPosY(check.getPosY()+fall.getSize());
+						}
 						collided = true;//
 					}
 				}
@@ -397,7 +404,7 @@ public class World
 	private void playerJump(Player player) 
 	{
 		player.useJump();
-		player.setVelY(-40);
+		player.setVelY(-60);
 	}
 
 	public int keyHeld(int keyId, int called, int mods)
