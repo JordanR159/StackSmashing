@@ -1,3 +1,4 @@
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import com.polaris.engine.Application;
@@ -32,24 +33,32 @@ public class GuiEndGame extends GuiScreen
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		Texture.glBindTexture("font:basic");
 		OpenGL.glColor(1, .6, 0, 1);
-		OpenGL.glBegin();
 		for(int i = 0; i < current - 1; i++)
 		{
 			font.drawString(words[i], x, 400, 0, 96);
 			x += font.getTextWidth(words[i], 96);
 		}
 		font.drawString(words[current - 1], x, ticks, 0, 96);
-		GL11.glEnd();
 	}
 	
 	public void update(double delta)//
 	{
-		ticks = MathHelper.getExpValue(ticks, toTicks, 2, delta);
+		ticks = MathHelper.getExpValue(ticks, toTicks, .1, delta);
+		ticks = MathHelper.getLinearValue(ticks, toTicks, 10, delta);
 		if(MathHelper.isEqual(ticks, toTicks) && current != words.length)
 		{
 			ticks = 0;
 			current ++;
 		}
+	}
+	
+	public int keyPressed(int keyId, int mods)
+	{
+		if(keyId == GLFW.GLFW_KEY_ENTER)
+		{
+			application.setGui(new GuiGame(application));
+		}
+		return -1;
 	}
 
 }
