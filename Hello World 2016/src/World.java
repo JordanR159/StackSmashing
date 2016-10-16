@@ -251,10 +251,15 @@ public class World
 
 		if(keyId == GLFW.GLFW_KEY_E) //player 1 explosion
 		{
-
-			Explosion explosion = new Explosion(this, players.get(0), players.get(1), 10d);
-			System.out.println(explosion.trace() + " " + explosion.getTargetDamage());
-
+			blocks.remove(blocks.indexOf(pBlockTwo));
+			Explosion explosion = new Explosion(this, players.get(0), players.get(1), 500d);
+			players.get(0).setSize(players.get(0).getSize() - 10);
+			if(explosion.trace())
+			{
+				players.get(1).setSize(players.get(1).getSize() - explosion.getTargetDamage());
+			}
+			players.get(0).setExplosion(explosion);
+			return 60;
 		}
 		blocks.remove(blocks.indexOf(pBlockTwo));
 		blocks.add(pBlock);

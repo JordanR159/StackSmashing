@@ -6,6 +6,8 @@ public class Player extends Block
 	private int numJumps;
 	private Beam currentBeam;
 	private double beamTicks = .25;
+	private Explosion explosion;
+	private double explosionTicks = .1d;
 	
 	public Player(World world, double x, double y, double size)
 	{
@@ -23,6 +25,14 @@ public class Player extends Block
 			if(beamTicks <= 0)
 			{
 				currentBeam = null;
+			}
+		}
+		if(explosion != null)
+		{
+			explosionTicks -= delta;
+			if(explosionTicks <= 0)
+			{
+				explosion = null;
 			}
 		}
 	}
@@ -107,6 +117,22 @@ public class Player extends Block
 	public Beam getBeam()
 	{
 		return currentBeam;
+	}
+	
+	public double getExplosionTicks()
+	{
+		return explosionTicks;
+	}
+	
+	public void setExplosion(Explosion e)
+	{
+		explosion = e;
+		explosionTicks = .1d;
+	}
+	
+	public Explosion getExplosion()
+	{
+		return explosion;
 	}
 
 }

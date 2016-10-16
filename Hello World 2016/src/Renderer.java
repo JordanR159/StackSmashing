@@ -163,6 +163,27 @@ public class Renderer
 			}
 			GL11.glEnd();
 		}
+		if(player.getExplosion() != null)
+		{
+			Explosion explosion = player.getExplosion();
+			double ticks = player.getExplosionTicks();
+			OpenGL.glColor(0, 0, 0, 1);
+			GL11.glBegin(GL11.GL_LINES);
+			double expX = player.getPosX() + player.getSize() / 2 + 8;
+			double expY = player.getPosY() + player.getSize() / 2 + 64;
+			double mul1 = Math.max(.96 - 10 * ticks, 0);
+			double mul2 = 1 - 10 * ticks;
+			for(int i = 0; i < 360; i += 10)
+			{
+				double rad = Math.toRadians(i);
+				double cos = Math.cos(rad) * explosion.getRadii(i);
+				double sin = Math.sin(rad) * explosion.getRadii(i);
+				
+				GL11.glVertex3d(expX + cos * mul1, expY + sin * mul1, 30);
+				GL11.glVertex3d(expX + cos * mul2, expY + sin * mul2, 30);
+			}
+			GL11.glEnd();
+		}
 	}
 
 	public void drawBlock(Block block) 

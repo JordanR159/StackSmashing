@@ -1,9 +1,11 @@
 import org.joml.Vector2d;
 import org.joml.Vector4d;
 
+import com.polaris.engine.util.MathHelper;
+
 public class Explosion extends Block 
 {
-	
+
 	private Player target;
 	private double radius;
 	private double[] rayRadii;
@@ -12,115 +14,128 @@ public class Explosion extends Block
 	public Explosion(World world, Player s, Player t, double r)
 	{
 		super(world, s.getPosX(), s.getPosY(), t.getPosX(), t.getPosY());
-		
+
 		pos.x += s.getSize() / 2;
 		pos.y += s.getSize() / 2;
-		pos.z += t.getSize() / 2;
-		pos.w += t.getSize() / 2;
-		
+		pos.z = t.getSize() / 2;
+		pos.w = t.getSize();
+
 		target = t;
 		radius = r;
 		rayRadii = new double[360];
 		damage = 0;
 	}
-	
+
 	public boolean trace()
 	{
 		boolean hitPlayer = false;
 
 		double rad;
-		
+
 		Vector2d axis = new Vector2d();
-		
+
 		Vector2d point1 = new Vector2d();
 		Vector2d point2 = new Vector2d();
-		
-		Vector2d point3 = new Vector2d();
-		Vector2d point4 = new Vector2d();
-		
-		double length1, length2, length3, length4;
-		
+
 		Block block;
-		
+
 		for(int i = 0; i < 360; i ++)
 		{
 			rad = Math.toRadians(i);
-			
+
 			axis.x = Math.cos(rad);
 			axis.y = Math.sin(rad);
+
+			point1.x = 0;
+			point1.y = 0;
 			
-			point1.x = pos.x;
-			point1.y = pos.y;
-			
-			point2.x = pos.x + radius;
-			point2.y = pos.y + radius;
-			
-			length1 = point1.dot(axis);
-			length2 = point2.dot(axis);
-			
-			for(int j = 0; j < worldObj.getBlocks().size(); j++)
+			point2.x = MathHelper.clamp(0, worldObj.getWidth(), pos.x + radius * axis.x);
+			point2.y = MathHelper.clamp(0, worldObj.getHeight(), pos.y + radius * axis.y);
+
+			for(int j = 0; j < worldObj.getBlocks().size() - 1; j++)
 			{
 				block = worldObj.getBlocks().get(j);
-				
-				getPoints(block.getPosVector(), point3, point4, i);
-				
-				length3 = point3.dot(axis);
-				length4 = point4.dot(axis);
-				
-				if(length1 <= length3 && length2 >= length3)
-					length2 = length3;
+
+				checkCollision(block.getPosVector(), axis, point1, point2);
 			}
+			Vector2d checkPoint = new Vector2d(point2);
 			
-			getPoints(target.getPosVector(), point3, point4, i);
+			checkCollision(target.getPosVector(), axis, point1, point2);
 			
-			length3 = point3.dot(axis);
-			length4 = point4.dot(axis);
+			rayRadii[i] = -point2.distance(pos.x, pos.y);
 			
-			if(length1 <= length3 && length2 >= length3)
+			if(!MathHelper.isEqual(checkPoint.x, point2.x) || !MathHelper.isEqual(checkPoint.y, point2.y))
 			{
 				hitPlayer = true;
-				length2 = length3 + length4;
-				length2 /= 2;
-				damage += (length2 - length1) / 10d;
-				System.out.println(i);
+				damage += rayRadii[i] / radius * -1;
 			}
-			
-			rayRadii[i] = length2 - length1;
-			
 		}
 		return hitPlayer;
 	}
-	
-	private void getPoints(Vector4d pos, Vector2d point3, Vector2d point4, int degree)
+
+	public void checkCollision(Vector4d p, Vector2d axis, Vector2d point1, Vector2d point2)
 	{
-		if(degree % 180 <= 90)
+		if(!MathHelper.isEqual(axis.x, 0))
 		{
-			point3.x = pos.x;
-			point3.y = pos.y + pos.w;
+			point1.x = p.x;
+			point1.y = pos.y + (point1.x - pos.x) / axis.x * axis.y;
+
+			if(point1.y <= p.y + p.w && point1.y >= p.y)
+			{
+				if(point1.distance(pos.x, pos.y) < point2.distance(pos.x, pos.y))
+				{
+					point2.x = point1.x;
+					point2.y = point1.y;
+				}
+			}
+
+			point1.x = p.x + p.z;
+			point1.y = pos.y + (point1.x - pos.x) / axis.x * axis.y;
+			if(point1.y <= p.y + p.w && point1.y >= p.y)
+			{
+				if(point1.distance(pos.x, pos.y) < point2.distance(pos.x, pos.y))
+				{
+					point2.x = point1.x;
+					point2.y = point1.y;
+				}
+			}
+		}
+		if(!MathHelper.isEqual(axis.y, 0))
+		{
+			point1.y = p.y;
+			point1.x = pos.x + (point1.y - pos.y) / axis.y * axis.x;
+
+			if(point1.x <= p.x + p.z && point1.x >= p.x)
+			{
+				if(point1.distance(pos.x, pos.y) < point2.distance(pos.x, pos.y))
+				{
+					point2.x = point1.x;
+					point2.y = point1.y;
+				}
+			}
 			
-			point4.x = pos.x + pos.z;
-			point4.y = pos.y;
-		}
-		else
-		{
-			point3.x = pos.x + pos.z;
-			point3.y = pos.y + pos.w;
+			point1.y = p.y + p.w;
+			point1.x = pos.x + (point1.y - pos.y) / axis.y * axis.x;
 			
-			point4.x = pos.x;
-			point4.y = pos.y;
+			if(point1.x <= p.x + p.z && point1.x >= p.x)
+			{
+				if(point1.distance(pos.x, pos.y) < point2.distance(pos.x, pos.y))
+				{
+					point2.x = point1.x;
+					point2.y = point1.y;
+				}
+			}
 		}
-		
-		if(degree > 180)
-		{
-			Vector2d temp = point3;
-			point3 = point4;
-			point4 = temp;
-		}
+	}
+	
+	public double getRadii(int i)
+	{
+		return rayRadii[i];
 	}
 	
 	public double getTargetDamage()
 	{
 		return damage;
 	}
-	
+
 }
