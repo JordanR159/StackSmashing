@@ -39,11 +39,11 @@ public class GuiMainMenu extends GuiScreen
 		
 		for(int i = 0; i < sequence.length; i++)
 		{
-			fontMap.drawColorString("" + sequence[i], x, 200 + ticks[i], 0, 128, new Color4d(255, orange += 200 / sequence.length, 0, (int) Math.min(ticksExisted * 30, 255)));
+			fontMap.drawColorString("" + sequence[i], x, 200 + ticks[i], 0, 128, new Color4d(255, orange += 200 / sequence.length, 0, (int) Math.min(ticksExisted * 60, 255)));
 			x += fontMap.getTextWidth("" + sequence[i], 128);
 		}
 		
-		if(ticksExisted * 30 > 280)
+		if(ticksExisted * 60 > 265)
 		{
 			if(App.getMouseX() >= 1920 / 2 - fontMap.getTextWidth("START A GAME", 48) && App.getMouseX() <= 1920 / 2 + fontMap.getTextWidth("START A GAME", 48))
 			{
@@ -57,7 +57,7 @@ public class GuiMainMenu extends GuiScreen
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
-		if(ticksExisted * 30 > 255)
+		if(ticksExisted * 60 > 255)
 		{
 			for(int i = 0; i < ticks.length; i++)
 			{
@@ -80,8 +80,8 @@ public class GuiMainMenu extends GuiScreen
 	
 	public boolean mouseClick(int mouseId)
 	{
-		if(ticksExisted * 30 < 255)
-			ticksExisted = 255 / 30d;
+		if(ticksExisted * 60 < 255)
+			ticksExisted = 255 / 60d;
 		if(App.getMouseX() >= 1920 / 2 - fontMap.getTextWidth("START A GAME", 48) && App.getMouseX() <= 1920 / 2 + fontMap.getTextWidth("START A GAME", 48))
 		{
 			if(App.getMouseY() >= 600 - 32 && App.getMouseY() <= 600 + 32)
