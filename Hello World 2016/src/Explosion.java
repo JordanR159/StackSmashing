@@ -24,7 +24,7 @@ public class Explosion
 		double targMidX = targ.getPosX() + targ.getSize()/2;
 		double targMidY = targ.getPosY() + targ.getSize()/2;
 		double dist = Math.sqrt((targMidY-midY)*(targMidY-midY) + (targMidX-midX)*(targMidX-midX));
-		double baseDamage = 10; //make it based off distance later
+		/*double baseDamage = (100/dist *  )*/
 		
 		//get slopes
 		double bRightSlope = ((targ.getPosY() + targ.getSize()) - midY) /
@@ -205,7 +205,7 @@ public class Explosion
 			amountExposed++;
 		}
 		
-		return amountExposed*baseDamage;
+		return amountExposed*10;
 	}
 	
 	public double getUserDamage() {
