@@ -294,6 +294,7 @@ public class World
 					curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
 					curr.setVelX(0);
 					collided = true;
+					break;
 				}
 			}
 			if(!collided)
@@ -363,7 +364,7 @@ public class World
 				}
 			}
 			if(collided && j == blocks.size()-1)
-				players.get(players.size()-players.indexOf(curr)-1).setSize(25);
+				players.get(players.size()-players.indexOf(curr)-1).setSize(150);
 			if(!collided)
 				curr.setPosY(newPos);	
 		}
