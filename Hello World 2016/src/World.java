@@ -251,61 +251,24 @@ public class World
 		{
 			playerJump(player);
 			return 1;
-			/*if(curr.getNumJumps() > 0)
-			{
-				curr.useJump();
-				curr.setVelY(0);
-				double newPos = -200.00 + curr.getPosY();
-				if(newPos > 0 && newPos+curr.getSize() < height) {
-					boolean collided = false;
-					//block collision
-					for(int j = 0; j < blocks.size(); j++)
-					{
-						Block check = blocks.get(j);
-						if(newPos < check.getPosY() + check.getHeight() && 
-								newPos + curr.getSize() > check.getPosY() && 
-								curr.getPosX() < check.getPosX()+check.getWidth() && 
-								curr.getPosX() + curr.getSize() > check.getPosX()){
-							curr.setPosY(check.getPosY() + check.getHeight());
-							//can't jump anymore if collide with bottom of block
-							curr.nullifyJumps();
-							collided = true;
-						}
-					}
-					if(!collided)
-						curr.setPosY(newPos);
-				}
-				else if(newPos <= 0)
-					curr.setPosY(0);
-				else
-				{
-					curr.setPosY(height-curr.getSize());
-					curr.resetJumps();
-				}					
-			}
-			players.set(1,curr);
-			return 1;*/
+			
 		}
 
 		if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
 		{
+			/*curr.setPosY(check.getPosY());
+			curr.resetJumps();
+			collided = true;*/
 			Player curr = players.get(1);
 			curr.setVelY(curr.getVelY()+10);
 			double newPos = curr.getVelY() + curr.getPosY();
 			if(newPos > 0 && newPos+curr.getSize() < height-100.00) {
 				boolean collided = false;
 				//block collision
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(newPos < check.getPosY() + check.getHeight() && 
-							newPos + curr.getSize() > check.getPosY() && 
-							curr.getPosX() < check.getPosX()+check.getWidth() && 
-							curr.getPosX() + curr.getSize() > check.getPosX()){
-						curr.setPosY(check.getPosY());
-						curr.resetJumps();
-						collided = true;
-					}
+				if(checkCollision(curr, newPos, false)){
+					curr.setPosY(collidedBlock.getPosY());
+					curr.resetJumps();
+					collided = true;
 				}
 				if(!collided)
 					curr.setPosY(newPos);
@@ -364,7 +327,11 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 				//block collision
 				boolean collided = false;
-			
+				if(checkCollision(curr, newPos, true)){
+					curr.setPosX(collidedBlock.getPosX()-curr.getSize());
+					curr.setVelX(0);
+					collided = true;
+				}
 				if(!collided)
 					curr.setPosX(newPos);
 			}
@@ -454,3 +421,38 @@ public class World
 		return blocks;
 	}
 }
+
+/*if(curr.getNumJumps() > 0)
+{
+	curr.useJump();
+	curr.setVelY(0);
+	double newPos = -200.00 + curr.getPosY();
+	if(newPos > 0 && newPos+curr.getSize() < height) {
+		boolean collided = false;
+		//block collision
+		for(int j = 0; j < blocks.size(); j++)
+		{
+			Block check = blocks.get(j);
+			if(newPos < check.getPosY() + check.getHeight() && 
+					newPos + curr.getSize() > check.getPosY() && 
+					curr.getPosX() < check.getPosX()+check.getWidth() && 
+					curr.getPosX() + curr.getSize() > check.getPosX()){
+				curr.setPosY(check.getPosY() + check.getHeight());
+				//can't jump anymore if collide with bottom of block
+				curr.nullifyJumps();
+				collided = true;
+			}
+		}
+		if(!collided)
+			curr.setPosY(newPos);
+	}
+	else if(newPos <= 0)
+		curr.setPosY(0);
+	else
+	{
+		curr.setPosY(height-curr.getSize());
+		curr.resetJumps();
+	}					
+}
+players.set(1,curr);
+return 1;*/
