@@ -115,7 +115,7 @@ public class World
 			double newPos = curr.getVelX() + curr.getPosX();
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 
-				//block collision
+				//block collisions
 				if(checkCollision(curr, newPos, true)){
 					curr.setPosX(collidedBlock.getPosX()+collidedBlock.getWidth());
 					curr.setVelX(0);
