@@ -160,7 +160,6 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_E) //player 1 explosion
 			{
-
 				blocks.remove(blocks.indexOf(pBlockTwo));
 				Explosion explosion = new Explosion(this, players.get(0), players.get(1), 500d);
 				players.get(0).setSize(players.get(0).getSize() - 10);
@@ -214,11 +213,19 @@ public class World
 				return 10;
 			}
 
-			if(keyId == GLFW.GLFW_KEY_PERIOD) //player 2 explosion
+			if(keyId == GLFW.GLFW_KEY_RIGHT_SHIFT) //player 2 explosion
 			{
-
-
-			}		
+				blocks.remove(blocks.indexOf(pBlock));
+				Explosion explosion = new Explosion(this, players.get(1), players.get(0), 500d);
+				players.get(1).setSize(players.get(1).getSize() - 10);
+				if(explosion.trace())
+				{
+					players.get(0).setSize(players.get(0).getSize() - explosion.getTargetDamage());
+				}
+				players.get(1).setExplosion(explosion);
+				return 60;
+			}	
+			
 			if(blocks.indexOf(pBlock) != -1)
 				blocks.remove(blocks.indexOf(pBlock));
 			if(blocks.indexOf(pBlockTwo) != -1)	
