@@ -5,6 +5,7 @@ public class Beam
 	private double startX;
 	private double startY;
 	private boolean toRight;
+	private double endX;
 	
 	public Beam(Player shooter)
 	{
@@ -33,7 +34,10 @@ public class Beam
 				{
 					if((i > curr.getPosX() && i<curr.getPosX()+curr.getWidth())
 					&& (startY > curr.getPosY() && startY < curr.getPosY()+curr.getHeight()))
+					{
+						endX = i;
 						return false;
+					}
 				}
 				if((i > def.getPosX() && i < def.getPosX()+def.getSize()))
 						return true;
