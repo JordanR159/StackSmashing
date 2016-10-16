@@ -303,7 +303,7 @@ public class World
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
 			if(System.currentTimeMillis() - timeD <= 200){ //dash
-				dashLeft(players.get(0));
+				dashRight(players.get(0));
 			}
 			timeD = System.currentTimeMillis();
 		}
@@ -319,7 +319,7 @@ public class World
 		}
 		if(keyId == GLFW.GLFW_KEY_RIGHT){
 			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
-				dashLeft(players.get(1));
+				dashRight(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
