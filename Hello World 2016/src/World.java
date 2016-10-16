@@ -264,14 +264,14 @@ public class World
 				blocks.remove(blocks.indexOf(pBlock));
 				return 1;
 			}
-			if(keyId == GLFW.GLFW_KEY_SLASH) //player 2 beam
+			if(keyId == GLFW.GLFW_KEY_N) //player 2 beam
 			{
 				blocks.remove(blocks.indexOf(pBlock));
 				createBeam(player, playerTwo);
 				return 10;
 			}
+			if(keyId == GLFW.GLFW_KEY_M) //player 2 explosion
 
-			if(keyId == GLFW.GLFW_KEY_RIGHT_SHIFT) //player 2 explosion
 			{
 				blocks.remove(blocks.indexOf(pBlock));
 				createExplosion(player, playerTwo);
