@@ -408,8 +408,6 @@ public class World
 			curr.setPosX(width-curr.getSize());
 			curr.setVelX(0);
 		}
-		curr.endDash();
-		
 	}
 	
 	public void dashRight(Player curr)
@@ -448,7 +446,6 @@ public class World
 			curr.setPosX(width-curr.getSize());
 			curr.setVelX(0);
 		}
-		curr.endDash();
 	}
 
 	public void slam(Player curr)
@@ -488,7 +485,6 @@ public class World
 			curr.setVelY(0);
 			curr.resetJumps();
 		}
-		curr.endSlam();
 	}
 	
 	public void createBeam(Player player, Player playerTwo)

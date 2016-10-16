@@ -8,8 +8,8 @@ public class Player extends Block
 	private double beamTicks = .25;
 	private Explosion explosion;
 	private double explosionTicks = .1d;
-	private boolean isDashing;
-	private boolean isSlamming;
+	private long dashStartT;
+	private long slamStartT;
 	
 	public Player(World world, double x, double y, double size)
 	{
@@ -139,31 +139,27 @@ public class Player extends Block
 	
 	public void startDash()
 	{
-		isDashing = true;
+		dashStartT = System.currentTimeMillis();
 	}
 	
 	public void startSlam()
 	{
-		isSlamming = true;
-	}
-	
-	public void endDash()
-	{
-		isDashing = false;
-	}
-	
-	public void endSlam()
-	{
-		isSlamming = false;
+		slamStartT = System.currentTimeMillis();
 	}
 	
 	public boolean checkSlam()
 	{
-		return isSlamming;
+		if(System.currentTimeMillis() - slamStartT <= 100)
+			return true;
+		else
+			return false;
 	}
 	
 	public boolean checkDash()
 	{
-		return isDashing;
+		if(System.currentTimeMillis() - dashStartT <= 100)
+			return true;
+		else
+			return false;
 	}
 }
