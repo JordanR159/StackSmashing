@@ -19,7 +19,7 @@ public class HelloApp extends Application
 	@Override
 	public long createWindow() 
 	{
-		return Window.createAndCenter(1080, 640, "Hello World 2016", 0);
+		return Window.createAndCenter(640, 480, "Hello World 2016", 0);
 	}
 
 }
