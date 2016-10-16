@@ -65,13 +65,23 @@ public class World
 			for(int i = 0; i < players.size(); i++)
 			{
 				player = players.get(i);
-				if(player.getSize() <= 25)
+				otherPlayer = players.get(players.size()-i-1);
+				
+				if(player.getSize() <= 25 && otherPlayer.getSize() <= 25) {
+					if(player.getSize() < otherPlayer.getSize()){
+						loser = players.indexOf(player);
+					} else if(player.getSize() > otherPlayer.getSize()) {
+						loser = players.indexOf(otherPlayer);
+					}
+					else
+						loser = i;
+				} else if(player.getSize() <= 25)
 				{
 					loser = i;
 					break;
 				}
 				
-				otherPlayer = players.get(players.size()-i-1);
+				
 				player.update(delta);
 				
 				playerBlock = new Block(this, otherPlayer.getPosX(), otherPlayer.getPosY(), otherPlayer.getSize(), otherPlayer.getSize());
