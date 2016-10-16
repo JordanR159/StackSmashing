@@ -46,6 +46,7 @@ public class World
 
 	public void update(double delta)
 	{
+		//gravity for both players
 		if(loser == -1)
 		{
 			Player player;
@@ -60,7 +61,6 @@ public class World
 			for(int i = 0; i < players.size(); i++)
 			{
 				player = players.get(i);
-				
 				if(player.getSize() <= 25)
 				{
 					loser = i;
@@ -74,7 +74,6 @@ public class World
 				blocks.add(playerBlock);
 				
 				player.setVelX(player.getVelX() / 1.1);
-
 				player.setVelY(player.getVelY() + 3);
 				
 				newPosX = player.getVelX() + player.getPosX();
@@ -82,7 +81,6 @@ public class World
 				if(newPosX > 0 && newPosX + player.getSize() <= width)
 				{
 					collided = false;
-					
 					for(int j = 0; j < blocks.size(); j++)
 					{
 						block = blocks.get(j);
@@ -158,7 +156,7 @@ public class World
 				}
 				else
 				{
-					player.setPosY(height-player.getSize());
+					player.setPosY(height - player.getSize());
 					player.setVelY(0);
 					player.resetJumps();
 				}		
@@ -300,6 +298,7 @@ public class World
 
 	public int keyHeld(int keyId, int called, int mods)
 	{
+		
 		return keyPressed(keyId,mods);
 	}
 
@@ -345,11 +344,14 @@ public class World
 					curr.setVelY(0);
 					curr.resetJumps();
 					collided = true;
-					break;//
+					break;
 				}
 			}
-			if(collided && j == blocks.size()-1)
+			if(collided && j == blocks.size()-1){
+				players.get(players.size()-players.indexOf(curr)-1).setPosX(5000);
+				
 				players.get(players.size()-players.indexOf(curr)-1).setSize(25);
+			}
 			if(!collided)
 				curr.setPosY(newPos);	
 		}
