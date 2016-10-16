@@ -453,7 +453,7 @@ public class World
 
 	public void slam(Player curr)
 	{
-		curr.startDash();
+		curr.startSlam();
 		curr.setVelY(curr.getVelY()+10);
 		double newPos = curr.getVelY() + curr.getPosY();
 		if(newPos > 0 && newPos+curr.getSize() < height) {
