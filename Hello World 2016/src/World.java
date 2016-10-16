@@ -46,63 +46,70 @@ public class World
 
 	public void update(double delta)
 	{
-		//gravity for both players
 		if(loser == -1)
 		{
+			Player player;
+			Player otherPlayer;
+			Block playerBlock;
 			for(int i = 0; i < players.size(); i++)
 			{
-				Player fall = players.get(i);
-				if(fall.getSize() <= 25)
+				player = players.get(i);
+				
+				if(player.getSize() <= 25)
 				{
 					loser = i;
 					break;
 				}
-				Player other = players.get(players.size()-i-1);
-				fall.update(delta);
-				Block pBlock = new Block(this,other.getPosX(),other.getPosY(),other.getSize(),other.getSize());
-				blocks.add(pBlock);
-				double vx = fall.getVelX();
+				
+				otherPlayer = players.get(players.size()-i-1);
+				player.update(delta);
+				
+				playerBlock = new Block(this, otherPlayer.getPosX(), otherPlayer.getPosY(), otherPlayer.getSize(), otherPlayer.getSize());
+				blocks.add(playerBlock);
+				
+				double vx = player.getVelX();
+				
 				if(vx > 0)
-					fall.setVelX(fall.getVelX()-0.25);
+					player.setVelX(player.getVelX() - 0.25);
 				else if(vx < 0)
-					fall.setVelX(fall.getVelX()+0.25);
+					player.setVelX(player.getVelX() + 0.25);
 
-				fall.setVelY(fall.getVelY()+3);
-				double newPos = fall.getVelY() + fall.getPosY();
-				if(newPos > 0 && newPos+fall.getSize() < height) {
+				player.setVelY(player.getVelY()+3);
+				double newPos = player.getVelY() + player.getPosY();
+				if(newPos > 0 && newPos+player.getSize() < height) {
 					boolean collided = false;
 					//block collisions	
 					for(int j = 0; j < blocks.size(); j++)
 					{
-						if(checkCollision(fall, newPos, false, blocks.get(j))){
-							if(fall.getVelY() < 0) {
-								fall.setVelY(0);
-								fall.nullifyJumps();
-								fall.setPosY(blocks.get(j).getPosY() + blocks.get(j).getHeight());
+						if(checkCollision(player, newPos, false, blocks.get(j))){
+							if(player.getVelY() < 0) {
+								player.setVelY(0);
+								player.nullifyJumps();
+								player.setPosY(blocks.get(j).getPosY() + blocks.get(j).getHeight());
 							}
 							else {
-								fall.resetJumps();
-								fall.setPosY(blocks.get(j).getPosY() - fall.getSize());
-								fall.setVelY(0);
+								player.resetJumps();
+								player.setPosY(blocks.get(j).getPosY() - player.getSize());
+								player.setVelY(0);
 							}
 							collided = true;
 						}
 					}
 					if(!collided)
-						fall.setPosY(newPos);
+						player.setPosY(newPos);
 				}
 				else if(newPos <= 0)
 				{
-					fall.setPosY(0);
-					fall.setVelY(0);
+					player.setPosY(0);
+					player.setVelY(0);
 				}
 				else
 				{
-					fall.setPosY(height-fall.getSize());
-					fall.setVelY(0);
-					fall.resetJumps();
+					player.setPosY(height-player.getSize());
+					player.setVelY(0);
+					player.resetJumps();
 				}		
-				blocks.remove(blocks.indexOf(pBlock));
+				blocks.remove(blocks.indexOf(playerBlock));
 			}
 		}
 
@@ -283,7 +290,7 @@ public class World
 	public void moveLeft(Player curr)
 	{
 		boolean collided = false;
-		curr.setVelX(curr.getVelX() < 0 ? Math.min(curr.getVelX() * 2.5, -5) : curr.getVelX() / 2);
+		curr.setVelX(curr.getVelX() - 10);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
 
