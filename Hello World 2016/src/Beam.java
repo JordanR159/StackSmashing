@@ -1,75 +1,49 @@
-import java.util.ArrayList;
+import org.joml.Vector4d;
 
 public class Beam extends Block
 {
 	private boolean toRight;
 	private Player source;
 	private Player target;
-	
+
 	public Beam(World world, Player s, Player t)
 	{
 		super(world, s.getPosX(), s.getPosY(), t.getPosX(), t.getPosY());
-		
+
 		source = s;
 		target = t;
-		
+
 		pos.x += s.getSize() / 2;
 		pos.y += s.getSize() / 2;
-		pos.z += t.getSize() / 2;
-		pos.w += t.getSize() / 2;
-		
+		//pos.z += t.getSize() / 2;
+		//pos.w += t.getSize() / 2;
+		pos.w = pos.y;
+
 		if(s.getPosX() > t.getPosX())
 			toRight = false;
 		else
 			toRight = true;
+
+		pos.z = toRight ? world.getWidth() : 0;
 	}
-	
+
 	public boolean trace()
 	{
-		if(toRight)
+		Block block;
+
+		for(int i = 0; i < worldObj.getBlocks().size(); i++)
 		{
-			if(!(startY > def.getPosY() && startY < def.getPosY()+def.getSize()))
+			block = worldObj.getBlocks().get(i);
+
+			if(CollisionHelper.colliding(pos, block.pos))
 			{
-				endX = 1904;
-				return false;
-			}
-			for(double i = startX; i < 1954; i++)
-			{
-				for(Block curr : obstacles)
-				{
-					if((i > curr.getPosX() && i<curr.getPosX()+curr.getWidth())
-					&& (startY > curr.getPosY() && startY < curr.getPosY()+curr.getHeight()))
-					{
-						endX = i;
-						return false;
-					}
-				}
-				if((i > def.getPosX() && i < def.getPosX()+def.getSize()))
-						return true;
+				pos.z = toRight ? block.pos.x : block.pos.z;
 			}
 		}
-		else
-		{
-			if(!(startY > def.getPosY() && startY < def.getPosY()+def.getSize()))
-			{
-				endX = 0;
-				return false;
-			}
-			for(double i = startX; i > 0; i--)
-			{
-				for(Block curr : obstacles)
-				{
-					if((i > curr.getPosX() && i<curr.getPosX()+curr.getWidth())
-					&& (startY > curr.getPosY() && startY < curr.getPosY()+curr.getHeight()))
-					{
-						endX = i;
-						return false;
-					}
-				}
-				if((i > def.getPosX() && i < def.getPosX()+def.getSize()))
-						return true;
-			}
-		}
+		
+		if(CollisionHelper.colliding(pos, target.pos))
+			return true;
+		
 		return false;
 	}
 
