@@ -35,12 +35,13 @@ public class GuiGame extends GuiScreen
 		
 		renderer.drawBackground();
 		
-		OpenGL.glBegin();
 		
 		for(int i = 0; i < world.getPlayers().size(); i++)
 		{
 			renderer.drawPlayer(world.getPlayers().get(i), i);
 		}
+		
+		OpenGL.glBegin();
 		
 		for(Block block : world.getBlocks())
 			renderer.drawBlock(block);

@@ -7,6 +7,7 @@ public class Player
 	private Vector3d movement;
 	private int numJumps;
 	private Beam currentBeam;
+	private double beamTicks = 2;
 	
 	public Player(double x, double y, double size)
 	{
@@ -18,6 +19,14 @@ public class Player
 	public void update(double delta)
 	{
 		movement.x /= 2d;
+		if(currentBeam != null)
+		{
+			beamTicks -= delta;
+			if(beamTicks <= 0)
+			{
+				currentBeam = null;
+			}
+		}
 	}
 	
 	public void useJump()
@@ -114,6 +123,7 @@ public class Player
 	public void setBeam(Beam b)
 	{
 		currentBeam = b;
+		beamTicks = 2;
 	}
 	
 	public Beam getBeam()

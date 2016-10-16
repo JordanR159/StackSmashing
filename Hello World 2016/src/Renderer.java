@@ -118,14 +118,49 @@ public class Renderer
 		GL11.glEnd();
 	}
 
-	public void drawPlayer(Player player, int i) 
+	public void drawPlayer(Player player, int playerId) 
 	{
 		double x = player.getPosX() + 64;
 		double y = player.getPosY() + 64;
 		double size = player.getSize();
 		
-		OpenGL.glColor(players[i]);
+		OpenGL.glBegin();
+		
+		OpenGL.glColor(players[playerId]);
 		drawWithShade(x, y, x + size, y + size);
+		
+		GL11.glEnd();
+		
+		Beam beam = player.getBeam();
+		if(beam != null)
+		{
+			System.out.println("this");
+			double startX = beam.getStartX();
+			double baseY = beam.getStartY();
+			double endX = beam.getEndX(); 
+			
+			double startY = 0;
+			double nextX = 0;
+			double nextY = 0;
+			
+			OpenGL.glColor(0, 0, 0, 1);
+			GL11.glLineWidth(3);
+			for(int i = 0; i < 5; i++)
+			{
+				GL11.glBegin(GL11.GL_LINES);
+				startY = baseY + graphicRandom.nextDouble() * 10 - 5;
+				GL11.glVertex3d(startX, startY, 6);
+				while(!MathHelper.isEqual(Math.abs(endX - startX), 0))
+				{
+					nextX = MathHelper.clamp(-20, 20, endX - startX);
+					nextY = baseY + graphicRandom.nextDouble() * 10 - 5;
+					GL11.glVertex3d(nextX, nextY, 6);
+					startX += nextX;
+					startY = nextY;
+				}
+				GL11.glEnd();
+			}
+		}
 	}
 
 	public void drawBlock(Block block) 
