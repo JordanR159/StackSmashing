@@ -50,7 +50,7 @@ public class World
 
 	public void update(double delta)
 	{
-		//gravity for both playersss
+		//gravity for both players
 		if(loser == -1)
 		{
 			Player player;
@@ -286,14 +286,14 @@ public class World
 		blocks.add(pBlockTwo);
 		
 		if(keyId == GLFW.GLFW_KEY_A){
-			if(System.currentTimeMillis() - timeA <= 1000){ //dash
+			if(System.currentTimeMillis() - timeA <= 200){ //dash
 				dashLeft(players.get(0));
 			}
 			timeA = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
-			if(System.currentTimeMillis() - timeD <= 1000){ //dash
-				dashRight(players.get(0));
+			if(System.currentTimeMillis() - timeD <= 200){ //dash
+				dashLeft(players.get(0));
 			}
 			timeD = System.currentTimeMillis();
 		}
@@ -302,14 +302,14 @@ public class World
 		blocks.add(pBlock);
 		
 		if(keyId == GLFW.GLFW_KEY_LEFT){
-			if(System.currentTimeMillis() - timeLeft <= 1000){ //dash
+			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
 				dashLeft(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_RIGHT){
-			if(System.currentTimeMillis() - timeLeft <= 1000){ //dash
-				dashRight(players.get(1));
+			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
+				dashLeft(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
@@ -341,12 +341,6 @@ public class World
 		player.useJump();
 		player.setVelY(-50);
 	}
-
-//	public int keyHeld(int keyId, int called, int mods)
-//	{
-//		
-//		return keyPressed(keyId,mods);
-//	}
 
 	public ArrayList<Player> getPlayers()
 	{
@@ -484,17 +478,17 @@ public class World
 	public void createBeam(Player player, Player playerTwo)
 	{
 		Beam shot = new Beam(this, player, playerTwo);
-		player.setSize(player.getSize() - .25);
+		player.setSize(player.getSize() - .75);
 		if(shot.trace()) 
 		{
-			playerTwo.setSize(playerTwo.getSize() - 1);
+			playerTwo.setSize(playerTwo.getSize() - 2);
 		}
 		player.setBeam(shot);
 	}
 	
 	public void createExplosion(Player player, Player playerTwo)
 	{
-		Explosion explosion = new Explosion(this, player, playerTwo, 300d);
+		Explosion explosion = new Explosion(this, player, playerTwo, 330d);
 		player.setSize(player.getSize() - 10);
 		if(explosion.trace())
 		{
