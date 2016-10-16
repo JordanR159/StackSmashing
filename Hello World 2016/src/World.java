@@ -65,6 +65,8 @@ public class World
 			for(int i = 0; i < players.size(); i++)
 			{
 				player = players.get(i);
+				player.endDash();
+				player.endSlam();
 				otherPlayer = players.get(players.size()-i-1);
 				
 				if(player.getSize() <= 25 && otherPlayer.getSize() <= 25) { //tiebreaker
@@ -374,6 +376,7 @@ public class World
 	
 	public void dashLeft(Player curr)
 	{
+		curr.startDash();
 		curr.setVelX(curr.getVelX() - 50);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
@@ -412,6 +415,7 @@ public class World
 	
 	public void dashRight(Player curr)
 	{
+		curr.startDash();
 		curr.setVelX(curr.getVelX() + 50);
 		double newPos = curr.getVelX() + curr.getPosX();
 		if(newPos > 0 && newPos+curr.getSize() < width) {
@@ -449,6 +453,7 @@ public class World
 
 	public void slam(Player curr)
 	{
+		curr.startDash();
 		curr.setVelY(curr.getVelY()+10);
 		double newPos = curr.getVelY() + curr.getPosY();
 		if(newPos > 0 && newPos+curr.getSize() < height) {
