@@ -195,10 +195,13 @@ public class World
 
 		if(keyId == GLFW.GLFW_KEY_Q) //player 1 beam
 		{
-			
-			
+			Beam shot = new Beam(players.get(0));
+			if(shot.isOnTarget(players.get(1), blocks)) {
+				
+				
+				
+			}
 		}
-		
 		if(keyId == GLFW.GLFW_KEY_UP) //player 2
 		{
 			Player curr = players.get(1);
@@ -345,7 +348,6 @@ public class World
 			fall.setVelocityY(fall.getVelocityY()+10);
 			double newPos = fall.getVelocityY() + fall.getPosY();
 			if(newPos > 0 && newPos+fall.getSize() < height) {
-				//fall.setPosY(newPos);	
 				boolean collided = false;
 				//block collision
 				for(int j = 0; j < blocks.size(); j++)
