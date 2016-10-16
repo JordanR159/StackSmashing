@@ -70,7 +70,7 @@ public class World
 					}
 					else {
 						fall.resetJumps();
-						fall.setPosY(collidedBlock.getPosY() - fall.getPosY());
+						fall.setPosY(collidedBlock.getPosY() - fall.getSize());
 						fall.setVelY(0);
 					}
 					collided = true;
