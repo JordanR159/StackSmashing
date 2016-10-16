@@ -9,20 +9,20 @@ public class World
 	private int height;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Block> blocks = new ArrayList<Block>();
-	private Beam projectile;
+	private Block collidedBlock;
 
 	public World(int numPlayers, int numBlocks)
 	{
 		width = 1902;
 		height = 950;
 		setPlayers(numPlayers);
-		blocks = WorldGenerator.generateBlocks(width, height, numBlocks);
+		blocks = WorldGenerator.generateBlocks(this, width, height, numBlocks);
 	}
 
 	public void setPlayers(int numPlayers)
 	{
-		Player one = new Player(100.00, height-100.00, 100.00);
-		Player two = new Player(width-300.00, height-100.00, 100.00);
+		Player one = new Player(this, 100.00, height-100.00, 100.00);
+		Player two = new Player(this, width-300.00, height-100.00, 100.00);
 		players.add(one);
 		players.add(two);
 		/*for(int i = 0; i < numPlayers; i++)
@@ -134,23 +134,15 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_A) //player 1
 		{
 			Player curr = players.get(0);
-
-			curr.setVelX(curr.getVelX()-5);
+			boolean collided = false;
+			curr.setVelX(curr.getVelX()-1);
 			double newPos = curr.getVelX() + curr.getPosX();
 			if(newPos > 0 && newPos+curr.getSize() < width) {
 
 				//block collision
-				boolean collided = false;
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(curr.getPosY() < check.getPosY() + check.getHeight() && 
-							curr.getPosY() + curr.getSize() > check.getPosY() && 
-							newPos < check.getPosX()+check.getWidth() && 
-							newPos + curr.getSize() > check.getPosX()){
-						curr.setPosX(check.getPosX()+check.getWidth());
-						collided = true;
-					}
+				if(checkCollision(curr, newPos, true)){
+					curr.setPosX(collidedBlock.getPosX()+collidedBlock.getWidth());
+					curr.setVelX(0);
 				}
 				if(!collided)
 					curr.setPosX(newPos);
@@ -178,18 +170,11 @@ public class World
 			if(newPos > 0 && newPos+curr.getSize() < height) {
 
 				boolean collided = false;
-				//block collision on jumps
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(newPos < check.getPosY() + check.getHeight() && 
-							newPos + curr.getSize() > check.getPosY() && 
-							curr.getPosX() < check.getPosX()+check.getWidth() && 
-							curr.getPosX() + curr.getSize() > check.getPosX()){
-						curr.setPosY(check.getPosY());
-						curr.resetJumps();
-						collided = true;
-					}
+				//block collision
+				if(checkCollision(curr, newPos, false)){
+					curr.setPosY(collidedBlock.getPosY());
+					curr.setVelY(0);
+					curr.resetJumps();
 				}
 				if(!collided)
 					curr.setPosY(newPos);	
@@ -248,7 +233,7 @@ public class World
 
 		if(keyId == GLFW.GLFW_KEY_Q) //player 1 beam
 		{
-			Beam shot = new Beam(players.get(0));
+			Beam shot = new Beam(this, players.get(0), players.get(1));
 			players.get(0).setSize(players.get(0).getSize() - 1);
 			if(shot.isOnTarget(players.get(1), blocks)) {
 				players.get(1).setSize(players.get(1).getSize() - 3);
@@ -418,7 +403,7 @@ public class World
 		}
 		if(keyId == GLFW.GLFW_KEY_SLASH) //player 2 beam
 		{
-			Beam shot = new Beam(players.get(1));
+			Beam shot = new Beam(this, players.get(1), players.get(0));
 			players.get(1).setSize(players.get(1).getSize() - 1);
 			if(shot.isOnTarget(players.get(0), blocks)) {
 				players.get(0).setSize(players.get(0).getSize() - 3);
@@ -436,23 +421,30 @@ public class World
 		return -1;
 	}
 	
-	private void checkCollision(Player player, double newPos)
+	private boolean checkCollision(Player player, double newPos, boolean x)
 	{
 		boolean collided = false;
 		if(newPos > 0 && newPos + player.getSize() < height)
 		{
 			Block block;
 			Vector4d newVecPos = new Vector4d(player.getPosVector());
-			newVecPos.y = newPos;
+			
+			if(x)
+				newVecPos.x = newPos;
+			else
+				newVecPos.y = newPos;
+			
 			for(int j = 0; j < blocks.size(); j++)
 			{
 				block = blocks.get(j);
-				if(CollisionHelper.notColliding(newVecPos, block.getVector()))
+				if(CollisionHelper.colliding(newVecPos, block.getPosVector()))
 				{
 					collided = true;
+					collidedBlock = block;
 				}
 			}
 		}
+		return collided;
 	}
 
 	private void playerJump(Player player) 
@@ -481,13 +473,4 @@ public class World
 	{
 		return blocks;
 	}
-
-	public Beam getBeam()
-	{
-		Beam temp = projectile;
-		projectile = null;
-		return temp;
-
-	}
-
 }
