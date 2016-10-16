@@ -127,112 +127,21 @@ public class World
 
 		if(keyId == GLFW.GLFW_KEY_A) //player 1
 		{
-			Player curr = players.get(0);
-			boolean collided = false;
-			curr.setVelX(curr.getVelX()-5);
-			double newPos = curr.getVelX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width) {
-
-				//block collisions
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					if(checkCollision(curr, newPos, true, blocks.get(j))){
-						curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
-						curr.setVelX(0);
-						collided = true;
-					}
-				}
-				if(!collided)
-					curr.setPosX(newPos);
-
-			}
-			else if(newPos <= 0)
-			{
-				curr.setPosX(0);
-				curr.setVelX(0);
-			}
-			else
-			{
-				curr.setPosX(width-curr.getSize());
-				curr.setVelX(0);
-			}
-			players.set(0,curr);
+			moveLeft(player);
 			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_S) //player 1
 		{
-			Player curr = players.get(0);
-			curr.setVelY(curr.getVelY()+10);
-			double newPos = curr.getVelY() + curr.getPosY();
-			if(newPos > 0 && newPos+curr.getSize() < height) {
-
-				boolean collided = false;
-				//block collision
-				int j;
-				for(j = 0; j < blocks.size(); j++)
-				{
-					if(checkCollision(curr, newPos, false, blocks.get(j))){
-						curr.setPosY(blocks.get(j).getPosY()-curr.getSize());
-						curr.setVelY(0);
-						curr.resetJumps();
-						collided = true;
-						break;
-					}
-				}
-				if(collided && j == blocks.indexOf(pBlockTwo))
-					players.get(1).setSize(25);
-				if(!collided)
-					curr.setPosY(newPos);	
-			}
-			else if(newPos <= 0)
-			{
-				curr.setPosY(0);
-				curr.setVelY(0);
-			}
-			else
-			{
-				curr.setPosY(width-curr.getSize());
-				curr.setVelY(0);
-				curr.resetJumps();
-			}
-			players.set(0,curr);
+			slam(player);
 			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_D) //player 1
 		{
-			Player curr = players.get(0);
-			curr.setVelX(curr.getVelX()+5);
-			double newPos = curr.getVelX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width) {
-				//block collision
-				boolean collided = false;
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					if(checkCollision(curr, newPos, true, blocks.get(j))){
-						curr.setPosX(blocks.get(j).getPosX()-curr.getSize());
-						curr.setVelX(0);
-						collided = true;
-					}
-				}
-				if(!collided)
-					curr.setPosX(newPos);
-
-			}
-			else if(newPos <= 0)
-			{
-				curr.setPosX(0);
-				curr.setVelX(0);
-			}
-			else
-			{
-				curr.setPosX(width-curr.getSize());
-				curr.setVelX(0);
-			}
-			players.set(0,curr);
+			moveRight(player);
 			blocks.remove(blocks.indexOf(pBlockTwo));
 			return 1;
 		}
@@ -251,20 +160,15 @@ public class World
 
 		if(keyId == GLFW.GLFW_KEY_E) //player 1 explosion
 		{
-			blocks.remove(blocks.indexOf(pBlockTwo));
-			Explosion explosion = new Explosion(this, players.get(0), players.get(1), 500d);
-			players.get(0).setSize(players.get(0).getSize() - 10);
-			if(explosion.trace())
-			{
-				players.get(1).setSize(players.get(1).getSize() - explosion.getTargetDamage());
-			}
-			players.get(0).setExplosion(explosion);
-			return 60;
+
+			Explosion explosion = new Explosion(this, players.get(0), players.get(1), 10d);
+			System.out.println(explosion.trace() + " " + explosion.getTargetDamage());
+
 		}
 		blocks.remove(blocks.indexOf(pBlockTwo));
 		blocks.add(pBlock);
+
 		player = players.get(1);
-		
 		if(keyId == GLFW.GLFW_KEY_UP && player.getNumJumps() > 0) //player 2
 		{	
 			playerJump(player);	
@@ -273,112 +177,23 @@ public class World
 			
 		}
 
-		if(keyId == GLFW.GLFW_KEY_DOWN) //player 2/
+		if(keyId == GLFW.GLFW_KEY_DOWN) //player 2
 		{
-			Player curr = players.get(1);
-			curr.setVelY(curr.getVelY()+10);
-			double newPos = curr.getVelY() + curr.getPosY();
-			if(newPos > 0 && newPos+curr.getSize() < height) {
-
-				boolean collided = false;
-				//block collision
-				int j;
-				for(j = 0; j < blocks.size(); j++)
-				{
-					if(checkCollision(curr, newPos, false, blocks.get(j))){
-						curr.setPosY(blocks.get(j).getPosY()-curr.getSize());
-						curr.setVelY(0);
-						curr.resetJumps();
-						collided = true;
-						break;
-					}
-				}
-				if(collided && j == blocks.indexOf(pBlock))
-					players.get(0).setSize(25);
-				if(!collided)
-					curr.setPosY(newPos);	
-			}
-			else if(newPos <= 0)
-			{
-				curr.setPosY(0);
-				curr.setVelY(0);
-			}
-			else
-			{
-				curr.setPosY(width-curr.getSize());
-				curr.setVelY(0);
-				curr.resetJumps();
-			}
-			players.set(0,curr);
+			slam(player);
 			blocks.remove(blocks.indexOf(pBlock));
 			return 1;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_LEFT) //player 2
 		{
-			Player curr = players.get(1);
-			curr.setVelX(curr.getVelX()-5);
-			double newPos = curr.getVelX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width) {
-				//block collision
-				boolean collided = false;
-				int j;
-				for(j = 0; j < blocks.size(); j++)
-				{
-					if(checkCollision(curr, newPos, true, blocks.get(j))){
-						curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
-						curr.setVelX(0);
-						collided = true;
-					}
-				}
-				if(!collided)
-					curr.setPosX(newPos);
-			}
-			else if(newPos <= 0)
-			{
-				curr.setPosX(0);
-				curr.setVelX(0);
-			}
-			else
-			{
-				curr.setPosX(width-curr.getSize());
-				curr.setVelX(0);
-			}
-			players.set(1,curr);
+			moveLeft(player);
 			blocks.remove(blocks.indexOf(pBlock));
 			return 1;
 		}
 
 		if(keyId == GLFW.GLFW_KEY_RIGHT) //player 2
 		{
-			Player curr = players.get(1);
-			curr.setVelX(curr.getVelX()+5);
-			double newPos = curr.getVelX() + curr.getPosX();
-			if(newPos > 0 && newPos+curr.getSize() < width) {
-				//block collision
-				boolean collided = false;
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					if(checkCollision(curr, newPos, true, blocks.get(j))){
-						curr.setPosX(blocks.get(j).getPosX()-curr.getSize());
-						curr.setVelX(0);
-						collided = true;
-					}
-				}
-				if(!collided)
-					curr.setPosX(newPos);
-			}
-			else if(newPos <= 0)
-			{
-				curr.setPosX(0);
-				curr.setVelX(0);
-			}
-			else
-			{
-				curr.setPosX(width-curr.getSize());
-				curr.setVelX(0);
-			}
-			players.set(1,curr);
+			moveRight(player);
 			blocks.remove(blocks.indexOf(pBlock));
 			return 1;
 		}
@@ -452,63 +267,100 @@ public class World
 	{
 		return blocks;
 	}
-}
-
-/*if(curr.getNumJumps() > 0)
-{
-	curr.useJump();
-	curr.setVelY(0);
-	double newPos = -200.00 + curr.getPosY();
-	if(newPos > 0 && newPos+curr.getSize() < height) {
-		boolean collided = false;
-		//block collision
-		for(int j = 0; j < blocks.size(); j++)
-		{
-			Block check = blocks.get(j);
-			if(newPos < check.getPosY() + check.getHeight() && 
-					newPos + curr.getSize() > check.getPosY() && 
-					curr.getPosX() < check.getPosX()+check.getWidth() && 
-					curr.getPosX() + curr.getSize() > check.getPosX()){
-				curr.setPosY(check.getPosY() + check.getHeight());
-				//can't jump anymore if collide with bottom of block
-				curr.nullifyJumps();
-				collided = true;
-			}
-		}
-		if(!collided)
-			curr.setPosY(newPos);
-	}
-	else if(newPos <= 0)
-		curr.setPosY(0);
-	else
+	
+	public void moveLeft(Player curr)
 	{
-		curr.setPosY(height-curr.getSize());
-		curr.resetJumps();
-	}					
-}
-players.set(1,curr);
-return 1;*/
+		boolean collided = false;
+		curr.setVelX(curr.getVelX()-5);
+		double newPos = curr.getVelX() + curr.getPosX();
+		if(newPos > 0 && newPos+curr.getSize() < width) {
 
-/*double newPos = curr.getVelY() + curr.getPosY();
-if(newPos > 0 && newPos+curr.getSize() < height-100.00) {
-	boolean collided = false;
-	//block collision
-	if(checkCollision(curr, newPos, false)){
-		curr.setPosY(blocks.get(j).getPosY());
-		curr.resetJumps();
-		collided = true;
+			//block collisions
+			for(int j = 0; j < blocks.size(); j++)
+			{
+				if(checkCollision(curr, newPos, true, blocks.get(j))){
+					curr.setPosX(blocks.get(j).getPosX()+blocks.get(j).getWidth());
+					curr.setVelX(0);
+					collided = true;
+				}
+			}
+			if(!collided)
+				curr.setPosX(newPos);
+
+		}
+		else if(newPos <= 0)
+		{
+			curr.setPosX(0);
+			curr.setVelX(0);
+		}
+		else
+		{
+			curr.setPosX(width-curr.getSize());
+			curr.setVelX(0);
+		}
 	}
-	if(!collided)
-		curr.setPosY(newPos);
+	
+	public void moveRight(Player curr)
+	{
+		curr.setVelX(curr.getVelX()+5);
+		double newPos = curr.getVelX() + curr.getPosX();
+		if(newPos > 0 && newPos+curr.getSize() < width) {
+			//block collision
+			boolean collided = false;
+			for(int j = 0; j < blocks.size(); j++)
+			{
+				if(checkCollision(curr, newPos, true, blocks.get(j))){
+					curr.setPosX(blocks.get(j).getPosX()-curr.getSize());
+					curr.setVelX(0);
+					collided = true;
+				}
+			}
+			if(!collided)
+				curr.setPosX(newPos);
+
+		}
+		else if(newPos <= 0)
+		{
+			curr.setPosX(0);
+			curr.setVelX(0);
+		}
+		else
+		{
+			curr.setPosX(width-curr.getSize());
+			curr.setVelX(0);
+		}
+	}
+	
+	public void slam(Player curr)
+	{
+		curr.setVelY(curr.getVelY()+10);
+		double newPos = curr.getVelY() + curr.getPosY();
+		if(newPos > 0 && newPos+curr.getSize() < height) {
+
+			boolean collided = false;
+			//block collision
+			for(int j = 0; j < blocks.size(); j++)
+			{
+				if(checkCollision(curr, newPos, false, blocks.get(j))){
+					curr.setPosY(blocks.get(j).getPosY() - curr.getHeight());
+					curr.setVelY(0);
+					curr.resetJumps();
+					collided = true;
+				}
+			}
+			if(!collided)
+				curr.setPosY(newPos);	
+		}
+		else if(newPos <= 0)
+		{
+			curr.setPosY(0);
+			curr.setVelY(0);
+		}
+		else
+		{
+			curr.setPosY(width-curr.getSize());
+			curr.setVelY(0);
+			curr.resetJumps();
+		}
+	}
 }
-else if(newPos <= 0)
-{
-	curr.setPosY(0);
-	curr.setVelY(0);
-}
-else
-{
-	curr.setPosY(width-curr.getSize());
-	curr.setVelY(0);
-	curr.resetJumps();
-}*/
