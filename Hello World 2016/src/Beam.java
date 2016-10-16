@@ -55,13 +55,16 @@ public class Beam extends Block
 		
 		pos.z -= pos.x;
 		
-
-		System.out.println(pos.x + " " + pos.y + " " + pos.z + " " + pos.w);
-		System.out.println(target.pos.x + " " + target.pos.y + " " + target.pos.z + " " + target.pos.w);
-		
 		if(CollisionHelper.colliding(pos, target.pos))
 		{
-			System.out.println("collision");
+			if(toRight)
+			{
+				pos.z = target.pos.x + target.pos.z / 2;
+			}
+			else
+			{
+				pos.x = target.pos.x + target.pos.z / 2;
+			}
 			return true;
 		}
 		

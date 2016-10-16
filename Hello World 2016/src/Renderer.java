@@ -134,31 +134,36 @@ public class Renderer
 		Beam beam = player.getBeam();
 		if(beam != null)
 		{
-			double startX = beam.getPosVector().x;
-			double baseY = beam.getPosVector().y;
-			double endX = beam.getPosVector().z; 
+			double startX = beam.getPosVector().x + 9;
+			double baseY = beam.getPosVector().y + 64;
+			double endX = beam.getPosVector().z + startX; 
 			
-			double startY = 0;
 			double nextX = 0;
 			double nextY = 0;
 			
+			System.out.println(startX + " " + endX);
+			
 			OpenGL.glColor(0, 0, 0, 1);
-			GL11.glLineWidth(1);
+			
+			OpenGL.glBegin();
+			//Draw.rect(startX, baseY - 1, endX, baseY + 1, 6);
+			Draw.rect(159, baseY, 160, baseY + 1, 6);
+			GL11.glEnd();
+			
+			/*GL11.glLineWidth(1);
 			for(int i = 0; i < 5; i++)
 			{
 				GL11.glBegin(GL11.GL_LINES);
-				startY = baseY + graphicRandom.nextDouble() * 20 - 10;
-				GL11.glVertex3d(startX, startY, 6);
+				GL11.glVertex3d(startX, baseY + graphicRandom.nextDouble() * 20 - 10, 6);
 				while(!MathHelper.isEqual(Math.abs(endX - startX), 0))
 				{
 					nextX = MathHelper.clamp(-20, 20, endX - startX);
 					nextY = baseY + graphicRandom.nextDouble() * 20 - 10;
 					GL11.glVertex3d(nextX, nextY, 6);
 					startX += nextX;
-					startY = nextY;
 				}
 				GL11.glEnd();
-			}
+			}*/
 		}
 	}
 

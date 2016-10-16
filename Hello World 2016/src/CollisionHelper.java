@@ -5,13 +5,9 @@ public class CollisionHelper
 	
 	public static boolean colliding(Vector4d rect1, Vector4d rect2)
 	{
-		if(rect1.x < rect2.x + rect2.z)
+		if(Math.abs(rect1.x - rect2.x + (rect1.z - rect2.z) / 2d) >= (rect1.z + rect2.z) / 2d)
 			return false;
-		if(rect1.x + rect1.z > rect2.x)
-			return false;
-		if(rect1.y < rect2.y + rect2.w)
-			return false;
-		if(rect1.y + rect1.w > rect2.y)
+		if(Math.abs(rect1.y - rect2.y + (rect1.w - rect2.w) / 2d) >= (rect1.w + rect2.w) / 2d)
 			return false;
 		return true;
 	}
