@@ -44,6 +44,42 @@ public class World
 	
 	public void update(double delta)
 	{
+		//gravity for both players
+		for(int i = 0; i < players.size(); i++)
+		{
+			Player fall = players.get(i);
+			fall.setVelocityY(fall.getVelocityY()+10);
+			double newPos = fall.getVelocityY() + fall.getPosY();
+			if(newPos > 0 && newPos+fall.getSize() < height) {
+				boolean collided = false;
+				//block collision
+				for(int j = 0; j < blocks.size(); j++)
+				{
+					Block check = blocks.get(j);
+					if(newPos < check.getPosY() + check.getHeight() && 
+						newPos + fall.getSize() > check.getPosY() && 
+						fall.getPosX() < check.getPosX()+check.getWidth() && 							fall.getPosX() + fall.getSize() > check.getPosX()){
+						fall.setPosY(check.getPosY());
+						fall.resetJumps();
+									collided = true;
+							}
+						}
+						if(!collided)
+							fall.setPosY(newPos);
+					}
+					else if(newPos <= 0)
+					{
+						fall.setPosY(0);
+						fall.setVelocityY(0);
+					}
+					else
+					{
+						fall.setPosY(width-fall.getSize());
+						fall.setVelocityY(0);
+						fall.resetJumps();
+					}
+					players.set(i,fall);
+				}
 		
 	}
 
@@ -390,43 +426,6 @@ public class World
 			
 		}
 			
-		//gravity for both players
-		for(Player fall : players)
-		{
-			fall.setVelocityY(fall.getVelocityY()+10);
-			double newPos = fall.getVelocityY() + fall.getPosY();
-			if(newPos > 0 && newPos+fall.getSize() < height) {
-				boolean collided = false;
-				//block collision
-				for(int j = 0; j < blocks.size(); j++)
-				{
-					Block check = blocks.get(j);
-					if(newPos < check.getPosY() + check.getHeight() && 
-						newPos + fall.getSize() > check.getPosY() && 
-						fall.getPosX() < check.getPosX()+check.getWidth() && 
-						fall.getPosX() + fall.getSize() > check.getPosX()){
-							fall.setPosY(check.getPosY());
-							fall.resetJumps();
-							collided = true;
-					}
-				}
-				if(!collided)
-					fall.setPosY(newPos);
-			}
-			else if(newPos <= 0)
-			{
-				fall.setPosY(0);
-				fall.setVelocityY(0);
-			}
-			else
-			{
-				fall.setPosY(width-fall.getSize());
-				fall.setVelocityY(0);
-				fall.resetJumps();
-			}
-			players.set(i,fall);
-			return 1;
-		}
 		return -1;
 	}
 
