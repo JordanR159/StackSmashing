@@ -6,32 +6,40 @@ public class Beam
 	private double startY;
 	private boolean toRight;
 	
-	public boolean useBeam(Player att,Player def,ArrayList<Block> obstacles)
+	public Beam(Player shooter)
 	{
-		Beam shot = new Beam(att.getPosX(),att.getPosY(),att.getVelocityX());
-		return isOnTarget(def,obstacles);
-		
-	}
-	
-	public Beam(double x,double y,double vx)
-	{
-		startX = x;
-		startY = y;
+		startX = shooter.getPosX();
+		startY = shooter.getPosY()+shooter.getSize()/2;
+		double vx = shooter.getVelocityX();
 		if(vx > 0)
 			toRight = true;
 		else if(vx < 0)
 			toRight = false;
-		else if(x > 802)
+		else if(startX > 1904/2)
 			toRight = false;
 		else
 			toRight = true;
-		
-
 	}
 	
 	public boolean isOnTarget(Player def, ArrayList<Block> obstacles)
 	{
-		return true;
+		if(toRight)
+		{
+			if(!(startY > def.getPosY() && startY < def.getPosY()+def.getSize()))
+				return false;
+			for(double i = startX; i < 1954; i++)
+			{
+				for(Block curr : obstacles)
+				{
+					if((i > curr.getPosX() && i<curr.getPosX()+curr.getWidth())
+					&& (startY > curr.getPosY() && startY < curr.getPosY()+curr.getHeight()))
+						return false;
+				}
+				if((i > def.getPosX() && i < def.getPosX()+def.getSize()))
+						return true;
+			}
+		}
+		return false;
 	}
 	
 
