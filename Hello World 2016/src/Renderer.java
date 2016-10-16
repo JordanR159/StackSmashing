@@ -21,6 +21,8 @@ public class Renderer
 	private Color4d[] players;
 	private double ticksExisted = 0;
 
+	private List[] slamArray;
+
 	protected Vector3d mainLightSource;
 	private List<Vector4d> shadeList;
 
@@ -28,6 +30,10 @@ public class Renderer
 	{
 		graphicRandom = random;
 		players = new Color4d[playerCount];
+
+		slamArray = new ArrayList[2];
+		slamArray[0] = new ArrayList<Double[]>();
+		slamArray[1] = new ArrayList<Double[]>();
 
 		for(int i = 0; i < players.length; i++)
 		{
@@ -118,6 +124,7 @@ public class Renderer
 		GL11.glEnd();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void drawPlayer(Player player, int playerId) 
 	{
 		double x = player.getPosX() + 8;
@@ -151,7 +158,7 @@ public class Renderer
 					startX += MathHelper.clamp(-20, 20, endX - startX);
 				}
 			}
-			
+
 			OpenGL.glColor(0, 0, 0, 1);
 
 			GL11.glLineWidth(2);
@@ -178,11 +185,46 @@ public class Renderer
 				double rad = Math.toRadians(i);
 				double cos = Math.cos(rad) * explosion.getRadii(i);
 				double sin = Math.sin(rad) * explosion.getRadii(i);
-				
+
 				GL11.glVertex3d(expX + cos * mul1, expY + sin * mul1, 30);
 				GL11.glVertex3d(expX + cos * mul2, expY + sin * mul2, 30);
 			}
 			GL11.glEnd();
+		}
+		if(player.checkDash())
+		{
+			OpenGL.glColor(0, 0, 0, 1);
+			GL11.glBegin(GL11.GL_LINES);
+			for(int i = 0; i < 3; i++)
+			{
+				GL11.glVertex3d(x, y + player.getSize() / 5 * (i + 1), -2);
+				GL11.glVertex3d(x + player.getSize() / 2 - player.getVelX() * 4d, y - player.getVelY() * 2 + player.getSize() / 5 * (i + 1), -2);
+			}
+			GL11.glEnd();
+		}
+		if(player.checkSlam())
+		{
+			for(int i = 0; i < 3; i++)
+			{
+				slamArray[playerId].add(new double[] {x + player.getSize() / 5 * (i + 1), y, -2});
+				slamArray[playerId].add(new double[] {x + player.getVelX() + player.getSize() / 5 * (i + 1), y + player.getVelY(), -2});
+			}
+			
+			OpenGL.glColor(0, 0, 0, 1);
+			GL11.glBegin(GL11.GL_LINES);
+			for(int i = 0; i < slamArray[playerId].size(); i += 2)
+			{
+				double[] first = (double[]) slamArray[playerId].get(i);
+				double[] second = (double[]) slamArray[playerId].get(i + 1);
+				GL11.glVertex3d(first[0], first[1], first[2]);
+				GL11.glVertex3d(second[0], second[1], second[2]);
+			}
+			GL11.glEnd();
+		}
+		else if(slamArray[playerId].size() > 0)
+		{
+			slamArray[playerId].clear();
+			
 		}
 	}
 

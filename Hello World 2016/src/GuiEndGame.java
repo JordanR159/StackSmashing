@@ -46,7 +46,7 @@ public class GuiEndGame extends GuiScreen
 		if(ticksExisted > 0)
 		{
 			
-			font.drawString("Press Enter to play Again ...", 300, 600, 4, 48);
+			font.drawString("Press Any Key to play Again ...", 300, 600, 4, 48);
 			font.drawString("Press Escape to Quit ...", 300, 650, 4, 48);
 			
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -114,11 +114,12 @@ public class GuiEndGame extends GuiScreen
 	
 	public int keyPressed(int keyId, int mods)
 	{
-		if(keyId == GLFW.GLFW_KEY_ENTER)
+		if(keyId == GLFW.GLFW_KEY_ESCAPE)
 		{
-			application.setGui(new GuiGame(application));
+			return super.keyPressed(keyId, mods);
 		}
-		return super.keyPressed(keyId, mods);
+		application.setGui(new GuiGame(application));
+		return -1;
 	}
 
 }
