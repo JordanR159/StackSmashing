@@ -391,7 +391,7 @@ public class World
 				}
 			}
 			if(collided && j == blocks.size()-1){
-				//damage other player 15 and knockback
+				//damage other player 15 and knockbacks
 				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 5);
 			}
 			if(!collided)
