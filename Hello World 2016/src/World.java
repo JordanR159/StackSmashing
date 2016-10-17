@@ -147,6 +147,7 @@ public class World
 								player.nullifyJumps();
 								player.setPosY(block.getPosY() + block.getHeight());
 								player.setVelY(player.getVelY() + 1);
+								//player.setVelY(0);
 							}
 							else
 							{
@@ -452,39 +453,6 @@ public class World
 	{
 		curr.startSlam();
 		curr.setVelY(curr.getVelY()+10);
-		double newPos = curr.getVelY() + curr.getPosY();
-		if(newPos > 0 && newPos+curr.getSize() < height) {
-
-			boolean collided = false;
-			//block collision
-			int j;
-			for(j = 0; j < blocks.size(); j++)
-			{
-				if(checkCollision(curr, newPos, false, blocks.get(j))){
-					curr.setPosY(blocks.get(j).getPosY() - curr.getHeight());
-					curr.setVelY(0);
-					curr.resetJumps();
-					collided = true;
-					break;
-				}
-			}
-			if(collided && j == blocks.size()-1){
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - .5);
-			}
-			if(!collided)
-				curr.setPosY(newPos);	
-		}
-		else if(newPos <= 0)
-		{
-			curr.setPosY(0);
-			curr.setVelY(0);
-		}
-		else
-		{
-			curr.setPosY(height-curr.getSize());
-			curr.setVelY(0);
-			curr.resetJumps();
-		}
 	}
 	
 	public void createBeam(Player player, Player playerTwo)
