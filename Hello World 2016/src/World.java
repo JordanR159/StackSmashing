@@ -119,7 +119,10 @@ public class World
 					}
 					if(collided && j == blocks.size()-1 && player.isDashing()){
 						otherPlayer.setSize(otherPlayer.getSize() - 5);
-						
+						if(right == true)
+							otherPlayer.setVelX(otherPlayer.getVelX() + 100);
+						else if(left == true)
+							otherPlayer.setVelX(otherPlayer.getVelX() - 100);	
 					}
 					if(collided && player.isDashing())
 						player.stopDash();
@@ -141,7 +144,7 @@ public class World
 				
 				newPosY = player.getVelY() + player.getPosY();
 				
-				//y-axis collisions
+				//y-axis collisionss
 				if(newPosY > 0 && newPosY + player.getSize() <= height)
 				{
 					collided = false;
@@ -282,7 +285,7 @@ public class World
 				createBeam(player, playerTwo);
 				return 10;
 			}
-			if(keyId == GLFW.GLFW_KEY_O || keyId == GLFW.GLFW_KEY_PERIOD) //player 2 explosion
+			if(keyId == GLFW.GLFW_KEY_O || keyId == GLFW.GLFW_KEY_RIGHT_SHIFT) //player 2 explosion
 
 			{
 				blocks.remove(blocks.indexOf(pBlock));
