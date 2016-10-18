@@ -169,7 +169,7 @@ public class World
 					}
 					
 					if(collided && j == blocks.size()-1 && player.isSlamming())
-						otherPlayer.setSize(otherPlayer.getSize() - 1);										
+						otherPlayer.setSize(otherPlayer.getSize() - 1);
 					if(!collided)
 					{
 						player.setPosY(newPosY);
