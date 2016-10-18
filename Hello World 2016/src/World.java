@@ -144,7 +144,7 @@ public class World
 				
 				newPosY = player.getVelY() + player.getPosY();
 				
-				//y-axis collisionss
+				//y-axis collisions
 				if(newPosY > 0 && newPosY + player.getSize() <= height)
 				{
 					collided = false;
