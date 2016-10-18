@@ -50,8 +50,7 @@ public class World
 
 	public void update(double delta)
 	{
-		//gravity for both players
-		if(loser == -1)
+		if(loser == -1) //if game is not over
 		{
 			Player player;
 			Player otherPlayer;
@@ -92,9 +91,12 @@ public class World
 					player.setVelY(player.getVelY() + 3);				
 				newPosX = player.getVelX() + player.getPosX();
 				
+				//X-axis collisions
 				if(newPosX > 0 && newPosX + player.getSize() <= width)
 				{
 					collided = false;
+					boolean left = false;
+					boolean right = false;
 					int j;
 					for(j = 0; j < blocks.size(); j++)
 					{
@@ -104,10 +106,12 @@ public class World
 							if(player.getVelX() > 0)
 							{
 								player.setPosX(block.getPosX() - player.getSize());
+								right = true;
 							}
 							else if(player.getVelX() < 0)
 							{
 								player.setPosX(block.getPosX() + block.getWidth());
+								left = true;
 							}
 							player.setVelX(0);
 							
@@ -115,8 +119,10 @@ public class World
 							break;
 						}
 					}
-					if(collided && j == blocks.size()-1 && player.isDashing())
+					if(collided && j == blocks.size()-1 && player.isDashing()){
 						otherPlayer.setSize(otherPlayer.getSize() - 5);
+						
+					}
 					if(collided && player.isDashing())
 						player.stopDash();
 					if(!collided)
@@ -137,6 +143,7 @@ public class World
 				
 				newPosY = player.getVelY() + player.getPosY();
 				
+				//y-axis collisions
 				if(newPosY > 0 && newPosY + player.getSize() <= height)
 				{
 					collided = false;
