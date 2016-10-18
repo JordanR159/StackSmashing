@@ -117,12 +117,12 @@ public class World
 					}
 					if(collided && j == blocks.size()-1 && player.isDashing())
 						otherPlayer.setSize(otherPlayer.getSize() - 5);
+					if(collided && player.isDashing())
+						player.stopDash();
 					if(!collided)
 					{
 						player.setPosX(newPosX);
 					}
-					if(player.getVelX() == 0 && player.isDashing())
-						player.stopDash();
 				}
 				else if(newPosX <= 0)
 				{
@@ -305,7 +305,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_A){
 			if(System.currentTimeMillis() - timeA <= 250){ //dash
 				player.startDash();
-				moveLeft(players.get(0));
+				moveLeft(player);
 			}
 			else
 				player.stopDash();
@@ -314,7 +314,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_D){
 			if(System.currentTimeMillis() - timeD <= 250){ //dash
 				player.startDash();
-				moveRight(players.get(0));//
+				moveRight(player);//
 			}
 			else
 				player.stopDash();
@@ -330,7 +330,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT){
 			if(System.currentTimeMillis() - timeLeft <= 250){ //dash
 				playerTwo.startDash();
-				moveLeft(players.get(1));
+				moveLeft(player);
 			}
 			else
 				playerTwo.stopDash();
@@ -339,7 +339,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){
 			if(System.currentTimeMillis() - timeLeft <= 250){ //dash
 				playerTwo.startDash();
-				moveRight(players.get(1));
+				moveRight(player);
 			}
 			else
 				playerTwo.stopDash();
