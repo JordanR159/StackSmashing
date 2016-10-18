@@ -330,7 +330,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT){
 			if(System.currentTimeMillis() - timeLeft <= 250){ //dash
 				playerTwo.startDash();
-				moveLeft(player);
+				moveLeft(playerTwo);
 			}
 			else
 				playerTwo.stopDash();
@@ -339,7 +339,7 @@ public class World
 		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){
 			if(System.currentTimeMillis() - timeLeft <= 250){ //dash
 				playerTwo.startDash();
-				moveRight(player);
+				moveRight(playerTwo);
 			}
 			else
 				playerTwo.stopDash();
