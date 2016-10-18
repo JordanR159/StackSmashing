@@ -88,8 +88,8 @@ public class World
 				blocks.add(playerBlock);
 				
 				player.setVelX(player.getVelX() / 1.1);
-				player.setVelY(player.getVelY() + 3);
-				
+				if(!player.isSlamming())
+					player.setVelY(player.getVelY() + 3);				
 				newPosX = player.getVelX() + player.getPosX();
 				
 				if(newPosX > 0 && newPosX + player.getSize() <= width)
@@ -136,8 +136,8 @@ public class World
 				if(newPosY > 0 && newPosY + player.getSize() <= height)
 				{
 					collided = false;
-					
-					for(int j = 0; j < blocks.size(); j++)
+					int j;
+					for(j = 0; j < blocks.size(); j++)
 					{
 						block = blocks.get(j);
 						if(checkCollision(player, newPosY, false, block))
@@ -155,10 +155,12 @@ public class World
 								player.setVelY(0);
 							}
 							collided = true;
-							j = blocks.size();
+							break;
 						}
 					}
 					
+					if(collided && j == blocks.size()-1 && player.isSlamming())
+						otherPlayer.setSize(otherPlayer.getSize() - 1);										
 					if(!collided)
 					{
 						player.setPosY(newPosY);
@@ -308,6 +310,9 @@ public class World
 			}
 			timeD = System.currentTimeMillis();
 		}
+		if(keyId == GLFW.GLFW_KEY_S){
+			player.stopSlam();
+		}
 		
 		blocks.remove(blocks.indexOf(pBlockTwo));
 		blocks.add(pBlock);
@@ -323,6 +328,9 @@ public class World
 				dashRight(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
+		}
+		if(keyId == GLFW.GLFW_KEY_K || keyId == GLFW.GLFW_KEY_DOWN){
+			playerTwo.stopSlam();
 		}
 		blocks.remove(blocks.indexOf(pBlock));
 	}
@@ -455,42 +463,7 @@ public class World
 		if(curr.getVelY() < 0)
 			curr.setVelY(0);
 		else
-			curr.setVelY(curr.getVelY()+6);
-		double newPos = curr.getVelY() + curr.getPosY();
-		if(newPos > 0 && newPos+curr.getSize() < height) {
-
-			boolean collided = false;
-			//block collision
-			int j;
-			for(j = 0; j < blocks.size(); j++)
-			{
-				if(checkCollision(curr, newPos, false, blocks.get(j))){
-					//if(blocks.get(j).getPosY() < curr.getPosY()){
-						curr.setPosY(blocks.get(j).getPosY() - curr.getHeight());
-						curr.setVelY(0);
-						curr.resetJumps();
-						collided = true;
-						break;
-					//}
-				}
-			}
-			if(collided && j == blocks.size()-1){
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - .5);
-			}
-			if(!collided)
-				curr.setPosY(newPos);	
-		}
-		else if(newPos <= 0)
-		{
-			curr.setPosY(0);
-			curr.setVelY(0);
-		}
-		else
-		{
-			curr.setPosY(height-curr.getSize());
-			curr.setVelY(0);
-			curr.resetJumps();
-		}
+			curr.setVelY(curr.getVelY() + 6);
 	}
 	
 	public void createBeam(Player player, Player playerTwo)

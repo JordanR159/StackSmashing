@@ -10,6 +10,7 @@ public class Player extends Block
 	private double explosionTicks = .1d;
 	private long dashStartT;
 	private long slamStartT;
+	private boolean isSlamming;
 	
 	public Player(World world, double x, double y, double size)
 	{
@@ -145,6 +146,7 @@ public class Player extends Block
 	public void startSlam()
 	{
 		slamStartT = System.currentTimeMillis();
+		isSlamming = true;
 	}
 	
 	public boolean checkSlam()
@@ -161,5 +163,15 @@ public class Player extends Block
 			return true;
 		else
 			return false;
+	}
+	
+	public boolean isSlamming()
+	{
+		return isSlamming;
+	}
+	
+	public void stopSlam()
+	{
+		isSlamming = false;
 	}
 }
