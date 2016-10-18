@@ -344,7 +344,7 @@ public class World
 			timeLeft = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){
-			if(System.currentTimeMillis() - timeLeft <= 250){ //dash
+			if(System.currentTimeMillis() - timeLeft <= 250){ //dashh
 				playerTwo.startDash();
 				moveRight(playerTwo);
 			}
