@@ -121,7 +121,8 @@ public class World
 					{
 						player.setPosX(newPosX);
 					}
-					player.stopDash();
+					if(player.getVelX() == 0 && player.isDashing())
+						player.stopDash();
 				}
 				else if(newPosX <= 0)
 				{
@@ -302,17 +303,21 @@ public class World
 		blocks.add(pBlockTwo);
 		
 		if(keyId == GLFW.GLFW_KEY_A){
-			player.startDash();
-			if(System.currentTimeMillis() - timeA <= 200){ //dash
+			if(System.currentTimeMillis() - timeA <= 250){ //dash
+				player.startDash();
 				moveLeft(players.get(0));
 			}
+			else
+				player.stopDash();
 			timeA = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
-			player.startDash();
-			if(System.currentTimeMillis() - timeD <= 200){ //dash
+			if(System.currentTimeMillis() - timeD <= 250){ //dash
+				player.startDash();
 				moveRight(players.get(0));//
 			}
+			else
+				player.stopDash();
 			timeD = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_S){
@@ -323,17 +328,21 @@ public class World
 		blocks.add(pBlock);
 		
 		if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT){
-			playerTwo.startDash();
-			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
+			if(System.currentTimeMillis() - timeLeft <= 250){ //dash
+				playerTwo.startDash();
 				moveLeft(players.get(1));
 			}
+			else
+				playerTwo.stopDash();
 			timeLeft = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){
-			playerTwo.startDash();
-			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
+			if(System.currentTimeMillis() - timeLeft <= 250){ //dash
+				playerTwo.startDash();
 				moveRight(players.get(1));
 			}
+			else
+				playerTwo.stopDash();
 			timeLeft = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_K || keyId == GLFW.GLFW_KEY_DOWN){
@@ -381,7 +390,7 @@ public class World
 	public void moveLeft(Player curr)
 	{
 		if(curr.isDashing())
-			curr.setVelX(curr.getVelX() - 75);
+			curr.setVelX(curr.getVelX() - 40);
 		else
 			curr.setVelX(curr.getVelX() - 25);
 	}
@@ -389,7 +398,7 @@ public class World
 	public void moveRight(Player curr)
 	{
 		if(curr.isDashing())
-			curr.setVelX(curr.getVelX() + 75);
+			curr.setVelX(curr.getVelX() + 40);
 		else
 			curr.setVelX(curr.getVelX() + 25);
 	}
