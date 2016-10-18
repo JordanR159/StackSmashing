@@ -465,11 +465,13 @@ public class World
 			for(j = 0; j < blocks.size(); j++)
 			{
 				if(checkCollision(curr, newPos, false, blocks.get(j))){
-					curr.setPosY(blocks.get(j).getPosY() - curr.getHeight());
-					curr.setVelY(0);
-					curr.resetJumps();
-					collided = true;
-					break;
+					//if(blocks.get(j).getPosY() < curr.getPosY()){
+						curr.setPosY(blocks.get(j).getPosY() - curr.getHeight());
+						curr.setVelY(0);
+						curr.resetJumps();
+						collided = true;
+						break;
+					//}
 				}
 			}
 			if(collided && j == blocks.size()-1){
