@@ -85,10 +85,8 @@ public class World
 				
 				playerBlock = new Block(this, otherPlayer.getPosX(), otherPlayer.getPosY(), otherPlayer.getSize(), otherPlayer.getSize());
 				blocks.add(playerBlock);
-				if(!player.isDashing())
-					player.setVelX(player.getVelX() / 1.1);
-				if(!player.isSlamming())
-					player.setVelY(player.getVelY() + 3);				
+				player.setVelX(player.getVelX() / 1.1);
+				player.setVelY(player.getVelY() + 3);				
 				newPosX = player.getVelX() + player.getPosX();
 				
 				//X-axis collisions
