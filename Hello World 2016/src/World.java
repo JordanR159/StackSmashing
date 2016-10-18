@@ -409,7 +409,7 @@ public class World
 		if(curr.getVelY() < 0)
 			curr.setVelY(0);
 		else
-			curr.setVelY(curr.getVelY() + 6);
+			curr.setVelY(curr.getVelY() + 9);
 	}
 	
 	public void createBeam(Player player, Player playerTwo)
