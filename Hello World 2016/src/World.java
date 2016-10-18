@@ -86,8 +86,8 @@ public class World
 				
 				playerBlock = new Block(this, otherPlayer.getPosX(), otherPlayer.getPosY(), otherPlayer.getSize(), otherPlayer.getSize());
 				blocks.add(playerBlock);
-				
-				player.setVelX(player.getVelX() / 1.1);
+				if(!player.isDashing())
+					player.setVelX(player.getVelX() / 1.1);
 				if(!player.isSlamming())
 					player.setVelY(player.getVelY() + 3);				
 				newPosX = player.getVelX() + player.getPosX();
@@ -95,7 +95,8 @@ public class World
 				if(newPosX > 0 && newPosX + player.getSize() <= width)
 				{
 					collided = false;
-					for(int j = 0; j < blocks.size(); j++)
+					int j;
+					for(j = 0; j < blocks.size(); j++)
 					{
 						block = blocks.get(j);
 						if(checkCollision(player, newPosX, true, block))
@@ -111,14 +112,16 @@ public class World
 							player.setVelX(0);
 							
 							collided = true;
-							j = blocks.size();
+							break;
 						}
 					}
-					
+					if(collided && j == blocks.size()-1 && player.isDashing())
+						otherPlayer.setSize(otherPlayer.getSize() - 5);
 					if(!collided)
 					{
 						player.setPosX(newPosX);
 					}
+					player.stopDash();
 				}
 				else if(newPosX <= 0)
 				{
@@ -299,14 +302,16 @@ public class World
 		blocks.add(pBlockTwo);
 		
 		if(keyId == GLFW.GLFW_KEY_A){
+			player.startDash();
 			if(System.currentTimeMillis() - timeA <= 200){ //dash
-				dashLeft(players.get(0));
+				moveLeft(players.get(0));
 			}
 			timeA = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
+			player.startDash();
 			if(System.currentTimeMillis() - timeD <= 200){ //dash
-				dashRight(players.get(0));//
+				moveRight(players.get(0));//
 			}
 			timeD = System.currentTimeMillis();
 		}
@@ -318,14 +323,16 @@ public class World
 		blocks.add(pBlock);
 		
 		if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT){
+			playerTwo.startDash();
 			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
-				dashLeft(players.get(1));
+				moveLeft(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
 		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){
+			playerTwo.startDash();
 			if(System.currentTimeMillis() - timeLeft <= 200){ //dash
-				dashRight(players.get(1));
+				moveRight(players.get(1));
 			}
 			timeLeft = System.currentTimeMillis();
 		}
@@ -373,88 +380,18 @@ public class World
 
 	public void moveLeft(Player curr)
 	{
-		curr.setVelX(curr.getVelX() - 25);
+		if(curr.isDashing())
+			curr.setVelX(curr.getVelX() - 75);
+		else
+			curr.setVelX(curr.getVelX() - 25);
 	}
 
 	public void moveRight(Player curr)
 	{
-		curr.setVelX(curr.getVelX() + 25);
-	}
-	
-	public void dashLeft(Player curr)
-	{
-		curr.startDash();
-		curr.setVelX(curr.getVelX() - 50);
-		double newPos = curr.getVelX() + curr.getPosX();
-		if(newPos > 0 && newPos+curr.getSize() < width) {
-
-			boolean collided = false;
-			//block collision
-			int j;
-			for(j = 0; j < blocks.size(); j++)
-			{
-				if(checkCollision(curr, newPos, true, blocks.get(j))){
-					curr.setPosX(blocks.get(j).getPosX() + blocks.get(j).getWidth());
-					curr.setVelX(0);
-					collided = true;
-					break;
-				}
-			}
-			if(collided && j == blocks.size()-1){
-				//damage other player 15 and knockbacks
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 5);
-			}
-			if(!collided)
-				curr.setPosX(newPos);	
-		}
-		else if(newPos <= 0)
-		{
-			curr.setPosX(0);
-			curr.setVelX(0);
-		}
+		if(curr.isDashing())
+			curr.setVelX(curr.getVelX() + 75);
 		else
-		{
-			curr.setPosX(width-curr.getSize());
-			curr.setVelX(0);
-		}
-	}
-	
-	public void dashRight(Player curr)
-	{
-		curr.startDash();
-		curr.setVelX(curr.getVelX() + 50);
-		double newPos = curr.getVelX() + curr.getPosX();
-		if(newPos > 0 && newPos+curr.getSize() < width) {
-
-			boolean collided = false;
-			//block collision
-			int j;
-			for(j = 0; j < blocks.size(); j++)
-			{
-				if(checkCollision(curr, newPos, true, blocks.get(j))){
-					curr.setPosX(blocks.get(j).getPosX() - curr.getSize());
-					curr.setVelX(0);
-					collided = true;
-					break;
-				}
-			}
-			if(collided && j == blocks.size()-1){
-				//damage other player 15 and knockback
-				players.get(players.size()-players.indexOf(curr)-1).setSize(players.get(players.size()-players.indexOf(curr)-1).getSize() - 5);
-			}
-			if(!collided)
-				curr.setPosX(newPos);	
-		}
-		else if(newPos <= 0)
-		{
-			curr.setPosX(0);
-			curr.setVelX(0);
-		}
-		else
-		{
-			curr.setPosX(width-curr.getSize());
-			curr.setVelX(0);
-		}
+			curr.setVelX(curr.getVelX() + 25);
 	}
 
 	public void slam(Player curr)
