@@ -121,7 +121,10 @@ public class World
 					}
 					if(collided && j == blocks.size()-1 && player.isDashing()){
 						otherPlayer.setSize(otherPlayer.getSize() - 5);
-						
+						if(right == true)
+							otherPlayer.setVelX(otherPlayer.getVelX() + 100);
+						else if(left == true)
+							otherPlayer.setVelX(otherPlayer.getVelX() - 100);	
 					}
 					if(collided && player.isDashing())
 						player.stopDash();
