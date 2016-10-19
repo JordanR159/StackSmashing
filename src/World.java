@@ -126,7 +126,7 @@ public class World
 							otherPlayer.setVelX(otherPlayer.getVelX() + 100*(player.getSize()/otherPlayer.getSize()));
 						else if(left == true)
 							otherPlayer.setVelX(otherPlayer.getVelX() - 100*(player.getSize()/otherPlayer.getSize()));	
-						otherPlayer.setSize(otherPlayer.getSize() - 3);
+						otherPlayer.setSize(otherPlayer.getSize() - 6);
 					}
 					if(collided && player.isDashing())
 						player.stopDash();
@@ -176,7 +176,7 @@ public class World
 					}
 					
 					if(collided && j == blocks.size()-1 && player.isSlamming())
-						otherPlayer.setSize(otherPlayer.getSize() - 1);
+						otherPlayer.setSize(otherPlayer.getSize() - 0.75);
 					if(!collided)
 					{
 						player.setPosY(newPosY);
@@ -218,7 +218,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_A) //player 1
 			{
-				if(System.currentTimeMillis() - timeA <= 100 || player.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeA <= 75 || player.isDashing()){ //dash
 					player.startDash();
 					moveLeft(player);
 					timeDashLock = System.currentTimeMillis();
@@ -238,7 +238,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_D) //player 1
 			{
-				if(System.currentTimeMillis() - timeD <= 100 || player.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeD <= 75 || player.isDashing()){ //dash
 					player.startDash();
 					moveRight(player);
 					timeDashLock = System.currentTimeMillis();
@@ -275,7 +275,7 @@ public class World
 			
 			if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT) //player 2
 			{
-				if(System.currentTimeMillis() - timeLeft <= 100 || playerTwo.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeLeft <= 75 || playerTwo.isDashing()){ //dash
 					playerTwo.startDash();
 					moveLeft(playerTwo);
 					timeDashLockTwo = System.currentTimeMillis();
@@ -295,7 +295,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT) //player 2
 			{
-				if(System.currentTimeMillis() - timeRight <= 100 || playerTwo.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeRight <= 75 || playerTwo.isDashing()){ //dash
 					playerTwo.startDash();
 					moveRight(playerTwo);
 					timeDashLockTwo = System.currentTimeMillis();
@@ -337,12 +337,12 @@ public class World
 		blocks.add(pBlockTwo);
 		
 		if(keyId == GLFW.GLFW_KEY_A){
-			if(System.currentTimeMillis() - timeDashLock >= 1000)
+			if(System.currentTimeMillis() - timeDashLock >= 500)
 				timeA = System.currentTimeMillis();
 			player.stopDash();
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
-			if(System.currentTimeMillis() - timeDashLock >= 1000)
+			if(System.currentTimeMillis() - timeDashLock >= 500)
 				timeD = System.currentTimeMillis();
 			player.stopDash();
 		}
@@ -354,12 +354,12 @@ public class World
 		blocks.add(pBlock);
 		
 		if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT){
-			if(System.currentTimeMillis() - timeDashLockTwo >= 1000)
+			if(System.currentTimeMillis() - timeDashLockTwo >= 500)
 				timeLeft = System.currentTimeMillis();
 			playerTwo.stopDash();
 		}
 		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){
-			if(System.currentTimeMillis() - timeDashLockTwo >= 1000)
+			if(System.currentTimeMillis() - timeDashLockTwo >= 500)
 				timeRight = System.currentTimeMillis();
 			playerTwo.stopDash();
 		}
@@ -433,7 +433,7 @@ public class World
 	public void createBeam(Player player, Player playerTwo)
 	{
 		Beam shot = new Beam(this, player, playerTwo);
-		player.setSize(player.getSize() - .25);
+		player.setSize(player.getSize() - .375);
 		if(shot.trace()) 
 		{
 			playerTwo.setSize(playerTwo.getSize() - 3);
@@ -444,7 +444,7 @@ public class World
 	public void createExplosion(Player player, Player playerTwo)
 	{
 		Explosion explosion = new Explosion(this, player, playerTwo, 330d);
-		player.setSize(player.getSize() - 8);
+		player.setSize(player.getSize() - 6);
 		if(explosion.trace())
 		{
 			playerTwo.setSize(playerTwo.getSize() - explosion.getTargetDamage()*2/3);
