@@ -57,11 +57,11 @@ public class GuiMainMenu extends GuiScreen
             OpenGL.glColor(1d, 200d / 255d, 0d, alpha);
             fontMap.drawAlignedString("A", 1920 / 2, 100, 0, 128, 1);
             OpenGL.glColor(1d, 133d / 255d, 0d, alpha);
-            fontMap.drawAlignedCString("Jordan", 1920 / 2, 300, 0, 96, 2, new Color4d(1d, 0d, 0d, alpha));
-            fontMap.drawAlignedCString("Killian", 1920 / 2, 500, 0, 96, 0, new Color4d(1d, 66d / 255d, 0d, alpha));
-            fontMap.drawAlignedCString("Jordan", 1920 / 2, 700, 0, 96, 2, new Color4d(1d, 0d, 0d, alpha));
+            fontMap.drawAlignedCString("Jordan", 1920 / 2 + fontMap.getTextWidth("Jordan", 96) / 4, 300, 0, 96, 2, new Color4d(1d, 0d, 0d, alpha));
+            fontMap.drawAlignedCString("Killian", 1920 / 2 - fontMap.getTextWidth("Killian", 96) / 4, 500, 0, 96, 0, new Color4d(1d, 66d / 255d, 0d, alpha));
+            fontMap.drawAlignedCString("Jordan", 1920 / 2 + fontMap.getTextWidth("Jordan", 96) / 4, 700, 0, 96, 2, new Color4d(1d, 0d, 0d, alpha));
             OpenGL.glColor(1d, 0d, 0d, alpha);
-            fontMap.drawAlignedString("Production", 1920 / 2,  900, 0, 128, 1);
+            fontMap.drawAlignedString("Game", 1920 / 2,  850, 0, 128, 1);
         }
         else if(ticksExisted < SCENE_LENGTH * 2)
         {
