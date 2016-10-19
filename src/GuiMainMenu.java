@@ -21,6 +21,7 @@ public class GuiMainMenu extends GuiScreen
 	private char[] sequence = "STACK SMASHING".toCharArray();
 	private double[] ticks = new double[sequence.length];
 	private double[] toTicks = new double[sequence.length];
+	double moveYPos = 0;
 	
 	private FontMap fontMap;
 
@@ -36,7 +37,7 @@ public class GuiMainMenu extends GuiScreen
 		OpenGL.glBlend();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
-		OpenGL.glColor(1, 0, 0, 1);
+		OpenGL.glColor(1, 0, 0, Math.min(ticksExisted * TIMER / 255d, 1d));
 		Texture.glBindTexture("font:basic");
 		
 		double x = 1920 / 2 - fontMap.getTextWidth(new String(sequence), 128) / 2;
@@ -46,7 +47,7 @@ public class GuiMainMenu extends GuiScreen
 		double yPos;
 		for(int i = 0; i < sequence.length; i++)
 		{
-			yPos = 200 + (ticksExisted * TIMER > 255 ? Math.min(Math.pow((ticksExisted * TIMER - 255), 1.5), 200) : 0) + ticks[i];
+			yPos = 200 + moveYPos + ticks[i];
 			color.setColor(1d, orange += 200 / 255d / sequence.length, 0, Math.min(ticksExisted * TIMER / 255d, 1d));
 			fontMap.drawColorString("" + sequence[i], x, yPos, 0, 128, color);
 			x += fontMap.getTextWidth("" + sequence[i], 128);
@@ -68,17 +69,21 @@ public class GuiMainMenu extends GuiScreen
 		
 		if(ticksExisted * TIMER > 255)
 		{
-			for(int i = 0; i < ticks.length; i++)
-			{
-				if(MathHelper.isEqual(ticks[i], toTicks[i]))
-				{
-					toTicks[i] = Math.random() * 20 - 10;
-				}
-				else
-				{
-					ticks[i] = MathHelper.getExpValue(ticks[i], toTicks[i], .1, delta);
-				}
-			}
+		    moveYPos = MathHelper.getExpValue(moveYPos, 200, 1, delta);
+		    if(MathHelper.isEqual(moveYPos, 200, 5))
+		    {
+		          for(int i = 0; i < ticks.length; i++)
+		            {
+		                if(MathHelper.isEqual(ticks[i], toTicks[i]))
+		                {
+		                    toTicks[i] = Math.random() * 20 - 10;
+		                }
+		                else
+		                {
+		                    ticks[i] = MathHelper.getExpValue(ticks[i], toTicks[i], .25, delta);
+		                }
+		            }
+		    }
 		}
 	}
 	
