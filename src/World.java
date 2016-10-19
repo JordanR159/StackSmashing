@@ -85,6 +85,7 @@ public class World
 				
 				playerBlock = new Block(this, otherPlayer.getPosX(), otherPlayer.getPosY(), otherPlayer.getSize(), otherPlayer.getSize());
 				blocks.add(playerBlock);
+				
 				player.setVelX(player.getVelX() / 1.1);
 				player.setVelY(player.getVelY() + 3);				
 				newPosX = player.getVelX() + player.getPosX();
@@ -157,7 +158,7 @@ public class World
 						{
 							if(player.getVelY() < 0)
 							{
-								player.nullifyJumps();
+								//player.nullifyJumps();
 								player.setPosY(block.getPosY() + block.getHeight());
 								player.setVelY(0);
 							}
