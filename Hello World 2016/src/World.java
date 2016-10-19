@@ -118,11 +118,11 @@ public class World
 						}
 					}
 					if(collided && j == blocks.size()-1 && player.isDashing()){
+						if(right)
+							otherPlayer.setVelX(otherPlayer.getVelX() + 100*(player.getSize()/otherPlayer.getSize()));
+						else if(left)
+							otherPlayer.setVelX(otherPlayer.getVelX() - 100*(player.getSize()/otherPlayer.getSize()));	
 						otherPlayer.setSize(otherPlayer.getSize() - 5);
-						if(right == true)
-							otherPlayer.setVelX(otherPlayer.getVelX() + 100);
-						else if(left == true)
-							otherPlayer.setVelX(otherPlayer.getVelX() - 100);	
 					}
 					if(collided && player.isDashing())
 						player.stopDash();
@@ -158,7 +158,7 @@ public class World
 							{
 								player.nullifyJumps();
 								player.setPosY(block.getPosY() + block.getHeight());
-								player.setVelY(0);
+								player.setVelY(player.getVelY() + 2);
 							}
 							else
 							{
