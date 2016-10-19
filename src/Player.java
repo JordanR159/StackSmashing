@@ -166,7 +166,7 @@ public class Player extends Block
 	
 	public boolean checkDash()
 	{
-		if(System.currentTimeMillis() - dashStartT <= 100)
+		if(System.currentTimeMillis() - dashStartT <= 50)
 			return true;
 		else
 			return false;

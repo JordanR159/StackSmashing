@@ -124,7 +124,7 @@ public class World
 							otherPlayer.setVelX(otherPlayer.getVelX() + 100*(player.getSize()/otherPlayer.getSize()));
 						else if(left == true)
 							otherPlayer.setVelX(otherPlayer.getVelX() - 100*(player.getSize()/otherPlayer.getSize()));	
-						otherPlayer.setSize(otherPlayer.getSize() - 5);
+						otherPlayer.setSize(otherPlayer.getSize() - 3);
 					}
 					if(collided && player.isDashing())
 						player.stopDash();
@@ -216,7 +216,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_A) //player 1
 			{
-				if(System.currentTimeMillis() - timeA <= 250 || player.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeA <= 100 || player.isDashing()){ //dash
 					player.startDash();
 					moveLeft(player);
 				}
@@ -235,7 +235,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_D) //player 1
 			{
-				if(System.currentTimeMillis() - timeD <= 250 || player.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeD <= 100 || player.isDashing()){ //dash
 					player.startDash();
 					moveRight(player);//
 				}
@@ -271,7 +271,7 @@ public class World
 			
 			if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT) //player 2
 			{
-				if(System.currentTimeMillis() - timeLeft <= 250 || playerTwo.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeLeft <= 100 || playerTwo.isDashing()){ //dash
 					playerTwo.startDash();
 					moveLeft(playerTwo);
 				}
@@ -290,7 +290,7 @@ public class World
 
 			if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT) //player 2
 			{
-				if(System.currentTimeMillis() - timeRight <= 250 || playerTwo.isDashing()){ //dash
+				if(System.currentTimeMillis() - timeRight <= 100 || playerTwo.isDashing()){ //dash
 					playerTwo.startDash();
 					moveRight(playerTwo);
 				}
