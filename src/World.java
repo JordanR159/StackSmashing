@@ -14,6 +14,8 @@ public class World
 	private long timeD = 0;
 	private long timeLeft = 0;
 	private long timeRight = 0;
+	private long timeDashLock = 0;
+	private long timeDashLockTwo = 0;
 
 	public World(int numPlayers, int numBlocks)
 	{
@@ -219,6 +221,7 @@ public class World
 				if(System.currentTimeMillis() - timeA <= 100 || player.isDashing()){ //dash
 					player.startDash();
 					moveLeft(player);
+					timeDashLock = System.currentTimeMillis();
 				}
 				else
 					moveLeft(player);
@@ -237,7 +240,8 @@ public class World
 			{
 				if(System.currentTimeMillis() - timeD <= 100 || player.isDashing()){ //dash
 					player.startDash();
-					moveRight(player);//
+					moveRight(player);
+					timeDashLock = System.currentTimeMillis();
 				}
 				else
 					moveRight(player);
@@ -274,6 +278,7 @@ public class World
 				if(System.currentTimeMillis() - timeLeft <= 100 || playerTwo.isDashing()){ //dash
 					playerTwo.startDash();
 					moveLeft(playerTwo);
+					timeDashLockTwo = System.currentTimeMillis();
 				}
 				else
 					moveLeft(playerTwo);
@@ -293,6 +298,7 @@ public class World
 				if(System.currentTimeMillis() - timeRight <= 100 || playerTwo.isDashing()){ //dash
 					playerTwo.startDash();
 					moveRight(playerTwo);
+					timeDashLockTwo = System.currentTimeMillis();
 				}
 				else
 					moveRight(playerTwo);
@@ -331,11 +337,13 @@ public class World
 		blocks.add(pBlockTwo);
 		
 		if(keyId == GLFW.GLFW_KEY_A){
-			timeA = System.currentTimeMillis();
+			if(System.currentTimeMillis() - timeDashLock >= 1000)
+				timeA = System.currentTimeMillis();
 			player.stopDash();
 		}
 		if(keyId == GLFW.GLFW_KEY_D){
-			timeD = System.currentTimeMillis();
+			if(System.currentTimeMillis() - timeDashLock >= 1000)
+				timeD = System.currentTimeMillis();
 			player.stopDash();
 		}
 		if(keyId == GLFW.GLFW_KEY_S){
@@ -346,11 +354,13 @@ public class World
 		blocks.add(pBlock);
 		
 		if(keyId == GLFW.GLFW_KEY_J || keyId == GLFW.GLFW_KEY_LEFT){
-			timeLeft = System.currentTimeMillis();
+			if(System.currentTimeMillis() - timeDashLockTwo >= 1000)
+				timeLeft = System.currentTimeMillis();
 			playerTwo.stopDash();
 		}
-		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){			
-			timeRight = System.currentTimeMillis();
+		if(keyId == GLFW.GLFW_KEY_L || keyId == GLFW.GLFW_KEY_RIGHT){
+			if(System.currentTimeMillis() - timeDashLockTwo >= 1000)
+				timeRight = System.currentTimeMillis();
 			playerTwo.stopDash();
 		}
 		if(keyId == GLFW.GLFW_KEY_K || keyId == GLFW.GLFW_KEY_DOWN){
