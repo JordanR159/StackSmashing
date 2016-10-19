@@ -258,10 +258,11 @@ public class World
 				createExplosion(player, playerTwo);
 				return 60;
 			}
+			
 			blocks.remove(blocks.indexOf(pBlockTwo));
 			blocks.add(pBlock);
 			
-			if((keyId == GLFW.GLFW_KEY_I || keyId == GLFW.GLFW_KEY_UP) && player.getNumJumps() > 0) //player 2
+			if((keyId == GLFW.GLFW_KEY_I || keyId == GLFW.GLFW_KEY_UP) && playerTwo.getNumJumps() > 0) //player 2
 			{	
 				playerJump(playerTwo);	
 				blocks.remove(blocks.indexOf(pBlock));		
