@@ -111,6 +111,7 @@ public class World
 								player.setPosX(block.getPosX() + block.getWidth());
 								left = true;
 							}
+							player.addJump();
 							player.setVelX(0);
 							
 							collided = true;

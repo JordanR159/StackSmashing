@@ -46,6 +46,11 @@ public class Player extends Block
 		numJumps--;
 	}
 	
+	public void addJump()
+	{
+		numJumps++;
+	}
+	
 	public void resetJumps()
 	{
 		numJumps = 2;
