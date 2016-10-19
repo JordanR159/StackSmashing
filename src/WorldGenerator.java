@@ -23,8 +23,11 @@ public class WorldGenerator
 		{
 			blockX = baseX + (int) (Math.random() * (width - size * 2) / size) * size;
 			blockY = baseY + (int) (Math.random() * (height - size) / size) * size;
-			blockWidth = (int) (Math.random() * Math.min((width - blockX) / size, 5) + 2) * size;
-			blockHeight = (int) (Math.random() * Math.min((height - blockY) / size, 2) + 1) * size;
+			blockWidth = (int) (Math.random() * Math.min((width - blockX) / size, 5) + 1) * size;
+			if(blockWidth == 50)
+				blockHeight = (int)(Math.random() * Math.min((height - blockY) / size, 5) + 2) * size;
+			else
+				blockHeight = (int) (Math.random() * Math.min((height - blockY) / size, 2) + 1) * size;
 			
 			notOverlapping = true;
 			
