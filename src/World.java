@@ -436,7 +436,7 @@ public class World
 		player.setSize(player.getSize() - 8);
 		if(explosion.trace())
 		{
-			playerTwo.setSize(playerTwo.getSize() - (explosion.getTargetDamage()*2)/3);
+			playerTwo.setSize(playerTwo.getSize() - explosion.getTargetDamage()*2/3);
 		}
 		player.setExplosion(explosion);
 	}

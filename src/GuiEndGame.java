@@ -125,7 +125,9 @@ public class GuiEndGame extends GuiScreen
 		if(keyId != GLFW.GLFW_KEY_W && keyId != GLFW.GLFW_KEY_A && keyId != GLFW.GLFW_KEY_S &&
 				keyId != GLFW.GLFW_KEY_D && keyId != GLFW.GLFW_KEY_I && keyId != GLFW.GLFW_KEY_J &&
 				keyId != GLFW.GLFW_KEY_K && keyId != GLFW.GLFW_KEY_L && keyId != GLFW.GLFW_KEY_Q &&
-				keyId != GLFW.GLFW_KEY_E && keyId != GLFW.GLFW_KEY_U && keyId != GLFW.GLFW_KEY_O)
+				keyId != GLFW.GLFW_KEY_E && keyId != GLFW.GLFW_KEY_U && keyId != GLFW.GLFW_KEY_O &&
+				keyId != GLFW.GLFW_KEY_UP && keyId != GLFW.GLFW_KEY_LEFT && keyId != GLFW.GLFW_KEY_RIGHT &&
+				keyId != GLFW.GLFW_KEY_DOWN && keyId != GLFW.GLFW_KEY_SLASH && keyId != GLFW.GLFW_KEY_RIGHT_SHIFT)
 		application.setGui(new GuiGame(application));
 		return -1;
 	}
