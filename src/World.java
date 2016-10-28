@@ -91,6 +91,55 @@ public class World
 				player.setVelX(player.getVelX() / 1.1);
 				player.setVelY(player.getVelY() + 3);				
 				newPosX = player.getVelX() + player.getPosX();
+				newPosY = player.getVelY() + player.getPosY();
+				
+				//y-axis collisions
+				if(newPosY > 0 && newPosY + player.getSize() <= height)
+				{
+					collided = false;
+					int j;
+					for(j = 0; j < blocks.size(); j++)
+					{
+						block = blocks.get(j);
+						if(checkCollision(player, newPosY, false, block) || checkCollision(player, player.getPosY(), false, block))
+						{
+							if(player.getVelY() < 0)
+							{
+								//player.nullifyJumps();
+								player.setPosY(block.getPosY() + block.getHeight());
+								player.setVelY(player.getVelY() + 2);
+							}
+							else
+							{
+								player.resetJumps();
+								player.setPosY(block.getPosY() - player.getSize());
+								player.setVelY(0);
+							}
+							collided = true;
+							break;
+						}
+					}
+					
+					if(collided && j == blocks.size()-1 && player.isSlamming())
+					{
+						otherPlayer.setSize(otherPlayer.getSize() - 0.75);
+					}
+					if(!collided)
+					{
+						player.setPosY(newPosY);
+					}
+				}
+				else if(newPosY <= 0)
+				{
+					player.setPosY(0);
+					player.setVelY(0);
+				}
+				else
+				{
+					player.setPosY(height - player.getSize());
+					player.setVelY(0);
+					player.resetJumps();
+				}
 				
 				//X-axis collisions
 				if(newPosX > 0 && newPosX + player.getSize() <= width)
@@ -102,7 +151,7 @@ public class World
 					for(j = 0; j < blocks.size(); j++)
 					{
 						block = blocks.get(j);
-						if(checkCollision(player, newPosX, true, block))
+						if(checkCollision(player, newPosX, true, block) || checkCollision(player, player.getPosX(), true, block))
 						{
 							if(player.getVelX() > 0)
 							{
@@ -144,55 +193,7 @@ public class World
 				{
 					player.setPosX(width - player.getSize());
 					player.setVelX(0);
-				}
-				
-				newPosY = player.getVelY() + player.getPosY();
-				
-				//y-axis collisions
-				if(newPosY > 0 && newPosY + player.getSize() <= height)
-				{
-					collided = false;
-					int j;
-					for(j = 0; j < blocks.size(); j++)
-					{
-						block = blocks.get(j);
-						if(checkCollision(player, newPosY, false, block))
-						{
-							if(player.getVelY() < 0)
-							{
-								//player.nullifyJumps();
-								player.setPosY(block.getPosY() + block.getHeight());
-								player.setVelY(player.getVelY() + 2);
-							}
-							else
-							{
-								player.resetJumps();
-								player.setPosY(block.getPosY() - player.getSize());
-								player.setVelY(0);
-							}
-							collided = true;
-							break;
-						}
-					}
-					
-					if(collided && j == blocks.size()-1 && player.isSlamming())
-						otherPlayer.setSize(otherPlayer.getSize() - 0.75);
-					if(!collided)
-					{
-						player.setPosY(newPosY);
-					}
-				}
-				else if(newPosY <= 0)
-				{
-					player.setPosY(0);
-					player.setVelY(0);
-				}
-				else
-				{
-					player.setPosY(height - player.getSize());
-					player.setVelY(0);
-					player.resetJumps();
-				}		
+				}	
 				blocks.remove(blocks.indexOf(playerBlock));
 			}
 		}
